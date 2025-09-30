@@ -1,9 +1,8 @@
 {
   "name": "Protocoles ATB",
   "short_name": "ATB",
-  "description": "Antibiothérapie – probabiliste & durées, PWA hors-ligne.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
