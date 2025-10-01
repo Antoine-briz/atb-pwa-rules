@@ -1,158 +1,200 @@
-import { loadRules, buildForm, matchRule } from './rules.js';
+// app.js — structure en 3 pages + sous-pages, routes hash
 
-const $ = (id) => document.getElementById(id);
-const ui = {
-  tabs: document.querySelectorAll('.tabs button'),
-  panels: document.querySelectorAll('.panel'),
-  status: $('status'),
-  search: $('search'),
-  probaForm: $('form-proba'),
-  probaBtn: $('calculer-proba'),
-  probaFav: $('favori-proba'),
-  probaRes: $('resultat-proba'),
-  dureesForm: $('form-durees'),
-  dureeBtn: $('calculer-durees'),
-  dureeFav: $('favori-durees'),
-  dureeRes: $('resultat-durees'),
-  favoris: $('favoris'),
+const $app = document.getElementById("app");
+
+// --- Router ---
+const routes = {
+  "#/": renderHome,
+  "#/proba": renderProbaMenu,
+  "#/proba/pneumonies": renderProbaPneumonieForm,
+  "#/adaptee": renderAdapteeMenu,
+  "#/durees": renderDureesForm
 };
 
-// Helpers pour les templates conditionnels
-const helpers = {
-  add_if: (flag, txt) => (flag === true || flag === "true" ? txt : ""),
-  add_if_origin: (flag, origine, txtCommu, txtNoso) =>
-    (flag === true || flag === "true") ? (String(origine) === "Nosocomiale" ? txtNoso : txtCommu) : "",
-  note_if_origin: (flag, origine, txtCommu, txtNoso) =>
-    (flag === true || flag === "true") ? (String(origine) === "Nosocomiale" ? txtNoso : txtCommu) : ""
-};
+window.addEventListener("hashchange", () => mount());
+window.addEventListener("load", () => {
+  if (!location.hash) location.hash = "#/"; // défaut accueil
+  mount();
+});
 
-function renderTemplate(str, ctx) {
-  return String(str).replace(/\{\{(\w+)\s*\(([^}]*)\)\}\}/g, (_, fn, args) => {
-    const list = (args || "").split(",").map(s => s.trim()).map(a => (a in ctx ? ctx[a] : a));
-    if (typeof helpers[fn] !== "function") return "";
-    try { return String(helpers[fn](...list)); } catch { return ""; }
-  });
+function mount(){ (routes[location.hash] || renderNotFound)(); }
+function h(cls, html){ return `<div class="${cls}">${html}</div>`; }
+
+// ---------- Pages ----------
+function renderHome(){
+  $app.innerHTML = `
+    <span class="title-badge">Protocoles d’antibiothérapie</span>
+    ${h("grid", `
+      <button class="btn" onclick="location.hash='#/proba'">Antibiothérapie probabiliste</button>
+      <button class="btn" onclick="location.hash='#/adaptee'">Antibiothérapie adaptée</button>
+      <button class="btn" onclick="location.hash='#/durees'">Durée d’antibiothérapie</button>
+    `)}
+  `;
 }
 
-
-
-function updateOnlineStatus() {
-  ui.status.classList.toggle('offline', !navigator.onLine);
-  ui.status.title = navigator.onLine ? 'En ligne' : 'Hors ligne';
-}
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-
-let RULES;
-
-function switchTab(id) {
-  ui.tabs.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
-  ui.panels.forEach(p => p.classList.toggle('hidden', p.id !== id));
-}
-
-ui.tabs.forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
-
-function formValues(formEl) {
-  const vals = {};
-  formEl.querySelectorAll('input,select').forEach(el => {
-    let v = el.value;
-    if (el.type === 'number' || el.inputMode === 'numeric' || el.inputMode === 'decimal') {
-      v = v ? Number(v) : '';
-    }
-    if (el.id && v !== undefined) vals[el.id] = v === 'true' ? true : v === 'false' ? false : v;
-  });
-  return vals;
+function renderProbaMenu(){
+  $app.innerHTML = `
+    ${h("card", `<strong>Antibiothérapie probabiliste</strong>`)}
+    ${h("grid cols-2", `
+      <button class="btn outline" onclick="location.hash='#/proba/pneumonies'">Pneumonies</button>
+      <button class="btn outline" disabled>Infections urinaires</button>
+      <button class="btn outline" disabled>Infections intra-abdominales</button>
+      <button class="btn outline" disabled>Infections neuro-méningées</button>
+      <button class="btn outline" disabled>Parties molles</button>
+      <button class="btn outline" disabled>Endocardites infectieuses</button>
+      <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
+    `)}
+    ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
+  `;
 }
 
-function addFavori(kind, params, result) {
-  const favoris = JSON.parse(localStorage.getItem('favoris') || '[]');
-  favoris.unshift({ kind, params, result, date: new Date().toISOString() });
-  localStorage.setItem('favoris', JSON.stringify(favoris.slice(0, 50)));
-  renderFavoris();
-}
+function renderProbaPneumonieForm(){
+  // Formulaire fidèle à ton UserForm (v1 — on complètera les règles exactes ensuite)
+  $app.innerHTML = `
+    ${h("card", `<strong>Caractéristiques de la pneumonie</strong>`)}
+    <form id="formPneu" class="form">
+      <fieldset>
+        <legend>Lieu de survenue</legend>
+        <label><input type="radio" name="origine" value="Communautaire" checked> Communautaire</label>
+        <label><input type="radio" name="origine" value="Nosocomiale"> Nosocomiale</label>
+      </fieldset>
 
-function renderFavoris() {
-  const favoris = JSON.parse(localStorage.getItem('favoris') || '[]');
-  ui.favoris.innerHTML = '';
-  favoris.forEach((f, i) => {
-    const li = document.createElement('li');
-    const title = f.kind === 'probabiliste' ? `${f.params.infection || ''}` : `${f.params.infection || ''} × ${f.params.germe || ''}`;
-    li.innerHTML = `<span>${title}</span>`;
-    const grp = document.createElement('div');
-    const use = document.createElement('button'); use.textContent = 'Utiliser';
-    use.onclick = () => {
-      switchTab(f.kind === 'probabiliste' ? 'probabiliste' : 'durees');
-      const form = f.kind === 'probabiliste' ? ui.probaForm : ui.dureesForm;
-      form.querySelectorAll('input,select').forEach(el => {
-        if (f.params[el.id] !== undefined) el.value = f.params[el.id];
-      });
-      if (f.kind === 'probabiliste') computeProba();
-      else computeDuree();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      <fieldset>
+        <legend>Risque de bactérie multirésistante</legend>
+        <div class="row">
+          <label><input type="checkbox" name="pseudo"> P. aeruginosa</label>
+          <label><input type="checkbox" name="blse"> BLSE</label>
+          <label><input type="checkbox" name="sarm"> SARM</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Caractéristiques patient</legend>
+        <div class="row">
+          <label><input type="checkbox" name="immuno"> Immunodépression</label>
+          <label><input type="checkbox" name="allergie"> Allergie β-lactamines</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sévérité</legend>
+        <label><input type="checkbox" name="choc"> Choc septique</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pneumonies particulières</legend>
+        <div class="row">
+          <label><input type="checkbox" name="necro"> Pneumonie nécrosante</label>
+          <label><input type="checkbox" name="inhal"> Inhalation</label>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnReco">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resPneu" class="result"></div>
+    </form>
+  `;
+
+  document.getElementById("btnReco").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formPneu"));
+    const params = {
+      origine: fd.get("origine") || "Communautaire",
+      pseudo: !!fd.get("pseudo"),
+      blse: !!fd.get("blse"),
+      sarm: !!fd.get("sarm"),
+      immuno: !!fd.get("immuno"),
+      allergie: !!fd.get("allergie"),
+      choc: !!fd.get("choc"),
+      necro: !!fd.get("necro"),
+      inhal: !!fd.get("inhal")
     };
-    const del = document.createElement('button'); del.textContent = 'Supprimer';
-    del.onclick = () => {
-      const arr = JSON.parse(localStorage.getItem('favoris') || '[]');
-      arr.splice(i,1); localStorage.setItem('favoris', JSON.stringify(arr)); renderFavoris();
-    };
-    grp.append(use, del);
-    li.appendChild(grp);
-    ui.favoris.appendChild(li);
+
+    // ——— Logique PROVISOIRE pour démonstration (on branchera tes vraies règles ensuite)
+    const reco = decidePneumonie(params);
+    document.getElementById("resPneu").textContent = reco +
+      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
   });
 }
 
-function computeProba() {
-  const params = formValues(ui.probaForm);
-  const rows = RULES.datasets.probabiliste.tables;
-  const match = rows.find(r => matchRule(r.match, params));
-  const out = match ? match.recommendation : 'Aucune règle correspondante. Compléter la base.';
-  const rendered = renderTemplate(out, params);
-ui.probaRes.textContent = rendered + '\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.';
-  ui.probaRes.classList.remove('hidden');
-  localStorage.setItem('last_proba', JSON.stringify(params));
-  return out;
+function renderAdapteeMenu(){
+  $app.innerHTML = `
+    ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
+    ${h("grid cols-2", `
+      <button class="btn outline" disabled>Germes multisenstibles</button>
+      <button class="btn outline" disabled>SARM</button>
+      <button class="btn outline" disabled>Entérobactéries AmpC (groupe 3)</button>
+      <button class="btn outline" disabled>Entérobactéries BLSE</button>
+      <button class="btn outline" disabled><em>Pseudomonas</em> aeruginosa MDR/XDR</button>
+      <button class="btn outline" disabled><em>A. baumannii</em> Imipénème-R</button>
+      <button class="btn outline" disabled><em>Stenotrophomonas</em> maltophilia</button>
+      <button class="btn outline" disabled>Entérobactéries carbapénèmase</button>
+      <button class="btn outline" disabled><em>E. faecium</em> Vancomycine-R</button>
+    `)}
+    ${h("card", `<div class="muted">Tu me donneras les tableaux par bactérie et je remplirai les écrans.</div>`)}
+    ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
+  `;
 }
 
-function computeDuree() {
-  const params = formValues(ui.dureesForm);
-  const rows = RULES.datasets.durees.matrix;
-  const match = rows.find(r => r.infection === params.infection && r.germe === params.germe);
-  const out = match ? match.duree : 'Durée non renseignée pour cette combinaison.';
-  ui.dureeRes.textContent = out;
-  ui.dureeRes.classList.remove('hidden');
-  localStorage.setItem('last_duree', JSON.stringify(params));
-  return out;
-}
-
-function applySearch(q) {
-  q = (q||'').toLowerCase().trim();
-  // filter select options to help user
-  [ui.probaForm, ui.dureesForm].forEach(form => {
-    form.querySelectorAll('select').forEach(sel => {
-      Array.from(sel.options).forEach(opt => {
-        if (!opt.value) return;
-        opt.hidden = q && !opt.text.toLowerCase().includes(q);
-      });
-    });
+function renderDureesForm(){
+  $app.innerHTML = `
+    ${h("card", `<strong>Durée d’antibiothérapie</strong>`)}
+    <form id="formDur" class="form">
+      <div class="row">
+        <fieldset>
+          <legend>Type d’infection</legend>
+          <label><input type="radio" name="infection" value="Pneumonies" checked> Pneumonies</label>
+          <label><input type="radio" name="infection" value="Infections urinaires"> Infections urinaires</label>
+          <label><input type="radio" name="infection" value="Bactériémies"> Bactériémies</label>
+          <label><input type="radio" name="infection" value="Infections intra-abdominales"> Infections intra-abdominales</label>
+          <label><input type="radio" name="infection" value="Infections neuro-méningées"> Infections neuro-méningées</label>
+          <label><input type="radio" name="infection" value="Infections des parties molles"> Infections des parties molles</label>
+          <label><input type="radio" name="infection" value="Endocardites infectieuses"> Endocardites infectieuses</label>
+        </fieldset>
+        <fieldset>
+          <legend>Documentation bactériologique</legend>
+          <label><input type="radio" name="germe" value="Cocci Gram −"> Cocci Gram −</label>
+          <label><input type="radio" name="germe" value="Cocci Gram +"> Cocci Gram +</label>
+          <label><input type="radio" name="germe" value="Bacille Gram −"> Bacille Gram −</label>
+          <label><input type="radio" name="germe" value="Bacille Gram +"> Bacille Gram +</label>
+          <label><input type="radio" name="germe" value="Autres" checked> Autres</label>
+        </fieldset>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" id="btnDuree">Durée d’antibiothérapie</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resDur" class="result"></div>
+    </form>
+  `;
+  document.getElementById("btnDuree").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formDur"));
+    const infection = fd.get("infection") || "";
+    const germe = fd.get("germe") || "";
+    // ——— Logique provisoire : on branchera tes durées exactes ensuite
+    document.getElementById("resDur").textContent =
+      decideDuree(infection, germe) || "Durée non renseignée (à compléter).";
   });
 }
 
-ui.probaBtn.addEventListener('click', computeProba);
-ui.probaFav.addEventListener('click', () => addFavori('probabiliste', formValues(ui.probaForm), computeProba()));
-ui.dureeBtn.addEventListener('click', computeDuree);
-ui.dureeFav.addEventListener('click', () => addFavori('durees', formValues(ui.dureesForm), computeDuree()));
-ui.search.addEventListener('input', e => applySearch(e.target.value));
-
-async function init() {
-  updateOnlineStatus();
-  RULES = await loadRules();
-  buildForm(ui.probaForm, RULES.datasets.probabiliste.fields);
-  buildForm(ui.dureesForm, RULES.datasets.durees.fields);
-  renderFavoris();
-  // restore last selections
-  const lastP = JSON.parse(localStorage.getItem('last_proba') || '{}');
-  Object.entries(lastP).forEach(([k,v]) => { const el = ui.probaForm.querySelector('#'+k); if (el) el.value = v; });
-  const lastD = JSON.parse(localStorage.getItem('last_duree') || '{}');
-  Object.entries(lastD).forEach(([k,v]) => { const el = ui.dureesForm.querySelector('#'+k); if (el) el.value = v; });
+function renderNotFound(){
+  $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
-init();
+
+// ---------- Démo de logique provisoire (on la remplacera par tes règles) ----------
+function decidePneumonie(p){
+  // Priorités d’exemple (identiques à ce qu’on a déjà esquissé)
+  if (p.allergie) return `Lévofloxacine 500 mg x2/j ± Aztréonam si besoin (${p.origine.toLowerCase()}).`;
+  if (p.blse) return `Méropénème 4–6 g/24h IVL${p.origine==="Communautaire"?" + Spiramycine 3 MU x3/j":""}.`;
+  if (p.pseudo || p.immuno) return `Céfépime 1 g x4/j ou Pip/Tazo 4 g x4/j${p.origine==="Communautaire"?" + Spiramycine 3 MU x3/j":""}.`;
+  if (p.inhal) return `${p.origine==="Communautaire"?"Amox/Clav 1 g x3/j":"Amox/Clav 1 g x3/j ou Pip/Tazo 4 g x4/j"}.`;
+  // défaut
+  if (p.origine==="Communautaire") return "Céfotaxime 1 g x4–6/24h + Spiramycine 3 MU x3/j.";
+  return "Céfépime 1 g x4/j si >5j; sinon Céfotaxime 1 g x4–6/24h.";
+}
+
+function decideDuree(infection, germe){
+  if (infection==="Pneumonies" && germe==="Autres") return "5–7 jours (à affiner selon documentation).";
+  return "";
+}
