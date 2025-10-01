@@ -3,64 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Protocoles ATB</title>
+  <title>Protocoles d’antibiothérapie</title>
   <meta name="theme-color" content="#0f172a" />
   <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#0f172a">
   <link rel="icon" href="icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="appbar">
-    <h1>Protocoles ATB</h1>
-    <nav class="tabs">
-      <button data-tab="probabiliste" class="active">Probabiliste</button>
-      <button data-tab="durees">Durées</button>
-      <button data-tab="favorisTab">Favoris</button>
-    </nav>
-    <div id="status" class="status" aria-label="statut réseau">•</div>
+    <h1>Protocoles d’antibiothérapie<br><small>MIR – CHV André Mignot</small></h1>
   </header>
 
-  <main class="container">
-    <section class="card">
-      <label for="search">Rechercher</label>
-      <input id="search" type="search" placeholder="ex : pneumonie, IVU, germe…" autocomplete="off">
-    </section>
-
-    <section id="probabiliste" class="panel card">
-      <form id="form-proba" class="grid"></form>
-      <button id="calculer-proba" class="btn-primary">Proposer un protocole</button>
-      <button id="favori-proba" class="btn-secondary">★ Ajouter aux favoris</button>
-      <section id="resultat-proba" class="result card hidden"></section>
-    </section>
-
-    <section id="durees" class="panel card hidden">
-      <form id="form-durees" class="grid"></form>
-      <button id="calculer-durees" class="btn-primary">Afficher la durée</button>
-      <button id="favori-durees" class="btn-secondary">★ Ajouter aux favoris</button>
-      <section id="resultat-durees" class="result card hidden"></section>
-    </section>
-
-    <section id="favorisTab" class="panel card hidden">
-      <h2>Favoris</h2>
-      <ul id="favoris" class="list"></ul>
-    </section>
-  </main>
+  <main id="app" class="container"><!-- rendu dynamique --></main>
 
   <footer class="footer">
-    <small>⚠️ Toujours vérifier CI/IR, grossesse, interactions, antibiogramme et référentiels locaux.</small>
+    <small>⚠️ Aide à la décision — adapter aux référentiels locaux, CI/IR, allergies, grossesse, interactions.</small>
   </footer>
 
-  <script type="module" src="rules.js"></script>
-  <script type="module" src="app.js"></script>
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js", { scope: "./" });
-    });
-  }
-</script>
-
+  <script type="module" src="./app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js", { scope: "./" });
+      });
+    }
+  </script>
 </body>
 </html>
