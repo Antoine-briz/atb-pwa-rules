@@ -456,6 +456,7 @@ function renderProbaAbdoForm(){
 }
 
 // ======= LOGIQUE (transposition VBA) =======
+// ======= LOGIQUE (transposition VBA) =======
 
 function sepsisOuChoc(p){ return !!(p.Sepsis || p.Choc); }
 
@@ -472,42 +473,39 @@ function decideAbdo(p){
 // 1) Voies biliaires
 function recoVoiesBiliaires(p){
   let txt = "";
-  // origine effective si immunodépression (comme VBA)
   let oEff = p.origine;
   if (oEff === "Communautaires" && p.immunodep) oEff = "Nosocomiales";
 
-  // Sous-type : Infection nécrose pancréatique (prioritaire)
   if (p.SousType === "Infection nécrose pancréatique"){
     if (p.allergieBL){
-      txt = "Ciprofloxacine 400 mg x3/j IVL/PO ou Aztréonam 1 g x4/j\n" +
-            "+ Métronidazole 500 mg x3/j IVL/PO\n" +
-            "+ Vancomycine 30 mg/kg/j IVSE";
+      txt = "Ciprofloxacine 400 mg x3/j IVL/PO ou Aztréonam 1 g x4/j\n"
+          + "+ Métronidazole 500 mg x3/j IVL/PO\n"
+          + "+ Vancomycine 30 mg/kg/j IVSE";
       if (sepsisOuChoc(p)) txt += "\n\nSi sepsis/choc septique : Ajout Amikacine 30 mg/kg IVL";
     } else {
-      txt = "Pas d’antibiothérapie récente : Céfotaxime ou Ciprofloxacine + Métronidazole 500 mg x3/j IV/PO\n\n" +
-            "Antibiothérapie récente : Imipénème 1 g x3/j + Vancomycine 30 mg/kg + Fluconazole 400 mg x3/j";
+      txt = "Pas d’antibiothérapie récente : Céfotaxime ou Ciprofloxacine + Métronidazole 500 mg x3/j IV/PO\n\n"
+          + "Antibiothérapie récente : Imipénème 1 g x3/j + Vancomycine 30 mg/kg + Fluconazole 400 mg x3/j";
       if (sepsisOuChoc(p)) txt += "\n\nSi sepsis/choc septique : Ajout Amikacine 30 mg/kg IVL";
     }
     return txt;
   }
 
-  // Allergie prioritaire — autres sous-types biliaires
   if (p.allergieBL){
     if (oEff === "Communautaires"){
       if (["Cholécystite aiguë","Angiocholite aiguë","Abcès hépatique"].includes(p.SousType)){
         if (sepsisOuChoc(p)){
-          txt = "Ciprofloxacine 750 mg x2/j IV/PO ou Aztréonam 1 g x4/j IVL\n" +
-                "+ Métronidazole 500 mg x3/j IVL/PO\n" +
-                "+ Vancomycine 30 mg/kg/j\n" +
-                "+ Amikacine 25–30 mg/kg IVL sur 30 min";
+          txt = "Ciprofloxacine 750 mg x2/j IV/PO ou Aztréonam 1 g x4/j IVL\n"
+              + "+ Métronidazole 500 mg x3/j IVL/PO\n"
+              + "+ Vancomycine 30 mg/kg/j\n"
+              + "+ Amikacine 25–30 mg/kg IVL sur 30 min";
         } else {
           txt = "Lévofloxacine 500 mg x2/j IVL/PO\n+ Métronidazole 500 mg x3/j IVL/PO\n+ Gentamicine 5–8 mg/kg IVL 30 min";
         }
       }
-    } else { // Nosocomiales
-      txt = "Ciprofloxacine 750 mg x2/j IVL/PO ou Aztréonam 1 g x4/j IVL\n" +
-            "+ Métronidazole 500 mg x3/j IVL/PO\n" +
-            "+ Vancomycine 30 mg/kg/j IVSE";
+    } else {
+      txt = "Ciprofloxacine 750 mg x2/j IVL/PO ou Aztréonam 1 g x4/j IVL\n"
+          + "+ Métronidazole 500 mg x3/j IVL/PO\n"
+          + "+ Vancomycine 30 mg/kg/j IVSE";
       if (sepsisOuChoc(p)){
         txt += "\nSi sepsis/choc septique:\n- Systématique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
         if (p.ProtheseBiliaire) txt += "\n- Si prothèse biliaire : Ajout Caspofungine 70 mg puis 50 mg/j IVL";
@@ -516,7 +514,6 @@ function recoVoiesBiliaires(p){
     return txt;
   }
 
-  // Non allergiques — autres sous-types
   if (oEff === "Communautaires"){
     if (["Cholécystite aiguë","Angiocholite aiguë"].includes(p.SousType)){
       if (sepsisOuChoc(p)){
@@ -530,7 +527,7 @@ function recoVoiesBiliaires(p){
       if (p.BLSE) txt += "\nSi FdR de BLSE* : Pas de carbapénème";
       if (sepsisOuChoc(p)) txt += "\nSi sepsis/choc septique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
     }
-  } else { // Nosocomiales
+  } else {
     if (["Cholécystite aiguë","Angiocholite aiguë"].includes(p.SousType)){
       txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
       if (sepsisOuChoc(p)){
@@ -548,7 +545,6 @@ function recoVoiesBiliaires(p){
   return txt;
 }
 
-// 2) Entéro-coliques (hors péritonites)
 function recoEnteroColiques(p){
   let txt = "";
   const o = p.origine;
@@ -579,7 +575,7 @@ function recoEnteroColiques(p){
       const p2 = {...p, origine: "Nosocomiales"};
       return recoEnteroColiques(p2);
     }
-  } else { // Nosocomiales
+  } else {
     if (["Appendicite aiguë","Diverticulite aiguë","Entérocolite ou colite"].includes(p.SousType)){
       txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
     }
@@ -590,7 +586,6 @@ function recoEnteroColiques(p){
   return txt;
 }
 
-// 3) Péritonites secondaires
 function recoPeritonites(p){
   let txt = "";
   const o = p.origine;
@@ -614,7 +609,7 @@ function recoPeritonites(p){
       const p2 = {...p, origine: "Nosocomiales"};
       return recoPeritonites(p2);
     }
-  } else { // Nosocomiales
+  } else {
     txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
     if (p.Faecium) txt += "\nAjout Vancomycine 30 mg/kg/j IVSE";
     if (p.Dupont) txt += "\nAjout Caspofungine 70 mg puis 50 mg/j IVL";
@@ -623,7 +618,6 @@ function recoPeritonites(p){
   return txt;
 }
 
-// 4) Cas particuliers
 function recoCasParticuliers(p){
   let txt = "";
   const o = p.origine;
@@ -648,155 +642,7 @@ function recoCasParticuliers(p){
   return txt;
 }
 
-function renderProbaNeuroForm(){
-  $app.innerHTML = `
-    <div class="card"><strong>Infections neuro-méningées — caractéristiques</strong></div>
-
-    <div class="hero-pneu card">
-      <img src="./img/neuro.png" alt="Infections neuro-méningées" class="form-hero">
-    </div>
-
-    <form id="formNeuro" class="form">
-      <fieldset>
-        <legend>Allergie aux β-lactamines</legend>
-        <label><input type="radio" name="allergie" value="non" checked> Non</label>
-        <label><input type="radio" name="allergie" value="oui"> Oui</label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Type d’infection</legend>
-        <label><input type="radio" name="type" value="meningite" checked> Méningite purulente</label>
-        <label><input type="radio" name="type" value="me"> Méningo-encéphalite</label>
-        <label><input type="radio" name="type" value="abces"> Abcès cérébral</label>
-      </fieldset>
-
-      <!-- Bloc MÉNINGITE -->
-      <fieldset id="blocMeningite">
-        <legend>Méningite — Examen direct du LCS</legend>
-        <label><input type="radio" name="edi" value="non" checked> Non</label>
-        <label><input type="radio" name="edi" value="oui"> Oui</label>
-
-        <div id="ediSelect" class="row hidden" style="margin-top:8px">
-          <label style="grid-column:1/-1">
-            Résultat :
-            <select id="cmbEDI">
-              <option value="CG+">CG+</option>
-              <option value="CG-">CG-</option>
-              <option value="BG+">BG+</option>
-              <option value="BG-">BG-</option>
-            </select>
-          </label>
-        </div>
-
-        <fieldset style="margin-top:10px">
-          <legend>Eléments complémentaires</legend>
-          <div class="row">
-            <label><input type="checkbox" name="argListeria"> Argument listériose</label>
-            <label><input type="checkbox" name="lcsHSV"> LCS compatible HSV/VZV</label>
-          </div>
-        </fieldset>
-      </fieldset>
-
-      <!-- Bloc MÉNINGO-ENCÉPHALITE -->
-      <fieldset id="blocME" class="hidden">
-        <legend>Signes de gravité</legend>
-        <div class="row">
-          <label><input type="checkbox" name="focal"> Signe de localisation</label>
-          <label><input type="checkbox" name="coma"> Coma</label>
-          <label><input type="checkbox" name="convuls"> Convulsions</label>
-        </div>
-        <fieldset style="margin-top:10px">
-          <legend>Orientation étiologique</legend>
-          <label><input type="radio" name="etio" value="oui"> Oui</label>
-          <label><input type="radio" name="etio" value="non"> Non</label>
-        </fieldset>
-      </fieldset>
-
-      <!-- Bloc ABCÈS CÉRÉBRAL -->
-      <fieldset id="blocAbces" class="hidden">
-        <legend>Porte d’entrée</legend>
-        <label style="display:block;max-width:380px">
-          <select id="cmbPorte">
-            <option value=""></option>
-            <option value="Post-operatoire">Post-opératoire</option>
-            <option value="Traumatique">Traumatique</option>
-            <option value="Indeterminee">Indéterminée</option>
-            <option value="Autre">Autre</option>
-          </select>
-        </label>
-
-        <fieldset style="margin-top:10px">
-          <legend>Immunodépression</legend>
-          <div class="row">
-            <label><input type="checkbox" name="onco"> Onco-hématologie</label>
-            <label><input type="checkbox" name="transp"> Transplanté</label>
-            <label><input type="checkbox" name="vih"> VIH</label>
-            <label><input type="checkbox" name="immunAutre"> Autre</label>
-          </div>
-        </fieldset>
-      </fieldset>
-
-      <div class="actions">
-        <button type="button" class="btn" id="btnNeuro">Antibiothérapie probabiliste recommandée</button>
-        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
-      </div>
-      <div id="resNeuro" class="result"></div>
-    </form>
-  `;
-
-  // UI dynamique (affichages conditionnels)
-  const form = document.getElementById("formNeuro");
-  const blocM = document.getElementById("blocMeningite");
-  const blocME = document.getElementById("blocME");
-  const blocA = document.getElementById("blocAbces");
-  const ediSelect = document.getElementById("ediSelect");
-  const cmbEDI = document.getElementById("cmbEDI");
-  const cmbPorte = document.getElementById("cmbPorte");
-
-  function syncBlocks(){
-    const type = new FormData(form).get("type");
-    blocM.classList.toggle("hidden", type!=="meningite");
-    blocME.classList.toggle("hidden", type!=="me");
-    blocA.classList.toggle("hidden", type!=="abces");
-    const edi = new FormData(form).get("edi");
-    ediSelect.classList.toggle("hidden", !(type==="meningite" && edi==="oui"));
-  }
-  form.addEventListener("change", syncBlocks);
-  syncBlocks();
-
-  document.getElementById("btnNeuro").addEventListener("click", () => {
-    const fd = new FormData(form);
-    const p = {
-      allergie: (fd.get("allergie")==="oui"),
-      type: fd.get("type") || "meningite",
-
-      // MENINGITE
-      edi: fd.get("edi")==="oui",
-      ediRes: cmbEDI.value,          // CG+/CG-/BG+/BG-
-      argListeria: !!fd.get("argListeria"),
-      lcsHSV: !!fd.get("lcsHSV"),
-
-      // ME
-      focal: !!fd.get("focal"),
-      coma: !!fd.get("coma"),
-      convuls: !!fd.get("convuls"),
-      etio: fd.get("etio") || "",   // oui/non/""
-
-      // ABCES
-      porte: cmbPorte.value || "",
-      onco: !!fd.get("onco"),
-      transp: !!fd.get("transp"),
-      vih: !!fd.get("vih"),
-      immunAutre: !!fd.get("immunAutre")
-    };
-
-    const out = decideNeuro(p);
-    document.getElementById("resNeuro").textContent =
-      out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
-}
-
-// ===== Logique (transposition du VBA) =====
+// ===== Neuro-méningées =====
 function decideNeuro(p){
   if (p.type==="meningite")   return buildMeningite(p);
   if (p.type==="me")          return buildME(p);
@@ -804,52 +650,48 @@ function decideNeuro(p){
   return "";
 }
 
-// --- Méningite purulente ---
 function buildMeningite(p){
   const allerg = p.allergie;
   let S = "", dex = "", addAcyclo = "";
-
   if (p.lcsHSV) addAcyclo = " +/- Aciclovir 10 mg/kg x3/j IVL (si LCS compatible HSV/VZV)";
 
   if (p.edi){
     switch (p.ediRes){
       case "CG+":
-        if (!allerg) S = "Céfotaxime 300 mg/kg/j IV";
-        else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV (ou Méropénème 2 g x3/j IVL) — allergie.";
+        S = !allerg ? "Céfotaxime 300 mg/kg/j IV"
+                    : "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV (ou Méropénème 2 g x3/j IVL) — allergie.";
         dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
         break;
       case "CG-":
-        if (!allerg) S = "Céfotaxime 200 mg/kg/j IV";
-        else         S = "Ciprofloxacine 800–1200 mg/j + Rifampicine 300 mg x2/j PO/IV — allergie.";
+        S = !allerg ? "Céfotaxime 200 mg/kg/j IV"
+                    : "Ciprofloxacine 800–1200 mg/j + Rifampicine 300 mg x2/j PO/IV — allergie.";
         dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
         break;
       case "BG+":
-        if (!allerg) S = "Amoxicilline 200 mg/kg/j IVL + Gentamicine 5 mg/kg IVL (30 min).";
-        else         S = "Cotrimoxazole (poso max 100/20 mg/kg/j) — allergie.";
-        dex = ""; // pas de dexaméthasone si BG+
+        S = !allerg ? "Amoxicilline 200 mg/kg/j IVL + Gentamicine 5 mg/kg IVL (30 min)."
+                    : "Cotrimoxazole (poso max 100/20 mg/kg/j) — allergie.";
+        dex = "";
         break;
       case "BG-":
-        if (!allerg) S = "Céfotaxime 200 mg/kg/j IVL";
-        else         S = "Ciprofloxacine 800–1200 mg/j — allergie.";
+        S = !allerg ? "Céfotaxime 200 mg/kg/j IVL"
+                    : "Ciprofloxacine 800–1200 mg/j — allergie.";
         dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
         break;
     }
   } else {
     if (!p.argListeria){
-      if (!allerg) S = "Céfotaxime 300 mg/kg/j IVL" + addAcyclo + ".";
-      else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV" + addAcyclo + " — allergie.";
+      S = !allerg ? "Céfotaxime 300 mg/kg/j IVL" + addAcyclo + "."
+                  : "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV" + addAcyclo + " — allergie.";
       dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
     } else {
-      if (!allerg) S = "Céfotaxime 300 mg/kg/j + Amoxicilline 200 mg/kg/j" + addAcyclo + ".";
-      else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV + Cotrimoxazole (poso max 100/20 mg/kg/j)" + addAcyclo + " — allergie.";
+      S = !allerg ? "Céfotaxime 300 mg/kg/j + Amoxicilline 200 mg/kg/j" + addAcyclo + "."
+                  : "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV + Cotrimoxazole (poso max 100/20 mg/kg/j)" + addAcyclo + " — allergie.";
       dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
     }
   }
-
   return "Méningite purulente aiguë :\n• " + S + (dex || "");
 }
 
-// --- Méningo-encéphalite ---
 function buildME(p){
   const allerg = p.allergie;
   const grave = !!(p.focal || p.coma || p.convuls);
@@ -873,12 +715,11 @@ function buildME(p){
   return "Méningo-encéphalite :\n• " + firstLine + (detail ? "\n• " + detail : "");
 }
 
-// --- Abcès cérébral ---
 function buildAbces(p){
   const allerg = p.allergie;
   const entree = p.porte || "";
   let S = "", addImmuno = "";
-  const immunoPrisEnCompte = !p.immunAutre; // même logique que VBA
+  const immunoPrisEnCompte = !p.immunAutre;
 
   if (!allerg){
     if (entree==="Post-operatoire" || entree==="Traumatique"){
@@ -898,12 +739,10 @@ function buildAbces(p){
       addImmuno += "\n• Patient VIH : Pyriméthamine-Sulfadiazine (si CD4 < 200) pour T. gondii, + Céfotaxime/Métronidazole si doute +/- quadrithérapie anti-tuberculeuse si gravité et contexte très évocateur.";
     }
   }
-
   return "Abcès cérébral (ATB idéalement après ponction-aspiration si possible) :\n• " + S + addImmuno;
 }
 
-
-
+// ---------- Pages “adaptée” & “durées” + 404 ----------
 function renderAdapteeMenu(){
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
@@ -958,7 +797,6 @@ function renderDureesForm(){
     const fd = new FormData(document.getElementById("formDur"));
     const infection = fd.get("infection") || "";
     const germe = fd.get("germe") || "";
-    // ——— Logique provisoire : on branchera tes durées exactes ensuite
     document.getElementById("resDur").textContent =
       decideDuree(infection, germe) || "Durée non renseignée (à compléter).";
   });
@@ -967,4 +805,3 @@ function renderDureesForm(){
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
-
