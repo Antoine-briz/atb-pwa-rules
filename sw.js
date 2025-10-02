@@ -2,12 +2,22 @@
 const CACHE_NAME = "atb-rules-v10"; // <-- nouvelle version
 // ...
 const PRECACHE = [
-  "./", "./index.html", "./styles.css", "./app.js", "./rules.js",
-  "./data/rules.json", "./manifest.webmanifest",
-  "./icons/icon-192.png", "./icons/icon-512.png",
-  "./img/bandeau.png","./img/proba.png","./img/adaptee.png","./img/duree.png",
-  "./img/pneumonie.png","./img/urinaire.png","./img/abdo.png",
-  "./img/neuro.png" // <-- ajout
+  "./", "./index.html", 
+  "./styles.css", 
+  "./app.js", 
+  "./rules.js",
+  "./data/rules.json", 
+  "./manifest.webmanifest",
+  "./icons/icon-192.png", 
+  "./icons/icon-512.png",
+  "./img/bandeau.png",
+  "./img/proba.png",
+  "./img/adaptee.png",
+  "./img/duree.png",
+  "./img/pneumonie.png",
+  "./img/urinaire.png",
+  "./img/abdo.png",
+  "./img/neuro.png" 
 ];
 
 self.addEventListener("install", (event) => {
