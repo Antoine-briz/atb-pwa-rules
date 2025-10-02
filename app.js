@@ -350,19 +350,32 @@ function renderProbaAbdoForm(){
         <select id="cboSousType"></select>
       </fieldset>
 
-      <fieldset>
-        <legend>Critères</legend>
-        <div class="row">
-          <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
-          <label><input type="checkbox" name="Faecium"> Risque <em>E. faecium</em></label>
-          <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
-          <label><input type="checkbox" name="Sepsis"> Sepsis</label>
-          <label><input type="checkbox" name="Choc"> Choc septique</label>
-          <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire (biliaire)</label>
-          <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
-          <label><input type="checkbox" name="immunodep"> Immunodépression</label>
-        </div>
-      </fieldset>
+<fieldset>
+  <legend>Facteurs de risque microbiologiques</legend>
+  <div class="row">
+    <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
+    <label><input type="checkbox" name="Faecium"> FdR <em>E. faecium</em></label>
+    <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
+    <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Gravité</legend>
+  <div class="row">
+    <label><input type="checkbox" name="Sepsis"> Sepsis</label>
+    <label><input type="checkbox" name="Choc"> Choc septique</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Facteurs liés au patient</legend>
+  <div class="row">
+    <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
+    <label><input type="checkbox" name="immunodep"> Immunodépression</label>
+  </div>
+</fieldset>
+
 
       <div class="actions">
         <button type="button" class="btn" id="btnAbdo">Antibiothérapie probabiliste recommandée</button>
