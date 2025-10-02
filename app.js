@@ -28,12 +28,22 @@ function renderHome(){
     </div>
 
     <div class="grid">
-      <button class="btn" onclick="location.hash='#/proba'">Antibiothérapie probabiliste</button>
-      <button class="btn" onclick="location.hash='#/adaptee'">Antibiothérapie adaptée</button>
-      <button class="btn" onclick="location.hash='#/durees'">Durée d’antibiothérapie</button>
+      <button class="btn" onclick="location.hash='#/proba'">
+        <img src="./img/proba.png" alt="" class="icon-btn">
+        Antibiothérapie probabiliste
+      </button>
+      <button class="btn" onclick="location.hash='#/adaptee'">
+        <img src="./img/adaptee.png" alt="" class="icon-btn">
+        Antibiothérapie adaptée
+      </button>
+      <button class="btn" onclick="location.hash='#/durees'">
+        <img src="./img/duree.png" alt="" class="icon-btn">
+        Durée d’antibiothérapie
+      </button>
     </div>
   `;
 }
+
 
 function renderProbaMenu(){
   $app.innerHTML = `
