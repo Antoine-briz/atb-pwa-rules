@@ -220,17 +220,16 @@ document.getElementById("btnIU").addEventListener("click", () => {
 });
 
 // ——— Transposition stricte de ta macro VBA (IU_GenerateResult) ———
-function decideIU(p){
+function decideIU(p) {
   // Gravité (nouveaux champs)
   let gravite = "Sans signe de gravité";
   if (p.choc) gravite = "Choc septique";
   else if (p.sepsis) gravite = "Signes de gravité sans choc (sepsis)";
 
-  const fdrBLSE = (p.BLSE_6mois || p.BLSE_autre);
   let res = "", notes = "";
 
   // 1) Cas particulier prioritaire
-  if (p.pyeEmphy){
+  if (p.pyeEmphy) {
     res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
           "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; Germes : entérobactéries (E. coli ~70%).";
     return wrapIU(p, gravite, res, notes);
@@ -305,17 +304,15 @@ function decideIU(p){
     }
   }
 
-  return wrapIU(p, gravite, res, notes);
+  return wrapIU(p, gravite, res, notes); // Ici la fonction retourne des résultats à la fin
 }
 
-function wrapIU(p, gravite, res, notes){
+function wrapIU(p, gravite, res, notes) {
   const lignes = [];
   if (p.immunodep)   lignes.push("Critère : immunodépression cochée");
   if (p.BLSE_6mois)  lignes.push("Critère : infection/portage BLSE < 6 mois");
   if (p.BLSE_autre)  lignes.push("Critère : autre facteur de risque de BLSE");
   if (p.CocciGramPos)lignes.push("Critère : cocci Gram+ à l’examen direct");
-  if (p.pyeEmphy)    lignes.push("Critère : pyélonéphrite emphysémateuse");
-  if (p.allergieBL)  lignes.push("Critère : allergie sévère aux ß-lactamines");
 
   return [
     "IU en réanimation — Décision",
@@ -328,7 +325,6 @@ function wrapIU(p, gravite, res, notes){
     (notes ? "\n" + notes : "")
   ].filter(Boolean).join("\n");
 }
-
 
 function renderProbaAbdoForm(){
   $app.innerHTML = `
