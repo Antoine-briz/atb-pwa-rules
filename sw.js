@@ -17,7 +17,8 @@ const PRECACHE = [
   "./img/adaptee.png",
   "./img/duree.png",
   "./img/pneumonie.png",
-  "./img/urinaire.png"   // <-- ajout
+  "./img/urinaire.png"
+   "./img/abdo.png"  
 ];
 
 
