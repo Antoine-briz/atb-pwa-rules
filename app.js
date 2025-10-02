@@ -62,10 +62,15 @@ function renderProbaMenu(){
 }
 
 function renderProbaPneumonieForm(){
-  // Formulaire fidèle à ton UserForm (v1 — on complètera les règles exactes ensuite)
   $app.innerHTML = `
-    ${h("card", `<strong>Caractéristiques de la pneumonie</strong>`)}
+    <div class="card"><strong>Caractéristiques de la pneumonie</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/pneumonie.png" alt="Pneumonie" class="form-hero">
+    </div>
+
     <form id="formPneu" class="form">
+      <!-- le reste de ton formulaire inchangé -->
       <fieldset>
         <legend>Lieu de survenue</legend>
         <label><input type="radio" name="origine" value="Communautaire" checked> Communautaire</label>
