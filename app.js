@@ -137,6 +137,189 @@ function renderProbaPneumonieForm(){
   });
 }
 
+function renderProbaIUForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Infections urinaires — caractéristiques</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/urinaire.png" alt="Infections urinaires" class="form-hero">
+    </div>
+
+    <form id="formIU" class="form">
+      <fieldset>
+        <legend>Lieu de survenue</legend>
+        <label><input type="radio" name="origine" value="Communautaire" checked> Communautaire</label>
+        <label><input type="radio" name="origine" value="Nosocomiale"> Nosocomiale</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Signes de gravité</legend>
+        <label><input type="checkbox" name="qsofa2"> Q-SOFA ≥ 2</label>
+        <label><input type="checkbox" name="gesteUrg"> Geste urologique urgent</label>
+        <label><input type="checkbox" name="choc"> Choc septique</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Facteurs de risque</legend>
+        <div class="row">
+          <label><input type="checkbox" name="blse6m"> BLSE/portage &lt; 6 mois</label>
+          <label><input type="checkbox" name="blseFdr"> Autre FdR BLSE</label>
+          <label><input type="checkbox" name="immuno"> Immunodépression</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Terrain / Allergies / Examen direct</legend>
+        <div class="row">
+          <label><input type="checkbox" name="allergie"> Allergie sévère β-lactamines</label>
+          <label><input type="checkbox" name="gramPos"> Cocci Gram + (examen direct)</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Cas particulier</legend>
+        <label><input type="checkbox" name="pnaEmphy"> Pyélonéphrite emphysémateuse</label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnIU">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resIU" class="result"></div>
+    </form>
+  `;
+
+  document.getElementById("btnIU").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formIU"));
+    const params = {
+      origine: fd.get("origine") || "Communautaire",
+      qsofa2: !!fd.get("qsofa2"),
+      gesteUrg: !!fd.get("gesteUrg"),
+      choc: !!fd.get("choc"),
+      blse6m: !!fd.get("blse6m"),
+      blseFdr: !!fd.get("blseFdr"),
+      immuno: !!fd.get("immuno"),
+      allergie: !!fd.get("allergie"),
+      gramPos: !!fd.get("gramPos"),
+      pnaEmphy: !!fd.get("pnaEmphy")
+    };
+    const out = decideIU(params);
+    document.getElementById("resIU").textContent = out +
+      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
+  });
+}
+
+// ——— Transposition stricte de ta macro VBA (IU_GenerateResult) ———
+function decideIU(p){
+  // Gravité
+  let gravite = "Sans signe de gravité";
+  if (p.choc) gravite = "Choc septique";
+  else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
+
+  const fdrBLSE = (p.blse6m || p.blseFdr);
+  let res = "", notes = "";
+
+  // Cas particuliers prioritaires
+  if (p.pnaEmphy){
+    res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
+          "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; TDM : gaz intra-rénal ; Germes : entérobactéries (E. coli ~70%).\n" +
+          "Remarque : exceptionnellement nosocomiale.";
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  if (p.allergie){
+    if (p.origine === "Communautaire"){
+      if (p.choc){
+        res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      } else {
+        res = "Aztréonam 1 g x4/j IVL OU Amikacine 25–30 mg/kg IVL sur 30 min.\n" +
+              "Si choc septique : associer Aztréonam + Amikacine.";
+      }
+    } else {
+      res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    }
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  if (p.gramPos){
+    if (p.origine === "Communautaire"){
+      res = "Amoxicilline-acide clavulanique 1 g x3/j" + (p.choc ? " (+ Gentamicine si choc septique)." : ".");
+    } else {
+      res = "Pipéracilline-tazobactam 4 g x4/j" + (p.choc ? " (+ Vancomycine si choc) (+ Gentamicine si choc)." : ".");
+    }
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  // Tronc commun
+  if (p.origine === "Communautaire"){
+    if (gravite === "Sans signe de gravité"){
+      res = "Céfotaxime 1 g x4–6/24h IVL.";
+      if (fdrBLSE) notes = "Note : pas de couverture BLSE même en cas de facteur de risque.";
+    } else if (gravite.startsWith("Signes de gravité")){
+      if (p.blse6m){
+        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      } else {
+        res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      }
+    } else { // Choc
+      if (fdrBLSE){
+        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      } else {
+        res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      }
+    }
+    if (p.immuno && gravite === "Sans signe de gravité"){
+      notes = (notes ? notes + "\n" : "") + 'Remarque : "patient immunodéprimé ou non" ? même schéma.';
+    }
+  } else {
+    // Nosocomiale
+    if (gravite === "Sans signe de gravité"){
+      if (fdrBLSE){
+        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+        notes = "Éviter les carbapénèmes en probabiliste.";
+      } else {
+        res = "Pipéracilline-tazobactam 4 g x4/j.";
+      }
+    } else if (gravite.startsWith("Signes de gravité")){
+      if (p.blse6m){
+        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      } else {
+        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      }
+    } else { // Choc
+      if (fdrBLSE){
+        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      } else {
+        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      }
+    }
+  }
+
+  return wrapIU(p, gravite, res, notes);
+}
+
+function wrapIU(p, gravite, res, notes){
+  const lignes = [];
+  if (p.immuno)   lignes.push("Critère : immunodépression cochée");
+  if (p.blse6m)   lignes.push("Critère : infection/portage BLSE < 6 mois");
+  if (p.blseFdr)  lignes.push("Critère : autre facteur de risque de BLSE");
+  if (p.gramPos)  lignes.push("Critère : cocci Gram+ à l’examen direct");
+  if (p.pnaEmphy) lignes.push("Critère : PNA emphysémateuse");
+  if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
+
+  return [
+    "IU en réanimation — Décision (selon le tableau fourni)",
+    "Origine : " + p.origine,
+    "Gravité : " + gravite,
+    (lignes.length ? lignes.join("\n") : null),
+    "",
+    "Proposition thérapeutique :",
+    res,
+    (notes ? "\n" + notes : "")
+  ].filter(Boolean).join("\n");
+}
+
+
 function renderAdapteeMenu(){
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
