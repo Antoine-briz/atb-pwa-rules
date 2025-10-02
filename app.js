@@ -23,12 +23,15 @@ function h(cls, html){ return `<div class="${cls}">${html}</div>`; }
 // ---------- Pages ----------
 function renderHome(){
   $app.innerHTML = `
-    <span class="title-badge">Protocoles d’antibiothérapie</span>
-    ${h("grid", `
+    <div class="hero card">
+      <img src="./img/bandeau.png" alt="Protocoles d’antibiothérapie – MIR CHV André Mignot" class="hero-img">
+    </div>
+
+    <div class="grid">
       <button class="btn" onclick="location.hash='#/proba'">Antibiothérapie probabiliste</button>
       <button class="btn" onclick="location.hash='#/adaptee'">Antibiothérapie adaptée</button>
       <button class="btn" onclick="location.hash='#/durees'">Durée d’antibiothérapie</button>
-    `)}
+    </div>
   `;
 }
 
