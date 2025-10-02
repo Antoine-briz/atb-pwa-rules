@@ -9,6 +9,7 @@ const routes = {
   "#/proba/pneumonies": renderProbaPneumonieForm,
   "#/proba/iu": renderProbaIUForm,
   "#/proba/abdo": renderProbaAbdoForm,
+  "#/proba/neuro": renderProbaNeuroForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
@@ -54,7 +55,7 @@ function renderProbaMenu(){
       <button class="btn outline" onclick="location.hash='#/proba/pneumonies'">Pneumonies</button>
       <button class="btn outline" onclick="location.hash='#/proba/iu'">Infections urinaires</button>
       <button class="btn outline" onclick="location.hash='#/proba/abdo'">Infections intra-abdominales</button>
-      <button class="btn outline" disabled>Infections neuro-méningées</button>
+      <button class="btn outline" onclick="location.hash='#/proba/neuro'">Infections neuro-méningées</button>
       <button class="btn outline" disabled>Parties molles</button>
       <button class="btn outline" disabled>Endocardites infectieuses</button>
       <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
