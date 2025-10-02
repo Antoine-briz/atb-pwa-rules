@@ -51,7 +51,7 @@ function renderProbaMenu(){
     ${h("card", `<strong>Antibiothérapie probabiliste</strong>`)}
     ${h("grid cols-2", `
       <button class="btn outline" onclick="location.hash='#/proba/pneumonies'">Pneumonies</button>
-      <button class="btn outline" disabled>Infections urinaires</button>
+      <button class="btn outline" onclick="location.hash='#/proba/iu'">Infections urinaires</button>
       <button class="btn outline" disabled>Infections intra-abdominales</button>
       <button class="btn outline" disabled>Infections neuro-méningées</button>
       <button class="btn outline" disabled>Parties molles</button>
