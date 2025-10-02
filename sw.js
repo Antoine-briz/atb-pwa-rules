@@ -1,11 +1,9 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
 
-const CACHE_NAME = "atb-rules-v3";
+const CACHE_NAME = "atb-rules-v5"; // <- incrémente la version
 
-// On liste TOUT ce qui est nécessaire à l'app shell hors-ligne.
-// Chemins RELATIFS pour être valides en standalone.
 const PRECACHE = [
-  "./",                    // racine
+  "./",
   "./index.html",
   "./styles.css",
   "./app.js",
@@ -13,8 +11,10 @@ const PRECACHE = [
   "./data/rules.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./img/bandeau.png"          // <-- ajoute ton image ici
 ];
+
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
