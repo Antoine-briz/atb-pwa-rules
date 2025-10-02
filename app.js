@@ -7,6 +7,7 @@ const routes = {
   "#/": renderHome,
   "#/proba": renderProbaMenu,
   "#/proba/pneumonies": renderProbaPneumonieForm,
+  "#/proba/iu": renderProbaIUForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
