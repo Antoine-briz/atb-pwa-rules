@@ -320,6 +320,311 @@ function wrapIU(p, gravite, res, notes){
   ].filter(Boolean).join("\n");
 }
 
+function renderProbaAbdoForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Infections intra-abdominales — caractéristiques</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/abdo.png" alt="Infections intra-abdominales" class="form-hero">
+    </div>
+
+    <form id="formAbdo" class="form">
+      <fieldset>
+        <legend>Origine</legend>
+        <label><input type="radio" name="origine" value="Communautaires" checked> Communautaires</label>
+        <label><input type="radio" name="origine" value="Nosocomiales"> Nosocomiales</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Catégorie d’infection</legend>
+        <div class="row">
+          <label><input type="radio" name="categorie" value="Infections des voies biliaires"> Infections des voies biliaires</label>
+          <label><input type="radio" name="categorie" value="Infections entéro-coliques (hors péritonites)"> Infections entéro-coliques (hors péritonites)</label>
+          <label><input type="radio" name="categorie" value="Péritonites secondaires"> Péritonites secondaires</label>
+          <label><input type="radio" name="categorie" value="Cas particuliers"> Cas particuliers</label>
+        </div>
+      </fieldset>
+
+      <fieldset id="fsSousType" class="hidden">
+        <legend>Sous-type</legend>
+        <select id="cboSousType"></select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Critères</legend>
+        <div class="row">
+          <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
+          <label><input type="checkbox" name="Faecium"> Risque <em>E. faecium</em></label>
+          <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
+          <label><input type="checkbox" name="Sepsis"> Sepsis</label>
+          <label><input type="checkbox" name="Choc"> Choc septique</label>
+          <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire (biliaire)</label>
+          <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
+          <label><input type="checkbox" name="immunodep"> Immunodépression</label>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnAbdo">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resAbdo" class="result"></div>
+    </form>
+  `;
+
+  // — sous-types dynamiques (ComboBox)
+  const form = document.getElementById("formAbdo");
+  const fsST = document.getElementById("fsSousType");
+  const cbo = document.getElementById("cboSousType");
+
+  function fillSubtypes(cat){
+    const map = {
+      "Infections des voies biliaires": [
+        "Cholécystite aiguë",
+        "Angiocholite aiguë",
+        "Abcès hépatique",
+        "Infection nécrose pancréatique"
+      ],
+      "Infections entéro-coliques (hors péritonites)": [
+        "Appendicite aiguë",
+        "Diverticulite aiguë",
+        "Entérocolite ou colite"
+      ],
+      "Péritonites secondaires": [
+        "Péritonite secondaire"
+      ],
+      "Cas particuliers": [
+        "Infection de liquide d’ascite",
+        "Perforation œsophagienne (dont syndrome de Boerhaave)"
+      ]
+    };
+    const list = map[cat] || [];
+    cbo.innerHTML = list.map(s => `<option value="${s}">${s}</option>`).join("");
+    fsST.classList.toggle("hidden", list.length === 0);
+  }
+
+  form.addEventListener("change", (e) => {
+    if (e.target.name === "categorie") fillSubtypes(e.target.value);
+  });
+
+  document.getElementById("btnAbdo").addEventListener("click", () => {
+    const fd = new FormData(form);
+    const p = {
+      origine: fd.get("origine") || "Communautaires",
+      TypeInfection: fd.get("categorie") || "",
+      SousType: cbo.value || "",
+      BLSE: !!fd.get("BLSE"),
+      Faecium: !!fd.get("Faecium"),
+      Dupont: !!fd.get("Dupont"),
+      Sepsis: !!fd.get("Sepsis"),
+      Choc: !!fd.get("Choc"),
+      ProtheseBiliaire: !!fd.get("ProtheseBiliaire"),
+      allergieBL: !!fd.get("allergieBL"),
+      immunodep: !!fd.get("immunodep")
+    };
+    if (!p.TypeInfection){
+      document.getElementById("resAbdo").textContent = "Sélectionnez une catégorie d’infection.";
+      return;
+    }
+    const out = decideAbdo(p);
+    document.getElementById("resAbdo").textContent = out +
+      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
+  });
+}
+
+// ======= LOGIQUE (transposition VBA) =======
+
+function sepsisOuChoc(p){ return !!(p.Sepsis || p.Choc); }
+
+function decideAbdo(p){
+  switch (p.TypeInfection){
+    case "Infections des voies biliaires":      return recoVoiesBiliaires(p);
+    case "Infections entéro-coliques (hors péritonites)": return recoEnteroColiques(p);
+    case "Péritonites secondaires":              return recoPeritonites(p);
+    case "Cas particuliers":                     return recoCasParticuliers(p);
+    default: return "";
+  }
+}
+
+// 1) Voies biliaires
+function recoVoiesBiliaires(p){
+  let txt = "";
+  // origine effective si immunodépression (comme VBA)
+  let oEff = p.origine;
+  if (oEff === "Communautaires" && p.immunodep) oEff = "Nosocomiales";
+
+  // Sous-type : Infection nécrose pancréatique (prioritaire)
+  if (p.SousType === "Infection nécrose pancréatique"){
+    if (p.allergieBL){
+      txt = "Ciprofloxacine 400 mg x3/j IVL/PO ou Aztréonam 1 g x4/j\n" +
+            "+ Métronidazole 500 mg x3/j IVL/PO\n" +
+            "+ Vancomycine 30 mg/kg/j IVSE";
+      if (sepsisOuChoc(p)) txt += "\n\nSi sepsis/choc septique : Ajout Amikacine 30 mg/kg IVL";
+    } else {
+      txt = "Pas d’antibiothérapie récente : Céfotaxime ou Ciprofloxacine + Métronidazole 500 mg x3/j IV/PO\n\n" +
+            "Antibiothérapie récente : Imipénème 1 g x3/j + Vancomycine 30 mg/kg + Fluconazole 400 mg x3/j";
+      if (sepsisOuChoc(p)) txt += "\n\nSi sepsis/choc septique : Ajout Amikacine 30 mg/kg IVL";
+    }
+    return txt;
+  }
+
+  // Allergie prioritaire — autres sous-types biliaires
+  if (p.allergieBL){
+    if (oEff === "Communautaires"){
+      if (["Cholécystite aiguë","Angiocholite aiguë","Abcès hépatique"].includes(p.SousType)){
+        if (sepsisOuChoc(p)){
+          txt = "Ciprofloxacine 750 mg x2/j IV/PO ou Aztréonam 1 g x4/j IVL\n" +
+                "+ Métronidazole 500 mg x3/j IVL/PO\n" +
+                "+ Vancomycine 30 mg/kg/j\n" +
+                "+ Amikacine 25–30 mg/kg IVL sur 30 min";
+        } else {
+          txt = "Lévofloxacine 500 mg x2/j IVL/PO\n+ Métronidazole 500 mg x3/j IVL/PO\n+ Gentamicine 5–8 mg/kg IVL 30 min";
+        }
+      }
+    } else { // Nosocomiales
+      txt = "Ciprofloxacine 750 mg x2/j IVL/PO ou Aztréonam 1 g x4/j IVL\n" +
+            "+ Métronidazole 500 mg x3/j IVL/PO\n" +
+            "+ Vancomycine 30 mg/kg/j IVSE";
+      if (sepsisOuChoc(p)){
+        txt += "\nSi sepsis/choc septique:\n- Systématique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+        if (p.ProtheseBiliaire) txt += "\n- Si prothèse biliaire : Ajout Caspofungine 70 mg puis 50 mg/j IVL";
+      }
+    }
+    return txt;
+  }
+
+  // Non allergiques — autres sous-types
+  if (oEff === "Communautaires"){
+    if (["Cholécystite aiguë","Angiocholite aiguë"].includes(p.SousType)){
+      if (sepsisOuChoc(p)){
+        txt = "Pipéracilline-tazobactam 4 g x4/j\nAmikacine 25–30 mg/kg IVL 30 min";
+      } else {
+        txt = "Ceftriaxone 1 g x2/24h IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+        if (p.BLSE) txt += "\nSi FdR de BLSE* : Pas de carbapénème";
+      }
+    } else if (p.SousType === "Abcès hépatique"){
+      txt = "Drainage percutané de l’abcès\n+ Ceftriaxone 1 g x2/24h IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+      if (p.BLSE) txt += "\nSi FdR de BLSE* : Pas de carbapénème";
+      if (sepsisOuChoc(p)) txt += "\nSi sepsis/choc septique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+    }
+  } else { // Nosocomiales
+    if (["Cholécystite aiguë","Angiocholite aiguë"].includes(p.SousType)){
+      txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
+      if (sepsisOuChoc(p)){
+        txt += "\nSi sepsis/choc septique:\n- Systématique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+        if (p.ProtheseBiliaire) txt += "\n- Si prothèse biliaire : Ajout Vancomycine 30 mg/kg/j IVSE et Caspofungine 70 mg puis 50 mg/j";
+      }
+    } else if (p.SousType === "Abcès hépatique"){
+      txt = "Drainage percutané de l’abcès\n+ " + (p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j");
+      if (sepsisOuChoc(p)){
+        txt += "\nSi sepsis/choc septique:\n- Systématique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+        if (p.ProtheseBiliaire) txt += "\n- Si prothèse biliaire : Ajout Vancomycine 30 mg/kg/j IVSE et Caspofungine 70 mg puis 50 mg/j";
+      }
+    }
+  }
+  return txt;
+}
+
+// 2) Entéro-coliques (hors péritonites)
+function recoEnteroColiques(p){
+  let txt = "";
+  const o = p.origine;
+  const isSev = sepsisOuChoc(p);
+
+  if (p.allergieBL){
+    if (o === "Communautaires"){
+      txt = "Lévofloxacine 500 mg x2/j IVL/PO\n+ Métronidazole 500 mg x3/j IVL/PO";
+      if (isSev) txt += "\nAjout Gentamicine 5–8 mg/kg ou Amikacine 25–30 mg/kg IVL 30 min";
+    } else {
+      txt = "Ciprofloxacine 750 mg x2/j IVL/PO ou Aztréonam 1 g x4/j IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+      if (isSev) txt += "\n+/- Vancomycine 30 mg/kg/j IVSE\n+/- Caspofungine 70 mg puis 50 mg/j IVL";
+    }
+    return txt;
+  }
+
+  if (o === "Communautaires"){
+    if (p.SousType === "Appendicite aiguë"){
+      txt = "Appendicectomie + Amoxicilline-acide clavulanique 1 g x3/j IVL (antibiothérapie seule non recommandée)";
+    } else if (p.SousType === "Diverticulite aiguë"){
+      txt = "Amoxicilline-acide clavulanique 1 g x3/j IVL uniquement si : sepsis, grossesse, ASA >3, immunodépression (dont cancer évolutif et IRC terminale)";
+    } else if (p.SousType === "Entérocolite ou colite"){
+      txt = "Céfotaxime 4–6 g/24h IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+    }
+    if (p.BLSE) txt += "\nIdem absence de FdR de BLSE (pas de carbapénème)";
+    if (isSev) txt += "\nAjout Gentamicine 5–8 mg/kg IV 30 min";
+    if (p.immunodep){
+      const p2 = {...p, origine: "Nosocomiales"};
+      return recoEnteroColiques(p2);
+    }
+  } else { // Nosocomiales
+    if (["Appendicite aiguë","Diverticulite aiguë","Entérocolite ou colite"].includes(p.SousType)){
+      txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
+    }
+    if (isSev){
+      txt += "\nAjout Amikacine 25–30 mg/kg IVL 30 min\n+/- Vancomycine 30 mg/kg/j IVSE\n+/- Caspofungine 70 mg puis 50 mg/j IVL";
+    }
+  }
+  return txt;
+}
+
+// 3) Péritonites secondaires
+function recoPeritonites(p){
+  let txt = "";
+  const o = p.origine;
+
+  if (p.allergieBL){
+    if (o === "Communautaires"){
+      txt = "Lévofloxacine 500 mg x2/j IVL/PO\n+ Métronidazole 500 mg x3/j IVL/PO\n+ Gentamicine 5–8 mg/kg IVL 30 min";
+    } else {
+      txt = "Ciprofloxacine 750 mg x2/j IVL/PO ou Aztréonam 1 g x4/j IVL\n+ Métronidazole 500 mg x3/j IVL/PO\n+ Vancomycine 30 mg/kg/j IVSE\n+ Amikacine 25–30 mg/kg IVL 30 min";
+    }
+    return txt;
+  }
+
+  if (o === "Communautaires"){
+    txt = "Céfotaxime 4–6 g/24h IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+    if (p.BLSE) txt += "\nIdem absence de FdR BLSE";
+    if (p.Faecium && p.immunodep) txt += "\nAjout Vancomycine 30 mg/kg/j IVSE uniquement si immunodépression";
+    if (p.Dupont) txt += "\nAjout Caspofungine 70 mg puis 50 mg/j IVL";
+    if (p.Choc) txt = "Pipéracilline-tazobactam 4 g x4/j\n+ Gentamicine 5–8 mg/kg IVL 30 min";
+    if (p.immunodep){
+      const p2 = {...p, origine: "Nosocomiales"};
+      return recoPeritonites(p2);
+    }
+  } else { // Nosocomiales
+    txt = p.BLSE ? "Imipénème 1 g x3/j IVL" : "Pipéracilline-tazobactam 4 g x4/j";
+    if (p.Faecium) txt += "\nAjout Vancomycine 30 mg/kg/j IVSE";
+    if (p.Dupont) txt += "\nAjout Caspofungine 70 mg puis 50 mg/j IVL";
+    if (p.Choc) txt += "\nAjout Amikacine 25–30 mg/kg IVL + Vancomycine 30 mg/kg/j IVSE";
+  }
+  return txt;
+}
+
+// 4) Cas particuliers
+function recoCasParticuliers(p){
+  let txt = "";
+  const o = p.origine;
+
+  if (p.SousType === "Infection de liquide d’ascite"){
+    if (o === "Communautaires"){
+      txt = "Drainage percutané de l’ascite\n+ Céfotaxime 1 g x4–6/24h IVL\n+ Albumine 1,5 g/kg J1 puis 1 g/kg J3";
+      if (sepsisOuChoc(p)) txt += "\nSi choc septique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+    } else {
+      txt = "Drainage percutané de l’ascite\n+ Pipéracilline-tazobactam 4 g x4/j\n+ Albumine 1,5 g/kg J1 puis 1 g/kg J3";
+      if (sepsisOuChoc(p)) txt += "\nSi choc septique : Ajout Amikacine 25–30 mg/kg IVL 30 min";
+    }
+  } else if (p.SousType === "Perforation œsophagienne (dont syndrome de Boerhaave)"){
+    if (o === "Communautaires"){
+      txt = "Ceftriaxone 1 g x2/24h IVL\n+ Métronidazole 500 mg x3/j IVL/PO";
+      if (sepsisOuChoc(p)) txt += "\nSi choc septique : Ajout Gentamicine 5–8 mg/kg IVL 30 min et Caspofungine 70 mg puis 50 mg/j IVL";
+    } else {
+      txt = "Pipéracilline-tazobactam 4 g x4/j";
+      if (sepsisOuChoc(p)) txt += "\nSi choc septique : Ajout Amikacine 25–30 mg/kg IVL 30 min et Caspofungine 70 mg puis 50 mg/j IVL";
+    }
+  }
+  return txt;
+}
+
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
