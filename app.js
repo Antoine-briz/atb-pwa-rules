@@ -803,5 +803,6 @@ function renderDureesForm(){
 }
 
 function renderNotFound(){
-  $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
+$app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
+
 }
