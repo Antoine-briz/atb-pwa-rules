@@ -160,22 +160,22 @@ function renderProbaIUForm(){
         <label><input type="checkbox" name="choc"> Choc septique</label>
       </fieldset>
 
-      <fieldset>
-        <legend>Facteurs de risque</legend>
-        <div class="row">
-          <label><input type="checkbox" name="blse6m"> BLSE/portage &lt; 6 mois</label>
-          <label><input type="checkbox" name="blseFdr"> Autre FdR BLSE</label>
-          <label><input type="checkbox" name="immuno"> Immunodépression</label>
-        </div>
-      </fieldset>
+     <fieldset>
+  <legend>Facteurs de risque microbiologiques</legend>
+  <div class="row">
+    <label><input type="checkbox" name="BLSE_6mois"> Infection/portage BLSE &lt; 6 mois</label>
+    <label><input type="checkbox" name="BLSE_autre"> Autre FdR de BLSE</label>
+    <label><input type="checkbox" name="CocciGramPos"> Cocci Gram+ (examen direct)</label>
+  </div>
+</fieldset>
 
-      <fieldset>
-        <legend>Terrain / Allergies / Examen direct</legend>
-        <div class="row">
-          <label><input type="checkbox" name="allergie"> Allergie sévère β-lactamines</label>
-          <label><input type="checkbox" name="gramPos"> Cocci Gram + (examen direct)</label>
-        </div>
-      </fieldset>
+<fieldset>
+  <legend>Facteurs liés au patient</legend>
+  <div class="row">
+    <label><input type="checkbox" name="immunodep"> Immunodépression</label>
+    <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
+  </div>
+</fieldset>
 
       <fieldset>
         <legend>Cas particulier</legend>
