@@ -8,6 +8,7 @@ const routes = {
   "#/proba": renderProbaMenu,
   "#/proba/pneumonies": renderProbaPneumonieForm,
   "#/proba/iu": renderProbaIUForm,
+  "#/proba/abdo": renderProbaAbdoForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
