@@ -160,37 +160,22 @@ function renderProbaIUForm(){
         <label><input type="checkbox" name="choc"> Choc septique</label>
       </fieldset>
 
-<fieldset>
-  <legend>Facteurs de risque microbiologiques</legend>
-  <div class="row">
-    <label><input type="checkbox" name="BLSE_6mois"> Infection/portage BLSE &lt; 6 mois</label>
-    <label><input type="checkbox" name="BLSE_autre"> Autre FdR de BLSE</label>
-    <label><input type="checkbox" name="CocciGramPos"> Cocci Gram+ (examen direct)</label>
-  </div>
-</fieldset>
+      <fieldset>
+        <legend>Facteurs de risque</legend>
+        <div class="row">
+          <label><input type="checkbox" name="blse6m"> BLSE/portage &lt; 6 mois</label>
+          <label><input type="checkbox" name="blseFdr"> Autre FdR BLSE</label>
+          <label><input type="checkbox" name="immuno"> Immunodépression</label>
+        </div>
+      </fieldset>
 
-<fieldset>
-  <legend>Facteurs liés au patient</legend>
-  <div class="row">
-    <label><input type="checkbox" name="immunodep"> Immunodépression</label>
-    <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Cas particulier</legend>
-  <div class="row">
-    <label><input type="checkbox" name="pyeEmphy"> Pyélonéphrite emphysémateuse</label>
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Gravité</legend>
-  <div class="row">
-    <label><input type="checkbox" name="sepsis"> Sepsis</label>
-    <label><input type="checkbox" name="choc"> Choc septique</label>
-  </div>
-</fieldset>
+      <fieldset>
+        <legend>Terrain / Allergies / Examen direct</legend>
+        <div class="row">
+          <label><input type="checkbox" name="allergie"> Allergie sévère β-lactamines</label>
+          <label><input type="checkbox" name="gramPos"> Cocci Gram + (examen direct)</label>
+        </div>
+      </fieldset>
 
       <fieldset>
         <legend>Cas particulier</legend>
@@ -205,54 +190,45 @@ function renderProbaIUForm(){
     </form>
   `;
 
-document.getElementById("btnIU").addEventListener("click", () => {
-  const fd = new FormData(document.getElementById("formIU"));
-  const p = {
-    // champs radios
-    origine: fd.get("origine") || "Communautaire",
-
-    // Facteurs de risque microbiologiques
-    BLSE_6mois: !!fd.get("BLSE_6mois"),
-    BLSE_autre: !!fd.get("BLSE_autre"),
-    CocciGramPos: !!fd.get("CocciGramPos"),
-
-    // Facteurs liés au patient
-    immunodep: !!fd.get("immunodep"),
-    allergieBL: !!fd.get("allergieBL"),
-
-    // Cas particulier
-    pyeEmphy: !!fd.get("pyeEmphy"),
-
-    // Gravité
-    sepsis: !!fd.get("sepsis"),
-    choc: !!fd.get("choc")
-  };
-
-  const out = decideIU(p);
-  document.getElementById("resIU").textContent =
-    out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-});
-
+  document.getElementById("btnIU").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formIU"));
+    const params = {
+      origine: fd.get("origine") || "Communautaire",
+      qsofa2: !!fd.get("qsofa2"),
+      gesteUrg: !!fd.get("gesteUrg"),
+      choc: !!fd.get("choc"),
+      blse6m: !!fd.get("blse6m"),
+      blseFdr: !!fd.get("blseFdr"),
+      immuno: !!fd.get("immuno"),
+      allergie: !!fd.get("allergie"),
+      gramPos: !!fd.get("gramPos"),
+      pnaEmphy: !!fd.get("pnaEmphy")
+    };
+    const out = decideIU(params);
+    document.getElementById("resIU").textContent = out +
+      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
+  });
+}
 
 // ——— Transposition stricte de ta macro VBA (IU_GenerateResult) ———
 function decideIU(p){
-  // Gravité (nouveaux champs)
+  // Gravité
   let gravite = "Sans signe de gravité";
   if (p.choc) gravite = "Choc septique";
-  else if (p.sepsis) gravite = "Signes de gravité sans choc (sepsis)";
+  else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
 
-  const fdrBLSE = (p.BLSE_6mois || p.BLSE_autre);
+  const fdrBLSE = (p.blse6m || p.blseFdr);
   let res = "", notes = "";
 
-  // 1) Cas particulier prioritaire
-  if (p.pyeEmphy){
+  // Cas particuliers prioritaires
+  if (p.pnaEmphy){
     res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
-          "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; Germes : entérobactéries (E. coli ~70%).";
+          "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; TDM : gaz intra-rénal ; Germes : entérobactéries (E. coli ~70%).\n" +
+          "Remarque : exceptionnellement nosocomiale.";
     return wrapIU(p, gravite, res, notes);
   }
 
-  // 2) Allergie sévère β-lactamines (prioritaire)
-  if (p.allergieBL){
+  if (p.allergie){
     if (p.origine === "Communautaire"){
       if (p.choc){
         res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -260,14 +236,13 @@ function decideIU(p){
         res = "Aztréonam 1 g x4/j IVL OU Amikacine 25–30 mg/kg IVL sur 30 min.\n" +
               "Si choc septique : associer Aztréonam + Amikacine.";
       }
-    } else { // Nosocomiale
+    } else {
       res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
     }
     return wrapIU(p, gravite, res, notes);
   }
 
-  // 3) Examen direct cocci Gram+ (prioritaire)
-  if (p.CocciGramPos){
+  if (p.gramPos){
     if (p.origine === "Communautaire"){
       res = "Amoxicilline-acide clavulanique 1 g x3/j" + (p.choc ? " (+ Gentamicine si choc septique)." : ".");
     } else {
@@ -276,13 +251,13 @@ function decideIU(p){
     return wrapIU(p, gravite, res, notes);
   }
 
-  // 4) Tronc commun (selon origine + gravité + FdR BLSE)
+  // Tronc commun
   if (p.origine === "Communautaire"){
     if (gravite === "Sans signe de gravité"){
       res = "Céfotaxime 1 g x4–6/24h IVL.";
       if (fdrBLSE) notes = "Note : pas de couverture BLSE même en cas de facteur de risque.";
     } else if (gravite.startsWith("Signes de gravité")){
-      if (p.BLSE_6mois){
+      if (p.blse6m){
         res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
       } else {
         res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -294,10 +269,11 @@ function decideIU(p){
         res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
       }
     }
-    if (p.immunodep && gravite === "Sans signe de gravité"){
+    if (p.immuno && gravite === "Sans signe de gravité"){
       notes = (notes ? notes + "\n" : "") + 'Remarque : "patient immunodéprimé ou non" ? même schéma.';
     }
-  } else { // Nosocomiale
+  } else {
+    // Nosocomiale
     if (gravite === "Sans signe de gravité"){
       if (fdrBLSE){
         res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -306,7 +282,7 @@ function decideIU(p){
         res = "Pipéracilline-tazobactam 4 g x4/j.";
       }
     } else if (gravite.startsWith("Signes de gravité")){
-      if (p.BLSE_6mois){
+      if (p.blse6m){
         res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
       } else {
         res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -325,15 +301,15 @@ function decideIU(p){
 
 function wrapIU(p, gravite, res, notes){
   const lignes = [];
-  if (p.immunodep)   lignes.push("Critère : immunodépression cochée");
-  if (p.BLSE_6mois)  lignes.push("Critère : infection/portage BLSE < 6 mois");
-  if (p.BLSE_autre)  lignes.push("Critère : autre facteur de risque de BLSE");
-  if (p.CocciGramPos)lignes.push("Critère : cocci Gram+ à l’examen direct");
-  if (p.pyeEmphy)    lignes.push("Critère : pyélonéphrite emphysémateuse");
-  if (p.allergieBL)  lignes.push("Critère : allergie sévère aux ß-lactamines");
+  if (p.immuno)   lignes.push("Critère : immunodépression cochée");
+  if (p.blse6m)   lignes.push("Critère : infection/portage BLSE < 6 mois");
+  if (p.blseFdr)  lignes.push("Critère : autre facteur de risque de BLSE");
+  if (p.gramPos)  lignes.push("Critère : cocci Gram+ à l’examen direct");
+  if (p.pnaEmphy) lignes.push("Critère : PNA emphysémateuse");
+  if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
 
   return [
-    "IU en réanimation — Décision",
+    "IU en réanimation — Décision (selon le tableau fourni)",
     "Origine : " + p.origine,
     "Gravité : " + gravite,
     (lignes.length ? lignes.join("\n") : null),
@@ -374,31 +350,19 @@ function renderProbaAbdoForm(){
         <select id="cboSousType"></select>
       </fieldset>
 
-<fieldset>
-  <legend>Facteurs de risque microbiologiques</legend>
-  <div class="row">
-    <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
-    <label><input type="checkbox" name="Faecium"> FdR <em>E. faecium</em></label>
-    <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
-    <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire</label>
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Gravité</legend>
-  <div class="row">
-    <label><input type="checkbox" name="Sepsis"> Sepsis</label>
-    <label><input type="checkbox" name="Choc"> Choc septique</label>
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Facteurs liés au patient</legend>
-  <div class="row">
-    <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
-    <label><input type="checkbox" name="immunodep"> Immunodépression</label>
-  </div>
-</fieldset>
+      <fieldset>
+        <legend>Critères</legend>
+        <div class="row">
+          <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
+          <label><input type="checkbox" name="Faecium"> Risque <em>E. faecium</em></label>
+          <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
+          <label><input type="checkbox" name="Sepsis"> Sepsis</label>
+          <label><input type="checkbox" name="Choc"> Choc septique</label>
+          <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire (biliaire)</label>
+          <label><input type="checkbox" name="allergieBL"> Allergie sévère β-lactamines</label>
+          <label><input type="checkbox" name="immunodep"> Immunodépression</label>
+        </div>
+      </fieldset>
 
       <div class="actions">
         <button type="button" class="btn" id="btnAbdo">Antibiothérapie probabiliste recommandée</button>
