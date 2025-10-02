@@ -1,27 +1,14 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
-
-const CACHE_NAME = "atb-rules-v5"; // <- incrémente la version
-
+const CACHE_NAME = "atb-rules-v10"; // <-- nouvelle version
+// ...
 const PRECACHE = [
-  "./",
-  "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./rules.js",
-  "./data/rules.json",
-  "./manifest.webmanifest",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./img/bandeau.png",
-  "./img/proba.png",
-  "./img/adaptee.png",
-  "./img/duree.png",
-  "./img/pneumonie.png",
-  "./img/urinaire.png"
-  "./img/abdo.png"
-  "./img/neuro.png" //
+  "./", "./index.html", "./styles.css", "./app.js", "./rules.js",
+  "./data/rules.json", "./manifest.webmanifest",
+  "./icons/icon-192.png", "./icons/icon-512.png",
+  "./img/bandeau.png","./img/proba.png","./img/adaptee.png","./img/duree.png",
+  "./img/pneumonie.png","./img/urinaire.png","./img/abdo.png",
+  "./img/neuro.png" // <-- ajout
 ];
-
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
