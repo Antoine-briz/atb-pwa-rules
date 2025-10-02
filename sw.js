@@ -12,7 +12,12 @@ const PRECACHE = [
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./img/bandeau.png"          // <-- ajoute ton image ici
+  "./img/bandeau.png",
+  "./img/proba.png",
+  "./img/adaptee.png",
+  "./img/duree.png",
+  "./img/pneumonie.png",
+  "./img/urinaire.png"   // <-- ajout
 ];
 
 
