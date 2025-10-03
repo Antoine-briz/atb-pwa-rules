@@ -218,7 +218,7 @@ function decideIU(p){
   if (p.choc) gravite = "Choc septique";
   else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
 
-  const fdrBLSE = (p.blse6m || p.blseFdr);
+  const fdrBLSE = (p.blse || p.autreFdrBlse); // Vérification des facteurs de risque BLSE
   let res = "", notes = "";
 
   // Cas particuliers prioritaires
@@ -229,7 +229,7 @@ function decideIU(p){
     return wrapIU(p, gravite, res, notes);
   }
 
-  if (p.allergie){
+  if (p.allergieBL){
     if (p.origine === "Communautaire"){
       if (p.choc){
         res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -243,7 +243,7 @@ function decideIU(p){
     return wrapIU(p, gravite, res, notes);
   }
 
-  if (p.gramPos){
+  if (p.cocciGramPlus){
     if (p.origine === "Communautaire"){
       res = "Amoxicilline-acide clavulanique 1 g x3/j" + (p.choc ? " (+ Gentamicine si choc septique)." : ".");
     } else {
@@ -258,7 +258,7 @@ function decideIU(p){
       res = "Céfotaxime 1 g x4–6/24h IVL.";
       if (fdrBLSE) notes = "Note : pas de couverture BLSE même en cas de facteur de risque.";
     } else if (gravite.startsWith("Signes de gravité")){
-      if (p.blse6m){
+      if (p.blse){
         res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
       } else {
         res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -283,7 +283,7 @@ function decideIU(p){
         res = "Pipéracilline-tazobactam 4 g x4/j.";
       }
     } else if (gravite.startsWith("Signes de gravité")){
-      if (p.blse6m){
+      if (p.blse){
         res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
       } else {
         res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
@@ -303,8 +303,8 @@ function decideIU(p){
 function wrapIU(p, gravite, res, notes){
   const lignes = [];
   if (p.immuno)   lignes.push("Critère : immunodépression cochée");
-  if (p.blse6m)   lignes.push("Critère : infection/portage BLSE < 6 mois");
-  if (p.blseFdr)  lignes.push("Critère : autre facteur de risque de BLSE");
+  if (p.blse)   lignes.push("Critère : infection/portage BLSE < 6 mois");
+  if (p.autreFdrBlse)  lignes.push("Critère : autre facteur de risque de BLSE");
   if (p.gramPos)  lignes.push("Critère : cocci Gram+ à l’examen direct");
   if (p.pnaEmphy) lignes.push("Critère : PNA emphysémateuse");
   if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
