@@ -11,6 +11,7 @@ const routes = {
   "#/proba/iu": renderProbaIUForm,
   "#/proba/abdo": renderProbaAbdoForm,
   "#/proba/neuro": renderProbaNeuroForm,
+  "#/proba/dermohypo": renderProbaDermohypodermiteForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
@@ -56,7 +57,7 @@ function renderProbaMenu(){
       <button class="btn outline" onclick="location.hash='#/proba/iu'">Infections urinaires</button>
       <button class="btn outline" onclick="location.hash='#/proba/abdo'">Infections intra-abdominales</button>
       <button class="btn outline" onclick="location.hash='#/proba/neuro'">Infections neuro-méningées</button>
-      <button class="btn outline" disabled>Parties molles</button>
+      <button class="btn outline" onclick="location.hash='#/proba/dermohypo'">Infections des parties molles</button>
       <button class="btn outline" disabled>Endocardites infectieuses</button>
       <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
     `)}
@@ -901,6 +902,112 @@ function buildAbces(p){
   return "Abcès cérébral (ATB idéalement après ponction-aspiration si possible) :\n• " + S + addImmuno;
 }
 
+
+function renderProbaDermohypodermiteForm() {
+  // Le formulaire pour les infections des parties molles
+  document.getElementById("btnDermohypodermite").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("dermohypodermiteForm"));
+    const params = {
+      // Type d'infection
+      dhnn: !!fd.get("optDHNN"),
+      necrotizing: !!fd.get("optDHN") || !!fd.get("optFN"),
+
+      // Localisation
+      membres: !!fd.get("optMembres"),
+      cervico: !!fd.get("optCervico"),
+      abdomino: !!fd.get("optAbdomino"),
+
+      // Facteurs de risque
+      allAllergy: !!fd.get("chkAllergieLeft"),
+      fdrSarm: !!fd.get("chkFDR_SARM_Left"),
+      fdrBLSE: !!fd.get("chkFDR_BLSE"),
+
+      // Autres critères
+      morsure: !!fd.get("chkMorsure"),
+      cath: !!fd.get("chkCath")
+    };
+
+    // Affichage des données dans la console pour vérification
+    console.log("Params envoyés à decideIU:", params);
+
+    // Appel à la fonction decideDermohypodermite avec les bons paramètres
+    const result = decideDermohypodermite(params);
+
+    // Affichage du résultat
+    document.getElementById("resDermohypodermite").textContent = result;
+  });
+}
+
+// 2. Logique dans decideDermohypodermite pour gérer les infections des parties molles
+function decideDermohypodermite(p) {
+  let gravite = "Sans signe de gravité";
+  if (p.choc) gravite = "Choc septique";
+  else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
+
+  const fdrBLSE = (p.blse6m || p.blseFdr);
+  let res = "", notes = "";
+
+  // Traitement pour les Dermohypodermites non nécrosantes
+  if (p.dhnn) {
+    res = "Dermohypodermite bactérienne non nécrosante (DHBNN)\n";
+    if (p.allAllergy) {
+      res += "• Allergie ß-lactamines : Pristinamycine 1 g x3/j ou Clindamycine 600 mg x3/j IV/PO.\n";
+    } else if (p.morsure) {
+      res += "• Morsure : Amoxicilline–acide clavulanique 4–6 g/j IVL.\n";
+    } else {
+      res += "• Référence : Amoxicilline 4–6 g/j IVL.\n";
+    }
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  // Traitement pour infections nécrosantes (nosocomiales et communautaires)
+  if (p.necrotizing) {
+    let loc = p.membres ? "Membres" : p.cervico ? "Cervico-faciales" : "Abdomino-périnéales";
+    res = "Infection nécrosante communautaire – Localisation : " + loc + "\n";
+
+    if (p.allAllergy) {
+      res += "• Ciprofloxacine 750 mg x2/j IVL/PO + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.\n";
+    } else {
+      if (p.fdrBLSE) {
+        res += "• Méropénème 4–6 g/j IVL.\n";
+      } else {
+        res += "• Pipéracilline–tazobactam 4 g x4/j IVL + Clindamycine 600 mg x3/j (48 h).\n";
+      }
+    }
+    if (p.fdrSarm) {
+      res += "• + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.\n";
+    }
+    if (p.sepsis) {
+      res += "• + Amikacine 25–30 mg/kg IVL 30 min.\n";
+    }
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  // Si aucune condition spécifique n'est remplie, on retourne un message par défaut
+  res = "Veuillez choisir un type d'infection et remplir les critères nécessaires.";
+  return wrapIU(p, gravite, res, notes);
+}
+
+// 3. Fonction wrapIU pour formater et afficher les résultats
+function wrapIU(p, gravite, res, notes) {
+  const lignes = [];
+  if (p.immunodep) lignes.push("Critère : immunodépression cochée");
+  if (p.blse) lignes.push("Critère : BLSE/portage");
+  if (p.autreFdrBlse) lignes.push("Critère : Autre facteur de risque de BLSE");
+  if (p.cocciGramPlus) lignes.push("Critère : Cocci Gram+ à l'examen direct");
+  if (p.allergieBL) lignes.push("Critère : Allergie aux béta-lactamines");
+
+  return [
+    "IU en réanimation — Décision",
+    "Origine : " + p.origine,
+    "Gravité : " + gravite,
+    (lignes.length ? lignes.join("\n") : null),
+    "",
+    "Proposition thérapeutique :",
+    res,
+    (notes ? "\n" + notes : "")
+  ].filter(Boolean).join("\n");
+}
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
