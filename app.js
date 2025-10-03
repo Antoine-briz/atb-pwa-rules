@@ -295,7 +295,7 @@ if (p.origine === "Communautaire") {
   }
 }
 
-return wrapIU(p, gravite, res, notes);
+  return wrapIU(p, gravite, res, notes);
 }
 
 function wrapIU(p, gravite, res, notes) {
