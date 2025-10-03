@@ -906,12 +906,16 @@ function renderProbaDermohypodermiteForm(){
   $app.innerHTML = `
 <!-- Formulaire pour les infections des parties molles -->
 <div id="dermohypodermiteForm">
-  <fieldset>
-    <legend>Type d'infection</legend>
-    <label><input type="checkbox" name="optDHNN" value="DHNN"> Dermohypodermite non nécrosante</label>
-    <label><input type="checkbox" name="optDHN" value="DHN"> Dermohypodermite nécrosante</label>
-    <label><input type="checkbox" name="optFN" value="FN"> Fascite nécrosante</label>
-  </fieldset>
+<div class="illustration">
+  <img src="img/dermohypodermite.png" alt="Infection des parties molles" />
+</div>
+
+<fieldset>
+  <legend>Type d'infection</legend>
+  <label><input type="checkbox" name="optDHNN" value="DHNN"> Dermohypodermite non nécrosante</label>
+  <label><input type="checkbox" name="optDHN" value="DHN"> Dermohypodermite nécrosante</label>
+  <label><input type="checkbox" name="optFN" value="FN"> Fascite nécrosante</label>
+</fieldset>
 
   <fieldset>
     <legend>Localisation de l'infection</legend>
