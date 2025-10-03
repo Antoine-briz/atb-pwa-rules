@@ -902,9 +902,47 @@ function buildAbces(p){
   return "Abcès cérébral (ATB idéalement après ponction-aspiration si possible) :\n• " + S + addImmuno;
 }
 
+function renderProbaDermohypodermiteForm(){
+  $app.innerHTML = `
+<!-- Formulaire pour les infections des parties molles -->
+<div id="dermohypodermiteForm">
+  <fieldset>
+    <legend>Type d'infection</legend>
+    <label><input type="checkbox" name="optDHNN" value="DHNN"> Dermohypodermite non nécrosante</label>
+    <label><input type="checkbox" name="optDHN" value="DHN"> Dermohypodermite nécrosante</label>
+    <label><input type="checkbox" name="optFN" value="FN"> Fascite nécrosante</label>
+  </fieldset>
 
-function renderProbaDermohypodermiteForm() {
-  // Le formulaire pour les infections des parties molles
+  <fieldset>
+    <legend>Localisation de l'infection</legend>
+    <label><input type="checkbox" name="optMembres" value="Membres"> Membres</label>
+    <label><input type="checkbox" name="optCervico" value="Cervico"> Cervico-faciales</label>
+    <label><input type="checkbox" name="optAbdomino" value="Abdomino"> Abdomino-périnéales</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Facteurs de risque</legend>
+    <label><input type="checkbox" name="chkAllergieLeft" value="Allergie"> Allergie aux béta-lactamines</label>
+    <label><input type="checkbox" name="chkFDR_SARM_Left" value="SARM"> Facteur de risque SARM</label>
+    <label><input type="checkbox" name="chkFDR_BLSE" value="BLSE"> Facteur de risque BLSE</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Autres critères</legend>
+    <label><input type="checkbox" name="chkMorsure" value="Morsure"> Morsure</label>
+    <label><input type="checkbox" name="chkCath" value="Cath"> Point de départ cathéter</label>
+  </fieldset>
+
+  <div class="actions">
+    <button type="button" class="btn" id="btnDermohypodermite">Antibiothérapie probabiliste recommandée</button>
+    <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+  </div>
+
+  <div id="resDermohypodermite" class="result"></div>
+</div>
+ </form>
+  `;
+
   document.getElementById("btnDermohypodermite").addEventListener("click", () => {
     const fd = new FormData(document.getElementById("dermohypodermiteForm"));
     const params = {
@@ -1007,7 +1045,6 @@ function wrapDermohypodermite(p, res, notes) {
     (notes ? "\n" + notes : "")
   ].filter(Boolean).join("\n");
 }
-
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
