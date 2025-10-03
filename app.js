@@ -148,9 +148,13 @@ function renderProbaIUForm(){
       <img src="./img/urinaire.png" alt="Infections urinaires" class="form-hero">
     </div>
 
-   <form id="formIU" class="form">
-  <div class="row">
-    <!-- Signes de gravité -->
+    <form id="formIU" class="form">
+      <fieldset>
+        <legend>Lieu de survenue</legend>
+        <label><input type="radio" name="origine" value="Communautaire" checked> Communautaire</label>
+        <label><input type="radio" name="origine" value="Nosocomiale"> Nosocomiale</label>
+      </fieldset>
+      
     <fieldset>
       <legend>Signes de gravité</legend>
       <label><input type="checkbox" name="qsofa2"> Q-SOFA ≥ 2</label>
