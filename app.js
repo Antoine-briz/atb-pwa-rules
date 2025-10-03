@@ -296,7 +296,7 @@ if (p.origine === "Communautaire") {
 }
 
 return wrapIU(p, gravite, res, notes);
-
+}
 
 function wrapIU(p, gravite, res, notes) {
   const lignes = [];
@@ -317,6 +317,7 @@ function wrapIU(p, gravite, res, notes) {
     (notes ? "\n" + notes : "")
   ].filter(Boolean).join("\n");
 }
+
 
 function renderProbaAbdoForm(){
   $app.innerHTML = `
