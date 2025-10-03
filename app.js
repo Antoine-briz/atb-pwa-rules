@@ -217,8 +217,11 @@ function decideIU(p) {
 
   let res = "", notes = "";
 
+  // Définition de fdrBLSE (facteur de risque BLSE)
+  let fdrBLSE = p.blse === "BLSE/portage" || p.autreFdrBlse === "Autre FdR BLSE";
+
   // --- Cas particulier BLSE (portage < 6 mois ou autre FdR) ---
-  if (p.blse === "BLSE/portage" || p.autreFdrBlse === "Autre FdR BLSE") {
+  if (fdrBLSE) {
     res = "Aztréonam 1 g x4/j IVL ou Amikacine 25–30 mg/kg IVL sur 30 min.";
     if (p.allergieBL) {
       notes = "Attention : allergie aux béta-lactamines, utiliser Aztréonam ou autres alternatives.";
@@ -247,55 +250,53 @@ function decideIU(p) {
   return wrapIU(p, gravite, res, notes);
 }
 
-
-  
-  // Tronc commun
-  if (p.origine === "Communautaire"){
-    if (gravite === "Sans signe de gravité"){
-      res = "Céfotaxime 1 g x4–6/24h IVL.";
-      if (fdrBLSE) notes = "Note : pas de couverture BLSE même en cas de facteur de risque.";
-    } else if (gravite.startsWith("Signes de gravité")){
-      if (p.blse6m){
-        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      } else {
-        res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      }
-    } else { // Choc
-      if (fdrBLSE){
-        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      } else {
-        res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      }
+// --- Tronc commun ---
+if (p.origine === "Communautaire") {
+  if (gravite === "Sans signe de gravité") {
+    res = "Céfotaxime 1 g x4–6/24h IVL.";
+    if (fdrBLSE) notes = "Note : pas de couverture BLSE même en cas de facteur de risque.";
+  } else if (gravite.startsWith("Signes de gravité")) {
+    if (p.blse6m) {
+      res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    } else {
+      res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
     }
-    if (p.immuno && gravite === "Sans signe de gravité"){
-      notes = (notes ? notes + "\n" : "") + 'Remarque : "patient immunodéprimé ou non" ? même schéma.';
-    }
-  } else {
-    // Nosocomiale
-    if (gravite === "Sans signe de gravité"){
-      if (fdrBLSE){
-        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
-        notes = "Éviter les carbapénèmes en probabiliste.";
-      } else {
-        res = "Pipéracilline-tazobactam 4 g x4/j.";
-      }
-    } else if (gravite.startsWith("Signes de gravité")){
-      if (p.blse6m){
-        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      } else {
-        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      }
-    } else { // Choc
-      if (fdrBLSE){
-        res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      } else {
-        res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      }
+  } else { // Choc
+    if (fdrBLSE) {
+      res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    } else {
+      res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
     }
   }
-
-  return wrapIU(p, gravite, res, notes);
+  if (p.immuno && gravite === "Sans signe de gravité") {
+    notes = (notes ? notes + "\n" : "") + 'Remarque : "patient immunodéprimé ou non" ? même schéma.';
+  }
+} else {
+  // Nosocomiale
+  if (gravite === "Sans signe de gravité") {
+    if (fdrBLSE) {
+      res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+      notes = "Éviter les carbapénèmes en probabiliste.";
+    } else {
+      res = "Pipéracilline-tazobactam 4 g x4/j.";
+    }
+  } else if (gravite.startsWith("Signes de gravité")) {
+    if (p.blse6m) {
+      res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    } else {
+      res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    }
+  } else { // Choc
+    if (fdrBLSE) {
+      res = "Méropénème 4–6 g/24h IVL OU Imipénème 1 g x3/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    } else {
+      res = "Pipéracilline-tazobactam 4 g x4/j + Amikacine 25–30 mg/kg IVL sur 30 min.";
+    }
+  }
 }
+
+return wrapIU(p, gravite, res, notes);
+
 
 function wrapIU(p, gravite, res, notes) {
   const lignes = [];
