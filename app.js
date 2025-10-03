@@ -210,46 +210,45 @@ function renderProbaIUForm(){
 }
 
 // ——— Transposition stricte de ta macro VBA (IU_GenerateResult) ———
-function decideIU(p){
-  // Gravité
+function decideIU(p) {
   let gravite = "Sans signe de gravité";
   if (p.choc) gravite = "Choc septique";
-  else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
+  else if (p.sepsis) gravite = "Signes de gravité sans choc (sepsis)";
 
-  const fdrBLSE = (p.blse6m || p.blseFdr);
   let res = "", notes = "";
 
-  // Cas particuliers prioritaires
-  if (p.pnaEmphy){
-    res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
-          "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; TDM : gaz intra-rénal ; Germes : entérobactéries (E. coli ~70%).\n" +
-          "Remarque : exceptionnellement nosocomiale.";
-    return wrapIU(p, gravite, res, notes);
-  }
-
-  if (p.allergie){
-    if (p.origine === "Communautaire"){
-      if (p.choc){
-        res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
-      } else {
-        res = "Aztréonam 1 g x4/j IVL OU Amikacine 25–30 mg/kg IVL sur 30 min.\n" +
-              "Si choc septique : associer Aztréonam + Amikacine.";
-      }
-    } else {
-      res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min.";
+  // --- Cas particulier BLSE (portage < 6 mois ou autre FdR) ---
+  if (p.blse === "BLSE/portage" || p.autreFdrBlse === "Autre FdR BLSE") {
+    res = "Aztréonam 1 g x4/j IVL ou Amikacine 25–30 mg/kg IVL sur 30 min.";
+    if (p.allergieBL) {
+      notes = "Attention : allergie aux béta-lactamines, utiliser Aztréonam ou autres alternatives.";
     }
     return wrapIU(p, gravite, res, notes);
   }
 
-  if (p.gramPos){
-    if (p.origine === "Communautaire"){
-      res = "Amoxicilline-acide clavulanique 1 g x3/j" + (p.choc ? " (+ Gentamicine si choc septique)." : ".");
-    } else {
-      res = "Pipéracilline-tazobactam 4 g x4/j" + (p.choc ? " (+ Vancomycine si choc) (+ Gentamicine si choc)." : ".");
+  // --- Cas d'allergie aux béta-lactamines ---
+  if (p.allergieBL) {
+    res = "Ciprofloxacine 800 mg x2/j IVL ou Amikacine 25–30 mg/kg IVL sur 30 min.";
+    notes = "Attention : patient allergique aux béta-lactamines.";
+    return wrapIU(p, gravite, res, notes);
+  }
+
+  // --- Cas des autres facteurs de risque (Cocci Gram +, etc.) ---
+  if (p.cocciGramPlus) {
+    res = "Ciprofloxacine 750 mg x2/j IVL";
+    if (sepsisOuChoc(p)) {
+      res += " + Vancomycine 30 mg/kg IVL";
     }
     return wrapIU(p, gravite, res, notes);
   }
 
+  // Si aucune des conditions spécifiques n'est remplie, retour à une antibiotothérapie générale
+  res = "Ciprofloxacine 750 mg x2/j IVL";
+  return wrapIU(p, gravite, res, notes);
+}
+
+
+  
   // Tronc commun
   if (p.origine === "Communautaire"){
     if (gravite === "Sans signe de gravité"){
