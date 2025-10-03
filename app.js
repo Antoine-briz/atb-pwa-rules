@@ -222,12 +222,20 @@ function decideIU(p){
   let res = "", notes = "";
 
   // Cas particuliers prioritaires
-  if (p.pnaEmphy){
+ if (p.pnaEmphy) {
+  if (p.allergieBL) {
+    // Si PNA emphysémateuse et allergie aux béta-lactamines
+    res = "Aztréonam 1 g x4/j IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
+          "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; TDM : gaz intra-rénal ; Germes : entérobactéries (E. coli ~70%).\n" +
+          "Remarque : exceptionnellement nosocomiale.";
+  } else {
+    // Si uniquement PNA emphysémateuse sans allergie
     res = "Céfotaxime 1 g x4–6/24h IVL + Amikacine 25–30 mg/kg IVL sur 30 min + levée de l’obstacle.\n" +
           "PNA emphysémateuse — FdR : diabète, obstacle des voies urinaires ; TDM : gaz intra-rénal ; Germes : entérobactéries (E. coli ~70%).\n" +
           "Remarque : exceptionnellement nosocomiale.";
-    return wrapIU(p, gravite, res, notes);
   }
+  return wrapIU(p, gravite, res, notes);
+}
 
   if (p.allergieBL){
     if (p.origine === "Communautaire"){
