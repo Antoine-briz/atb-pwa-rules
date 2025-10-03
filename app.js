@@ -297,17 +297,16 @@ function decideIU(p) {
   return wrapIU(p, gravite, res, notes);
 }
 
-function wrapIU(p, gravite, res, notes){
+function wrapIU(p, gravite, res, notes) {
   const lignes = [];
-  if (p.immuno)   lignes.push("Critère : immunodépression cochée");
-  if (p.blse6m)   lignes.push("Critère : infection/portage BLSE < 6 mois");
-  if (p.blseFdr)  lignes.push("Critère : autre facteur de risque de BLSE");
-  if (p.gramPos)  lignes.push("Critère : cocci Gram+ à l’examen direct");
-  if (p.pnaEmphy) lignes.push("Critère : PNA emphysémateuse");
-  if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
+  if (p.immunodep)   lignes.push("Critère : immunodépression cochée");
+  if (p.BLSE_6mois)  lignes.push("Critère : infection/portage BLSE < 6 mois");
+  if (p.BLSE_autre)  lignes.push("Critère : autre facteur de risque de BLSE");
+  if (p.CocciGramPos)lignes.push("Critère : cocci Gram+ à l’examen direct");
+  if (p.allergieBL)  lignes.push("Critère : allergie aux béta-lactamines");
 
   return [
-    "IU en réanimation — Décision (selon le tableau fourni)",
+    "IU en réanimation — Décision",
     "Origine : " + p.origine,
     "Gravité : " + gravite,
     (lignes.length ? lignes.join("\n") : null),
