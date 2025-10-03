@@ -928,7 +928,7 @@ function renderProbaDermohypodermiteForm() {
     };
 
     // Affichage des données dans la console pour vérification
-    console.log("Params envoyés à decideIU:", params);
+    console.log("Params envoyés à decideDermohypodermite:", params);
 
     // Appel à la fonction decideDermohypodermite avec les bons paramètres
     const result = decideDermohypodermite(params);
@@ -944,7 +944,6 @@ function decideDermohypodermite(p) {
   if (p.choc) gravite = "Choc septique";
   else if (p.qsofa2 || p.gesteUrg) gravite = "Signes de gravité sans choc (Q-SOFA = 2 et/ou geste urologique urgent)";
 
-  const fdrBLSE = (p.blse6m || p.blseFdr);
   let res = "", notes = "";
 
   // Traitement pour les Dermohypodermites non nécrosantes
@@ -957,7 +956,7 @@ function decideDermohypodermite(p) {
     } else {
       res += "• Référence : Amoxicilline 4–6 g/j IVL.\n";
     }
-    return wrapIU(p, gravite, res, notes);
+    return wrapDermohypodermite(p, res, notes);
   }
 
   // Traitement pour infections nécrosantes (nosocomiales et communautaires)
@@ -980,27 +979,27 @@ function decideDermohypodermite(p) {
     if (p.sepsis) {
       res += "• + Amikacine 25–30 mg/kg IVL 30 min.\n";
     }
-    return wrapIU(p, gravite, res, notes);
+    return wrapDermohypodermite(p, res, notes);
   }
 
   // Si aucune condition spécifique n'est remplie, on retourne un message par défaut
   res = "Veuillez choisir un type d'infection et remplir les critères nécessaires.";
-  return wrapIU(p, gravite, res, notes);
+  return wrapDermohypodermite(p, res, notes);
 }
 
-// 3. Fonction wrapIU pour formater et afficher les résultats
-function wrapIU(p, gravite, res, notes) {
+// 3. Fonction wrapDermohypodermite pour formater et afficher les résultats
+function wrapDermohypodermite(p, res, notes) {
   const lignes = [];
-  if (p.immunodep) lignes.push("Critère : immunodépression cochée");
-  if (p.blse) lignes.push("Critère : BLSE/portage");
-  if (p.autreFdrBlse) lignes.push("Critère : Autre facteur de risque de BLSE");
-  if (p.cocciGramPlus) lignes.push("Critère : Cocci Gram+ à l'examen direct");
-  if (p.allergieBL) lignes.push("Critère : Allergie aux béta-lactamines");
+  if (p.allAllergy) lignes.push("Critère : Allergie aux béta-lactamines");
+  if (p.fdrSarm) lignes.push("Critère : Facteur de risque SARM");
+  if (p.fdrBLSE) lignes.push("Critère : Facteur de risque BLSE");
+  if (p.morsure) lignes.push("Critère : Morsure");
+  if (p.cath) lignes.push("Critère : Point de départ cathéter");
 
   return [
-    "IU en réanimation — Décision",
-    "Origine : " + p.origine,
-    "Gravité : " + gravite,
+    "Infection des parties molles — Décision",
+    "Type d'infection : " + (p.dhnn ? "Non nécrosante" : "Nécrosante"),
+    "Localisation : " + (p.membres ? "Membres" : p.cervico ? "Cervico-faciales" : "Abdomino-périnéales"),
     (lignes.length ? lignes.join("\n") : null),
     "",
     "Proposition thérapeutique :",
@@ -1008,6 +1007,7 @@ function wrapIU(p, gravite, res, notes) {
     (notes ? "\n" + notes : "")
   ].filter(Boolean).join("\n");
 }
+
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
