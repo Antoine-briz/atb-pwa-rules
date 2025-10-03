@@ -181,7 +181,7 @@ function renderProbaIUForm(){
   </div>
 
   <div class="actions">
-    <button type="button" class="btn" id="btnResult">Décision</button>
+    <button type="button" class="btn" id="btnIU">Antibiothérapie probabiliste recommandée</button>
     <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
   </div>
   <div id="resIU" class="result"></div>
@@ -306,7 +306,7 @@ function wrapIU(p, gravite, res, notes){
   if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
 
   return [
-    "IU en réanimation — Décision (selon le tableau fourni)",
+    "IU en réanimation — Antibiothérapie probabiliste recommandée (selon le tableau fourni)",
     "Origine : " + p.origine,
     "Gravité : " + gravite,
     (lignes.length ? lignes.join("\n") : null),
