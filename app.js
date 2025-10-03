@@ -10,6 +10,7 @@ const routes = {
   "#/proba/pneumonies": renderProbaPneumonieForm,
   "#/proba/iu": renderProbaIUForm,
   "#/proba/abdo": renderProbaAbdoForm,
+  "#/proba/neuro": renderProbaNeuroForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
@@ -54,7 +55,7 @@ function renderProbaMenu(){
       <button class="btn outline" onclick="location.hash='#/proba/pneumonies'">Pneumonies</button>
       <button class="btn outline" onclick="location.hash='#/proba/iu'">Infections urinaires</button>
       <button class="btn outline" onclick="location.hash='#/proba/abdo'">Infections intra-abdominales</button>
-      <button class="btn outline" disabled>Infections neuro-méningées</button>
+      <button class="btn outline" onclick="location.hash='#/proba/neuro'">Infections neuro-méningées</button>
       <button class="btn outline" disabled>Parties molles</button>
       <button class="btn outline" disabled>Endocardites infectieuses</button>
       <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
@@ -624,6 +625,260 @@ function recoCasParticuliers(p){
     }
   }
   return txt;
+}
+
+function renderProbaNeuroForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Infections neuro-méningées — caractéristiques</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/neuro.png" alt="Infections neuro-méningées" class="form-hero">
+    </div>
+
+    <form id="formNeuro" class="form">
+      <fieldset>
+        <legend>Allergie aux β-lactamines</legend>
+        <label><input type="radio" name="allergie" value="non" checked> Non</label>
+        <label><input type="radio" name="allergie" value="oui"> Oui</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Type d’infection</legend>
+        <label><input type="radio" name="type" value="meningite" checked> Méningite purulente</label>
+        <label><input type="radio" name="type" value="me"> Méningo-encéphalite</label>
+        <label><input type="radio" name="type" value="abces"> Abcès cérébral</label>
+      </fieldset>
+
+      <!-- Bloc MÉNINGITE -->
+      <fieldset id="blocMeningite">
+        <legend>Méningite — Examen direct du LCS</legend>
+        <label><input type="radio" name="edi" value="non" checked> Non</label>
+        <label><input type="radio" name="edi" value="oui"> Oui</label>
+
+        <div id="ediSelect" class="row hidden" style="margin-top:8px">
+          <label style="grid-column:1/-1">
+            Résultat :
+            <select id="cmbEDI">
+              <option value="CG+">CG+</option>
+              <option value="CG-">CG-</option>
+              <option value="BG+">BG+</option>
+              <option value="BG-">BG-</option>
+            </select>
+          </label>
+        </div>
+
+        <fieldset style="margin-top:10px">
+          <legend>Eléments complémentaires</legend>
+          <div class="row">
+            <label><input type="checkbox" name="argListeria"> Argument listériose</label>
+            <label><input type="checkbox" name="lcsHSV"> LCS compatible HSV/VZV</label>
+          </div>
+        </fieldset>
+      </fieldset>
+
+      <!-- Bloc MÉNINGO-ENCÉPHALITE -->
+      <fieldset id="blocME" class="hidden">
+        <legend>Signes de gravité</legend>
+        <div class="row">
+          <label><input type="checkbox" name="focal"> Signe de localisation</label>
+          <label><input type="checkbox" name="coma"> Coma</label>
+          <label><input type="checkbox" name="convuls"> Convulsions</label>
+        </div>
+        <fieldset style="margin-top:10px">
+          <legend>Orientation étiologique</legend>
+          <label><input type="radio" name="etio" value="oui"> Oui</label>
+          <label><input type="radio" name="etio" value="non"> Non</label>
+        </fieldset>
+      </fieldset>
+
+      <!-- Bloc ABCÈS CÉRÉBRAL -->
+      <fieldset id="blocAbces" class="hidden">
+        <legend>Porte d’entrée</legend>
+        <label style="display:block;max-width:380px">
+          <select id="cmbPorte">
+            <option value=""></option>
+            <option value="Post-operatoire">Post-opératoire</option>
+            <option value="Traumatique">Traumatique</option>
+            <option value="Indeterminee">Indéterminée</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </label>
+
+        <fieldset style="margin-top:10px">
+          <legend>Immunodépression</legend>
+          <div class="row">
+            <label><input type="checkbox" name="onco"> Onco-hématologie</label>
+            <label><input type="checkbox" name="transp"> Transplanté</label>
+            <label><input type="checkbox" name="vih"> VIH</label>
+            <label><input type="checkbox" name="immunAutre"> Autre</label>
+          </div>
+        </fieldset>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnNeuro">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resNeuro" class="result"></div>
+    </form>
+  `;
+
+  // UI dynamique (affichages conditionnels)
+  const form = document.getElementById("formNeuro");
+  const blocM = document.getElementById("blocMeningite");
+  const blocME = document.getElementById("blocME");
+  const blocA = document.getElementById("blocAbces");
+  const ediSelect = document.getElementById("ediSelect");
+  const cmbEDI = document.getElementById("cmbEDI");
+  const cmbPorte = document.getElementById("cmbPorte");
+
+  function syncBlocks(){
+    const type = new FormData(form).get("type");
+    blocM.classList.toggle("hidden", type!=="meningite");
+    blocME.classList.toggle("hidden", type!=="me");
+    blocA.classList.toggle("hidden", type!=="abces");
+    const edi = new FormData(form).get("edi");
+    ediSelect.classList.toggle("hidden", !(type==="meningite" && edi==="oui"));
+  }
+  form.addEventListener("change", syncBlocks);
+  syncBlocks();
+
+  document.getElementById("btnNeuro").addEventListener("click", () => {
+    const fd = new FormData(form);
+    const p = {
+      allergie: (fd.get("allergie")==="oui"),
+      type: fd.get("type") || "meningite",
+
+      // MENINGITE
+      edi: fd.get("edi")==="oui",
+      ediRes: cmbEDI.value,          // CG+/CG-/BG+/BG-
+      argListeria: !!fd.get("argListeria"),
+      lcsHSV: !!fd.get("lcsHSV"),
+
+      // ME
+      focal: !!fd.get("focal"),
+      coma: !!fd.get("coma"),
+      convuls: !!fd.get("convuls"),
+      etio: fd.get("etio") || "",   // oui/non/""
+
+      // ABCES
+      porte: cmbPorte.value || "",
+      onco: !!fd.get("onco"),
+      transp: !!fd.get("transp"),
+      vih: !!fd.get("vih"),
+      immunAutre: !!fd.get("immunAutre")
+    };
+
+    const out = decideNeuro(p);
+    document.getElementById("resNeuro").textContent =
+      out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
+  });
+}
+
+// ===== Logique (transposition du VBA) =====
+function decideNeuro(p){
+  if (p.type==="meningite")   return buildMeningite(p);
+  if (p.type==="me")          return buildME(p);
+  if (p.type==="abces")       return buildAbces(p);
+  return "";
+}
+
+// --- Méningite purulente ---
+function buildMeningite(p){
+  const allerg = p.allergie;
+  let S = "", dex = "", addAcyclo = "";
+
+  if (p.lcsHSV) addAcyclo = " +/- Aciclovir 10 mg/kg x3/j IVL (si LCS compatible HSV/VZV)";
+
+  if (p.edi){
+    switch (p.ediRes){
+      case "CG+":
+        if (!allerg) S = "Céfotaxime 300 mg/kg/j IV";
+        else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV (ou Méropénème 2 g x3/j IVL) — allergie.";
+        dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
+        break;
+      case "CG-":
+        if (!allerg) S = "Céfotaxime 200 mg/kg/j IV";
+        else         S = "Ciprofloxacine 800–1200 mg/j + Rifampicine 300 mg x2/j PO/IV — allergie.";
+        dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
+        break;
+      case "BG+":
+        if (!allerg) S = "Amoxicilline 200 mg/kg/j IVL + Gentamicine 5 mg/kg IVL (30 min).";
+        else         S = "Cotrimoxazole (poso max 100/20 mg/kg/j) — allergie.";
+        dex = ""; // pas de dexaméthasone si BG+
+        break;
+      case "BG-":
+        if (!allerg) S = "Céfotaxime 200 mg/kg/j IVL";
+        else         S = "Ciprofloxacine 800–1200 mg/j — allergie.";
+        dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
+        break;
+    }
+  } else {
+    if (!p.argListeria){
+      if (!allerg) S = "Céfotaxime 300 mg/kg/j IVL" + addAcyclo + ".";
+      else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV" + addAcyclo + " — allergie.";
+      dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
+    } else {
+      if (!allerg) S = "Céfotaxime 300 mg/kg/j + Amoxicilline 200 mg/kg/j" + addAcyclo + ".";
+      else         S = "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV + Cotrimoxazole (poso max 100/20 mg/kg/j)" + addAcyclo + " — allergie.";
+      dex = " + Dexaméthasone 10 mg x4/j IVL à débuter avant ou en même temps que l’ATB.";
+    }
+  }
+
+  return "Méningite purulente aiguë :\n• " + S + (dex || "");
+}
+
+// --- Méningo-encéphalite ---
+function buildME(p){
+  const allerg = p.allergie;
+  const grave = !!(p.focal || p.coma || p.convuls);
+
+  let firstLine = grave
+    ? "1ère intention : Céfotaxime 300 mg/kg/j IVL + Amoxicilline + Aciclovir + Dexaméthasone + TDM cérébrale en urgence (puis PL si non contre-indiquée)"
+    : "1ère intention : Ponction lombaire + TDM cérébrale";
+
+  let detail = "";
+  const lOrient = "Si orientation étiologique : traitement spécifique";
+  const lSansOrient = "Si pas d’orientation : Aciclovir 10 mg/kg x3/j + Amoxicilline 200 mg/kg/j IVL +/- Céfotaxime si doute";
+
+  if (p.etio === "oui") detail = lOrient;
+  else if (p.etio === "non") detail = lSansOrient;
+
+  if (allerg){
+    firstLine = firstLine.replace("Céfotaxime 300 mg/kg/j IVL", "Vancomycine 30 mg/kg IVSE + Rifampicine 300 mg x2/j PO/IV");
+    detail = detail.replace("Amoxicilline 200 mg/kg/j IVL", "Cotrimoxazole (poso max 100/20 mg/kg/j)");
+  }
+
+  return "Méningo-encéphalite :\n• " + firstLine + (detail ? "\n• " + detail : "");
+}
+
+// --- Abcès cérébral ---
+function buildAbces(p){
+  const allerg = p.allergie;
+  const entree = p.porte || "";
+  let S = "", addImmuno = "";
+  const immunoPrisEnCompte = !p.immunAutre; // même logique que VBA
+
+  if (!allerg){
+    if (entree==="Post-operatoire" || entree==="Traumatique"){
+      S = "Méropénème 2 g x2/j (ou Céfépime ou Ceftazidime) + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j IVL/PO.";
+    } else {
+      S = "Céfotaxime 300 mg/kg/j IVL (ou Ceftriaxone 100 mg/kg/j IVL) + Métronidazole 500 mg x3/j IV/PO.";
+    }
+  } else {
+    S = "Lévofloxacine 500 mg x2/j IVL/PO + Métronidazole 500 mg x3/j IV/PO + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j IVL/PO — allergie.";
+  }
+
+  if (immunoPrisEnCompte){
+    if (p.onco || p.transp){
+      addImmuno += "\n• Ajouter : Cotrimoxazole (poso max 100/20 mg/kg/j) pour Nocardia spp. + Voriconazole 5 mg/kg x2/j IVL pour Aspergillus spp.";
+    }
+    if (p.vih){
+      addImmuno += "\n• Patient VIH : Pyriméthamine-Sulfadiazine (si CD4 < 200) pour T. gondii, + Céfotaxime/Métronidazole si doute +/- quadrithérapie anti-tuberculeuse si gravité et contexte très évocateur.";
+    }
+  }
+
+  return "Abcès cérébral (ATB idéalement après ponction-aspiration si possible) :\n• " + S + addImmuno;
 }
 
 
