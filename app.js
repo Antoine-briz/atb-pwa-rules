@@ -1428,71 +1428,128 @@ function renderAdapteeMenu(){
 // Fonction pour rendre la page de "Durée d'antibiothérapie"
 function renderDureesForm() {
   $app.innerHTML = `
-    <div>
-      <h2>Durée d'antibiothérapie</h2>
-      <form>
-        <div>
-          <label>Type d'infection:</label>
-          <div>
-            <input type="radio" name="infection" id="pneumonie" value="Pneumonies">
-            <label for="pneumonie">Pneumonies</label>
+    <div class="card">
+      <div class="card-header">
+        <h2>Durée d'antibiothérapie</h2>
+      </div>
+
+      <div class="card-body">
+        <!-- Image illustrant le formulaire -->
+        <div class="image-container">
+          <img src="./img/fabrice.png" alt="Image illustrant la durée d'antibiothérapie" class="img-fluid">
+        </div>
+
+        <div class="grid">
+          <!-- Section Type d'infection -->
+          <div class="form-section">
+            <h3>Type d'infection</h3>
+            <div>
+              <input type="radio" name="infection" id="pneumonie" value="Pneumonies">
+              <label for="pneumonie">Pneumonies</label>
+              <div id="subtypePneumonie" class="subtypes">
+                <select>
+                  <option value="Communautaire">Communautaire</option>
+                  <option value="PAVM">PAVM</option>
+                  <option value="Nécrose/abcès">Nécrose/abcès</option>
+                  <option value="Empyème pleural">Empyème pleural</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="infection" id="iu" value="Infections urinaires">
+              <label for="iu">Infections urinaires</label>
+              <div id="subtypeIU" class="subtypes">
+                <select>
+                  <option value="Cystite">Cystite</option>
+                  <option value="Pyélonéphrite">Pyélonéphrite</option>
+                  <option value="IU masculine">IU masculine</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="infection" id="bacteriemie" value="Bactériémies">
+              <label for="bacteriemie">Bactériémies</label>
+              <div id="subtypeBacteriemie" class="subtypes">
+                <select>
+                  <option value="Inconnue">Inconnue</option>
+                  <option value="Cathéter">Cathéter</option>
+                  <option value="Autre infection">Autre infection</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="infection" id="iaa" value="Infections intra-abdominales">
+              <label for="iaa">Infections intra-abdominales</label>
+              <div id="subtypeIAA" class="subtypes">
+                <select>
+                  <option value="Cholécystite">Cholécystite</option>
+                  <option value="Angiocholite">Angiocholite</option>
+                  <option value="Abcès hépatique">Abcès hépatique</option>
+                  <option value="Péritonite communautaire">Péritonite communautaire</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div>
-            <input type="radio" name="infection" id="iu" value="Infections urinaires">
-            <label for="iu">Infections urinaires</label>
-          </div>
-          <div>
-            <input type="radio" name="infection" id="bacteriemie" value="Bactériémies">
-            <label for="bacteriemie">Bactériémies</label>
-          </div>
-          <div>
-            <input type="radio" name="infection" id="iaa" value="Infections intra-abdominales">
-            <label for="iaa">Infections intra-abdominales</label>
-          </div>
-          <div>
-            <input type="radio" name="infection" id="neuro" value="Infections neuro-méningées">
-            <label for="neuro">Infections neuro-méningées</label>
-          </div>
-          <div>
-            <input type="radio" name="infection" id="ipm" value="Infections des parties molles">
-            <label for="ipm">Infections des parties molles</label>
-          </div>
-          <div>
-            <input type="radio" name="infection" id="endocardite" value="Endocardite infectieuse">
-            <label for="endocardite">Endocardite infectieuse</label>
+
+          <!-- Section Documentation bactériologique -->
+          <div class="form-section">
+            <h3>Documentation bactériologique</h3>
+            <div>
+              <input type="radio" name="bacterie" id="cocci_gm_neg" value="Cocci Gram -">
+              <label for="cocci_gm_neg">Cocci Gram -</label>
+              <div id="subtypeCocciGMNeg" class="subtypes">
+                <select>
+                  <option value="Neisseria meningitidis">Neisseria meningitidis</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="bacterie" id="cocci_gm_pos" value="Cocci Gram +">
+              <label for="cocci_gm_pos">Cocci Gram +</label>
+              <div id="subtypeCocciGMPos" class="subtypes">
+                <select>
+                  <option value="Streptococcus spp.">Streptococcus spp.</option>
+                  <option value="Staphylococcus spp.">Staphylococcus spp.</option>
+                  <option value="Enterococcus spp.">Enterococcus spp.</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="bacterie" id="bgm_neg" value="Bacilles Gram -">
+              <label for="bgm_neg">Bacilles Gram -</label>
+              <div id="subtypeBGMNeg" class="subtypes">
+                <select>
+                  <option value="Entérobactéries">Entérobactéries</option>
+                  <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
+                  <option value="Stenotrophomonas maltophilia">Stenotrophomonas maltophilia</option>
+                  <option value="Acinetobacter baumannii">Acinetobacter baumannii</option>
+                  <option value="Haemophilus influenzae">Haemophilus influenzae</option>
+                  <option value="Legionella pneumophila">Legionella pneumophila</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <input type="radio" name="bacterie" id="bgm_pos" value="Bacilles Gram +">
+              <label for="bgm_pos">Bacilles Gram +</label>
+              <div id="subtypeBGMPos" class="subtypes">
+                <select>
+                  <option value="Clostridium difficile">Clostridium difficile</option>
+                  <option value="Listeria monocytogenes">Listeria monocytogenes</option>
+                  <option value="Nocardia spp.">Nocardia spp.</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div>
-          <label>Documentation bactériologique:</label>
-          <div>
-            <input type="radio" name="bacterie" id="cocci_gm_neg" value="Cocci Gram -">
-            <label for="cocci_gm_neg">Cocci Gram -</label>
-          </div>
-          <div>
-            <input type="radio" name="bacterie" id="cocci_gm_pos" value="Cocci Gram +">
-            <label for="cocci_gm_pos">Cocci Gram +</label>
-          </div>
-          <div>
-            <input type="radio" name="bacterie" id="bgm_neg" value="Bacilles Gram -">
-            <label for="bgm_neg">Bacilles Gram -</label>
-          </div>
-          <div>
-            <input type="radio" name="bacterie" id="bgm_pos" value="Bacilles Gram +">
-            <label for="bgm_pos">Bacilles Gram +</label>
-          </div>
-          <div>
-            <input type="radio" name="bacterie" id="autres" value="Autres">
-            <label for="autres">Autres</label>
-          </div>
-        </div>
-
+        <!-- Bouton pour calculer la durée d'antibiothérapie -->
         <div>
           <button type="button" onclick="calculateAntibioticDuration()">Calculer la durée d'antibiothérapie</button>
         </div>
 
+        <!-- Résultat affiché ici -->
         <div id="resultat"></div>
-      </form>
+      </div>
     </div>
   `;
 }
@@ -1522,18 +1579,6 @@ function calculateAntibioticDuration() {
   document.getElementById('resultat').innerHTML = `Durée d'antibiothérapie recommandée: ${duration}`;
 }
 
-window.addEventListener('hashchange', function() {
-  if (location.hash === '#/proba/dureeATB') {
-    renderDureesForm();
-  }
-});  // <-- C'est ici la parenthèse fermante manquante
-
-// Initialiser la page si déjà sur la route
-document.addEventListener("DOMContentLoaded", function() {
-  if (location.hash === '#/proba/dureeATB') {
-    renderDureesForm();
-  }
-});
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
