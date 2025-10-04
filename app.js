@@ -53,10 +53,10 @@ function renderHome(){
         <img src="./img/adaptee.png" alt="" class="icon-btn">
         Antibiothérapie adaptée
       </button>
-      <button class="btn" onclick="location.hash='#/durees'">
-        <img src="./img/duree.png" alt="" class="icon-btn">
-        Durée d’antibiothérapie
-      </button>
+      <button class="btn" onclick="location.hash='#/proba/dureeATB'">
+  <img src="./img/duree.png" alt="" class="icon-btn">
+  Durée d’antibiothérapie
+</button>
     </div>
   `;
 }
