@@ -1522,11 +1522,11 @@ function calculateAntibioticDuration() {
   document.getElementById('resultat').innerHTML = `Durée d'antibiothérapie recommandée: ${duration}`;
 }
 
-// Gérer les changements de hash dans l'URL
 window.addEventListener('hashchange', function() {
   if (location.hash === '#/proba/dureeATB') {
     renderDureesForm();
-});
+  }
+});  // <-- C'est ici la parenthèse fermante manquante
 
 // Initialiser la page si déjà sur la route
 document.addEventListener("DOMContentLoaded", function() {
