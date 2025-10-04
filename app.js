@@ -1446,6 +1446,14 @@ function renderDureesForm(){
         <label><input type="radio" name="typeInfect" value="Endocardites infectieuses"> Endocardites infectieuses</label>
       </fieldset>
 
+      <!-- Sous-types d'infection -->
+      <fieldset id="subtypesFieldset" class="hidden">
+        <legend>Sous-type d'infection :</legend>
+        <select id="subtypesSelect" name="subtype">
+          <!-- Options de sous-types qui seront ajoutées dynamiquement en fonction du type d'infection choisi -->
+        </select>
+      </fieldset>
+
       <!-- Documentation bactériologique -->
       <fieldset>
         <legend>Documentation bactériologique :</legend>
@@ -1460,14 +1468,7 @@ function renderDureesForm(){
       <div id="comboBacterie" class="hidden">
         <label for="specBacterie">Spécificité de la bactérie :</label>
         <select id="specBacterie" name="specBacterie">
-          <option value="Neisseria meningitidis">Neisseria meningitidis</option>
-          <option value="Streptococcus spp.">Streptococcus spp.</option>
-          <option value="Staphylococcus spp.">Staphylococcus spp.</option>
-          <option value="Enterococcus spp.">Enterococcus spp.</option>
-          <option value="Entérobactéries">Entérobactéries</option>
-          <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
-          <option value="Mycoplasma pneumoniae">Mycoplasma pneumoniae</option>
-          <option value="Mycobacterium tuberculosis">Mycobacterium tuberculosis</option>
+          <!-- Les options de bactéries seront ajoutées dynamiquement ici -->
         </select>
       </div>
 
@@ -1480,29 +1481,53 @@ function renderDureesForm(){
     </form>
   `;
 
-  // --- Affichage dynamique de la comboBox en fonction du choix de la bactérie
+  // --- Affichage dynamique des sous-types d'infection
   const form = document.getElementById("formDureeATB");
-  
-  // Fonction pour afficher ou masquer la comboBox en fonction du choix
+  const subtypesFieldset = document.getElementById("subtypesFieldset");
+  const subtypesSelect = document.getElementById("subtypesSelect");
+
   form.addEventListener("change", function () {
-    const bacterie = form.querySelector('input[name="bacterie"]:checked');
+    const infectionType = form.querySelector('input[name="typeInfect"]:checked');
+    const bacterieType = form.querySelector('input[name="bacterie"]:checked');
     const comboBact = document.getElementById("comboBacterie");
 
-    // Affiche la comboBox seulement pour les options pertinentes
-    if (bacterie) {
-      if (bacterie.value === "Cocci Gram +" || bacterie.value === "Bacille Gram -") {
-        comboBact.classList.remove("hidden");
-        updateSpecBacterieOptions(bacterie.value);
-      } else {
-        comboBact.classList.add("hidden");
-      }
+    // Affiche la liste des sous-types d'infection si un type est choisi
+    if (infectionType) {
+      subtypesFieldset.classList.remove("hidden");
+      updateSubtypes(infectionType.value);
+    } else {
+      subtypesFieldset.classList.add("hidden");
+    }
+
+    // Affiche ou masque la comboBox de bactéries
+    if (bacterieType) {
+      comboBact.classList.remove("hidden");
+      updateSpecBacterieOptions(bacterieType.value);
+    } else {
+      comboBact.classList.add("hidden");
     }
   });
 
-  // --- Met à jour les options de la comboBox selon le type de bactérie
+  // --- Mise à jour des sous-types d'infection en fonction du type choisi
+  function updateSubtypes(infectionType) {
+    const subtypes = {
+      "Pneumonies": ["Pneumonie communautaire", "Pneumonie nosocomiale", "Pneumonie par aspiration", "Pneumonie sévère"],
+      "Infections urinaires": ["Cystite", "Pyélonéphrite", "Infection urinaire compliquée"],
+      "Bactériémies": ["Bactériémie communautaire", "Bactériémie nosocomiale"],
+      "Infections intra-abdominales": ["Péritonite", "Abcès abdominal", "Infection biliaire"],
+      "Infections neuro-méningées": ["Méningite", "Méningo-encéphalite", "Abcès cérébral"],
+      "Infections des parties molles": ["Cellulite", "Nécrose", "Fasciite", "Choc toxique"],
+      "Endocardites infectieuses": ["Endocardite native", "Endocardite prothétique"]
+    };
+
+    const options = subtypes[infectionType] || [];
+    subtypesSelect.innerHTML = options.map(option => `<option value="${option}">${option}</option>`).join("");
+  }
+
+  // --- Mise à jour des bactéries selon le type de bactérie choisi
   function updateSpecBacterieOptions(bacterieType) {
     const specBacterie = document.getElementById("specBacterie");
-    
+
     if (bacterieType === "Cocci Gram +") {
       specBacterie.innerHTML = `
         <option value="Streptococcus spp.">Streptococcus spp.</option>
@@ -1517,6 +1542,20 @@ function renderDureesForm(){
       specBacterie.innerHTML = `
         <option value="Entérobactéries">Entérobactéries</option>
         <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
+        <option value="Acinetobacter">Acinetobacter</option>
+        <option value="Stenotrophomonas">Stenotrophomonas</option>
+        <option value="Haemophilus">Haemophilus</option>
+      `;
+    } else if (bacterieType === "Bacille Gram +") {
+      specBacterie.innerHTML = `
+        <option value="Clostridium">Clostridium</option>
+        <option value="Listeria">Listeria</option>
+        <option value="Nocardia">Nocardia</option>
+      `;
+    } else if (bacterieType === "Autres") {
+      specBacterie.innerHTML = `
+        <option value="Mycoplasma pneumoniae">Mycoplasma pneumoniae</option>
+        <option value="Mycobacterium tuberculosis">Mycobacterium tuberculosis</option>
       `;
     }
   }
@@ -1557,7 +1596,7 @@ function renderDureesForm(){
   }
 }
 
-    
+
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
