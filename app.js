@@ -15,7 +15,7 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
-  "#/proba/dureeATB": renderProbaDureeATBForm,
+  "#/proba/dureeATB": renderProbaDureeATBForm
 };
 
 window.addEventListener("hashchange", () => mount());
@@ -1396,7 +1396,6 @@ function renderProbaSepsisForm(){
   }
 }
 
-
 function renderAdapteeMenu(){
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
@@ -1514,7 +1513,6 @@ function renderProbaDureeATBForm(){
     return `Durée d'ATB recommandée pour ${typeInfect}: ${duration}`;
   }
 }
-
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
