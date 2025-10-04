@@ -1425,217 +1425,113 @@ function renderAdapteeMenu(){
   `;
 }
 
+// Define the renderDureesForm function to handle the duration form rendering
 function renderDureesForm() {
-  $app.innerHTML = `
-    <div class="card"><strong>Durée d'antibiothérapie</strong></div>
+  // Code for the form elements, dropdowns, and layout goes here
 
-    <div class="hero-pneu card">
-      <img src="./img/fabrice.png" alt="Durée d'antibiothérapie" class="form-hero">
+  // The basic structure for the form elements and layout
+  let formHTML = `
+    <div>
+      <h2>Durée d'antibiothérapie</h2>
+      <form>
+        <div>
+          <label>Type d'infection:</label>
+          <div>
+            <input type="radio" name="infection" id="pneumonie" value="Pneumonies">
+            <label for="pneumonie">Pneumonies</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="iu" value="Infections urinaires">
+            <label for="iu">Infections urinaires</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="bacteriemie" value="Bactériémies">
+            <label for="bacteriemie">Bactériémies</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="iaa" value="Infections intra-abdominales">
+            <label for="iaa">Infections intra-abdominales</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="neuro" value="Infections neuro-méningées">
+            <label for="neuro">Infections neuro-méningées</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="ipm" value="Infections des parties molles">
+            <label for="ipm">Infections des parties molles</label>
+          </div>
+          <div>
+            <input type="radio" name="infection" id="endocardite" value="Endocardite infectieuse">
+            <label for="endocardite">Endocardite infectieuse</label>
+          </div>
+        </div>
+
+        <div>
+          <label>Documentation bactériologique:</label>
+          <div>
+            <input type="radio" name="bacterie" id="cocci_gm_neg" value="Cocci Gram -">
+            <label for="cocci_gm_neg">Cocci Gram -</label>
+          </div>
+          <div>
+            <input type="radio" name="bacterie" id="cocci_gm_pos" value="Cocci Gram +">
+            <label for="cocci_gm_pos">Cocci Gram +</label>
+          </div>
+          <div>
+            <input type="radio" name="bacterie" id="bgm_neg" value="Bacilles Gram -">
+            <label for="bgm_neg">Bacilles Gram -</label>
+          </div>
+          <div>
+            <input type="radio" name="bacterie" id="bgm_pos" value="Bacilles Gram +">
+            <label for="bgm_pos">Bacilles Gram +</label>
+          </div>
+          <div>
+            <input type="radio" name="bacterie" id="autres" value="Autres">
+            <label for="autres">Autres</label>
+          </div>
+        </div>
+
+        <div>
+          <button type="button" onclick="calculateAntibioticDuration()">Calculer la durée d'antibiothérapie</button>
+        </div>
+
+        <div id="resultat"></div>
+      </form>
     </div>
-
-    <form id="formDureeATB" class="form">
-      <!-- Type d'infection -->
-      <fieldset>
-        <legend>Type d'infection :</legend>
-        <label><input type="radio" name="typeInfect" value="Pneumonies"> Pneumonies</label>
-        <label><input type="radio" name="typeInfect" value="Infections urinaires"> Infections urinaires</label>
-        <label><input type="radio" name="typeInfect" value="Bactériémies"> Bactériémies</label>
-        <label><input type="radio" name="typeInfect" value="Infections intra-abdominales"> Infections intra-abdominales</label>
-        <label><input type="radio" name="typeInfect" value="Infections neuro-méningées"> Infections neuro-méningées</label>
-        <label><input type="radio" name="typeInfect" value="Infections des parties molles"> Infections des parties molles</label>
-        <label><input type="radio" name="typeInfect" value="Endocardites infectieuses"> Endocardites infectieuses</label>
-      </fieldset>
-
-      <!-- Sous-types d'infection -->
-      <fieldset id="subtypesFieldset" class="hidden">
-        <legend>Sous-type d'infection :</legend>
-        <select id="subtypesSelect" name="subtype">
-          <!-- Options des sous-types qui seront ajoutées dynamiquement en fonction du type d'infection choisi -->
-        </select>
-      </fieldset>
-
-      <!-- Documentation bactériologique -->
-      <fieldset>
-        <legend>Documentation bactériologique :</legend>
-        <label><input type="radio" name="bacterie" value="Cocci Gram -"> Cocci Gram -</label>
-        <label><input type="radio" name="bacterie" value="Cocci Gram +"> Cocci Gram +</label>
-        <label><input type="radio" name="bacterie" value="Bacille Gram -"> Bacille Gram -</label>
-        <label><input type="radio" name="bacterie" value="Bacille Gram +"> Bacille Gram +</label>
-        <label><input type="radio" name="bacterie" value="Autres"> Autres</label>
-      </fieldset>
-
-      <!-- ComboBox pour Bactérie (affichage dynamique en fonction du type de bactérie) -->
-      <div id="comboBacterie" class="hidden">
-        <label for="specBacterie">Spécificité de la bactérie :</label>
-        <select id="specBacterie" name="specBacterie">
-          <!-- Les options de bactéries seront ajoutées dynamiquement ici -->
-        </select>
-      </div>
-
-      <div class="actions">
-        <button type="button" class="btn" id="btnDureeATB">Durée d'antibiothérapie recommandée</button>
-        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
-      </div>
-
-      <div id="resultatDureeATB" class="result"></div>
-    </form>
   `;
 
-  // --- Affichage dynamique des sous-types d'infection
-  const form = document.getElementById("formDureeATB");
-  const subtypesFieldset = document.getElementById("subtypesFieldset");
-  const subtypesSelect = document.getElementById("subtypesSelect");
-
-  form.addEventListener("change", function () {
-    const infectionType = form.querySelector('input[name="typeInfect"]:checked');
-    const bacterieType = form.querySelector('input[name="bacterie"]:checked');
-    const comboBact = document.getElementById("comboBacterie");
-
-    // Affiche la liste des sous-types d'infection si un type est choisi
-    if (infectionType) {
-      subtypesFieldset.classList.remove("hidden");
-      updateSubtypes(infectionType.value);
-    } else {
-      subtypesFieldset.classList.add("hidden");
-    }
-
-    // Affiche ou masque la comboBox de bactéries
-    if (bacterieType) {
-      comboBact.classList.remove("hidden");
-      updateSpecBacterieOptions(bacterieType.value);
-    } else {
-      comboBact.classList.add("hidden");
-    }
-  });
-
-  // --- Mise à jour des sous-types d'infection en fonction du type choisi
-  function updateSubtypes(infectionType) {
-    const subtypes = {
-      "Pneumonies": ["Communautaire", "PAVM", "Nécrose/abcès", "Empyème pleural"],
-      "Infections urinaires": ["Cystite", "Pyélonéphrite", "IU masculine"],
-      "Bactériémies": ["Inconnue", "Cathéter", "Autre infection"],
-      "Infections intra-abdominales": ["Cholécystite", "Angiocholite", "Abcès hépatique", "Infection nécrose pancréatique", 
-                                      "Péritonite communautaire", "Péritonite nosocomiale", "Appendicite", "Diverticulite", 
-                                      "Entéro-colite", "Infection liquide ascite"],
-      "Infections neuro-méningées": ["Méningite", "Encéphalite", "Abcès cérébral"],
-      "Infections des parties molles": ["Non nécrosantes", "Nécrosantes"],
-      "Endocardites infectieuses": ["Valve native", "Prothèse valvulaire (< ou > 1 an)"]
-    };
-
-    const options = subtypes[infectionType] || [];
-    subtypesSelect.innerHTML = options.map(option => `<option value="${option}">${option}</option>`).join("");
-  }
-
-  // --- Mise à jour des bactéries selon le type de bactérie choisi
-  function updateSpecBacterieOptions(bacterieType) {
-    const specBacterie = document.getElementById("specBacterie");
-
-    if (bacterieType === "Cocci Gram +") {
-      const options = [
-        "Streptococcus spp.",
-        "Staphylococcus spp.",
-        "Enterococcus spp."
-      ];
-      options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        specBacterie.appendChild(opt);
-      });
-    }
-
-    if (bacterieType === "Cocci Gram -") {
-      const options = [
-        "Neisseria meningitidis"
-      ];
-      options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        specBacterie.appendChild(opt);
-      });
-    }
-
-    if (bacterieType === "Bacille Gram -") {
-      const options = [
-        "Entérobactéries",
-        "Pseudomonas aeruginosa",
-        "Stenotrophomonas maltophilia",
-        "Acinetobacter baumannii",
-        "Haemophilus influenzae",
-        "Legionella pneumophila"
-      ];
-      options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        specBacterie.appendChild(opt);
-      });
-    }
-
-    if (bacterieType === "Bacille Gram +") {
-      const options = [
-        "Clostridium difficile",
-        "Listeria monocytogenes",
-        "Nocardia spp."
-      ];
-      options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        specBacterie.appendChild(opt);
-      });
-    }
-
-    if (bacterieType === "Autres") {
-      const options = [
-        "Mycoplasma pneumoniae",
-        "Mycobacterium tuberculosis"
-      ];
-      options.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        specBacterie.appendChild(opt);
-      });
-    }
-  }
-
-  // --- Calcul de la durée d'antibiothérapie
-  document.getElementById("btnDureeATB").addEventListener("click", () => {
-    const fd = new FormData(form);
-    const typeInfect = fd.get("typeInfect");
-    const bacterie = fd.get("bacterie");
-    const specBacterie = fd.get("specBacterie");
-
-    const message = getDureeATB(typeInfect, bacterie, specBacterie);
-    document.getElementById("resultatDureeATB").textContent =
-      message + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions et adapter aux protocoles locaux.";
-  });
-
-  // --- Fonction pour calculer la durée d'ATB
-  function getDureeATB(typeInfect, bacterie, specBacterie) {
-    const durationMapping = {
-      "Pneumonies": {
-        "Cocci Gram +": { "Streptococcus spp.": "7 j", "Staphylococcus spp.": "7 j", "Enterococcus spp.": "7 j" },
-        "Bacille Gram -": { "Entérobactéries": "7 j", "Pseudomonas aeruginosa": "10 j" },
-      },
-      "Infections urinaires": {
-        "Cocci Gram +": { "Streptococcus spp.": "7 j", "Staphylococcus spp.": "7 j", "Enterococcus spp.": "7 j" },
-      },
-      // Continuez à ajouter les autres infections et bactéries ici
-    };
-
-    let duration = "Aucune recommandation disponible pour cette combinaison.";
-
-    if (typeInfect && bacterie && specBacterie) {
-      if (durationMapping[typeInfect] && durationMapping[typeInfect][bacterie] && durationMapping[typeInfect][bacterie][specBacterie]) {
-        duration = durationMapping[typeInfect][bacterie][specBacterie];
-      }
-    }
-    return `Durée d'ATB recommandée pour ${typeInfect}: ${duration}`;
-  }
+  // Render the form HTML to the page
+  document.getElementById('form-container').innerHTML = formHTML;
 }
+
+// Define the function to calculate antibiotic duration
+function calculateAntibioticDuration() {
+  const infectionType = document.querySelector('input[name="infection"]:checked')?.value;
+  const bacterieType = document.querySelector('input[name="bacterie"]:checked')?.value;
+
+  if (!infectionType || !bacterieType) {
+    document.getElementById('resultat').innerHTML = "Veuillez sélectionner un type d'infection et une bactérie.";
+    return;
+  }
+
+  // Logic to calculate the antibiotic duration based on selected infection and bacterie
+  const durations = {
+    "Pneumonies|Cocci Gram -": "7 jours",
+    "Pneumonies|Cocci Gram +": "5 à 7 jours",
+    "Infections urinaires|Bacilles Gram -": "7 jours",
+    // Add more combinations based on your logic...
+  };
+
+  const key = `${infectionType}|${bacterieType}`;
+  const duration = durations[key] || "Aucune recommandation disponible pour cette combinaison.";
+
+  // Display the result
+  document.getElementById('resultat').innerHTML = `Durée d'antibiothérapie recommandée: ${duration}`;
+}
+
+// Initialize the form when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  renderDureesForm();
+});
 
 
 function renderNotFound(){
