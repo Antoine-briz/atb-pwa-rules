@@ -20,6 +20,7 @@ const PRECACHE = [
   "./img/abdo.png",
   "./img/neuro.png", 
   "./img/dermohypodermite.png"
+  "./img/fabrice.png"
 ];
 
 self.addEventListener("install", (event) => {
