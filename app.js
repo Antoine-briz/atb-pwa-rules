@@ -15,7 +15,7 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
-  "#/proba/dureeATB": renderProbaDureeATBForm
+  "#/proba/dureeATB": renderDureesForm,
 };
 
 window.addEventListener("hashchange", () => mount());
@@ -1415,7 +1415,7 @@ function renderAdapteeMenu(){
   `;
 }
 
-function renderProbaDureeATBForm(){
+function renderDureesForm(){
   $app.innerHTML = `
     <div class="card"><strong>Durée d'antibiothérapie</strong></div>
 
@@ -1514,6 +1514,7 @@ function renderProbaDureeATBForm(){
   }
 }
 
+    
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
