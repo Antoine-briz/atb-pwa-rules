@@ -1,4 +1,3 @@
-
 // app.js — structure en 3 pages + sous-pages, routes hash
 
 const $app = document.getElementById("app");
@@ -15,30 +14,31 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
-   "#/proba/dureeATB": renderDureesForm
+  "#/proba/dureeATB": renderDureesForm // Route pour "Durée d'antibiothérapie"
 };
 
 window.addEventListener("hashchange", () => mount());
 window.addEventListener("load", () => {
-  if (!location.hash) location.hash = "#/"; // défaut accueil
+  if (!location.hash) location.hash = "#/"; // Par défaut, rediriger vers la page d'accueil
   mount();
 });
 
 function mount() {
-  const route = routes[location.hash];
+  const route = routes[location.hash];  // Vérifie le hash actuel
   if (route) {
-    route(); // Appelle la fonction de la route
+    route(); // Appelle la fonction associée à la route
   } else {
-    renderNotFound(); // Fonction à définir pour afficher un message ou une page 404
+    renderNotFound(); // Fonction à définir pour afficher un message 404
   }
 }
 
-function h(cls, html) { 
-  return `<div class="${cls}">${html}</div>`; 
+// Fonction utilitaire pour encapsuler du HTML
+function h(cls, html) {
+  return `<div class="${cls}">${html}</div>`;
 }
 
 // ---------- Pages ----------
-function renderHome(){
+function renderHome() {
   $app.innerHTML = `
     <div class="hero card">
       <img src="./img/bandeau.png" alt="Protocoles d’antibiothérapie – MIR CHV André Mignot" class="hero-img">
@@ -54,14 +54,14 @@ function renderHome(){
         Antibiothérapie adaptée
       </button>
       <button class="btn" onclick="location.hash='#/proba/dureeATB'">
-  <img src="./img/duree.png" alt="" class="icon-btn">
-  Durée d’antibiothérapie
-</button>
+        <img src="./img/duree.png" alt="" class="icon-btn">
+        Durée d’antibiothérapie
+      </button>
     </div>
   `;
 }
 
-function renderProbaMenu(){
+function renderProbaMenu() {
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie probabiliste</strong>`)}
     ${h("grid cols-2", `
@@ -1425,12 +1425,9 @@ function renderAdapteeMenu(){
   `;
 }
 
-// Define the renderDureesForm function to handle the duration form rendering
+// Fonction pour rendre la page de "Durée d'antibiothérapie"
 function renderDureesForm() {
-  // Code for the form elements, dropdowns, and layout goes here
-
-  // The basic structure for the form elements and layout
-  let formHTML = `
+  $app.innerHTML = `
     <div>
       <h2>Durée d'antibiothérapie</h2>
       <form>
@@ -1498,12 +1495,9 @@ function renderDureesForm() {
       </form>
     </div>
   `;
-
-  // Render the form HTML to the page
-  document.getElementById('form-container').innerHTML = formHTML;
 }
 
-// Define the function to calculate antibiotic duration
+// Fonction de calcul de la durée d'antibiothérapie
 function calculateAntibioticDuration() {
   const infectionType = document.querySelector('input[name="infection"]:checked')?.value;
   const bacterieType = document.querySelector('input[name="bacterie"]:checked')?.value;
@@ -1513,26 +1507,33 @@ function calculateAntibioticDuration() {
     return;
   }
 
-  // Logic to calculate the antibiotic duration based on selected infection and bacterie
+  // Exemple de dictionnaire avec des durées
   const durations = {
     "Pneumonies|Cocci Gram -": "7 jours",
     "Pneumonies|Cocci Gram +": "5 à 7 jours",
     "Infections urinaires|Bacilles Gram -": "7 jours",
-    // Add more combinations based on your logic...
+    // Ajoutez d'autres combinaisons selon votre logique
   };
 
   const key = `${infectionType}|${bacterieType}`;
   const duration = durations[key] || "Aucune recommandation disponible pour cette combinaison.";
 
-  // Display the result
+  // Afficher le résultat
   document.getElementById('resultat').innerHTML = `Durée d'antibiothérapie recommandée: ${duration}`;
 }
 
-// Initialize the form when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-  renderDureesForm();
+// Gérer les changements de hash dans l'URL
+window.addEventListener('hashchange', function() {
+  if (location.hash === '#/proba/dureeATB') {
+    renderDureesForm();
 });
 
+// Initialiser la page si déjà sur la route
+document.addEventListener("DOMContentLoaded", function() {
+  if (location.hash === '#/proba/dureeATB') {
+    renderDureesForm();
+  }
+});
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
