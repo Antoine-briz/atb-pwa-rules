@@ -1425,7 +1425,7 @@ function renderAdapteeMenu(){
   `;
 }
 
-function renderDureesForm(){
+function renderDureesForm() {
   $app.innerHTML = `
     <div class="card"><strong>Durée d'antibiothérapie</strong></div>
 
@@ -1450,7 +1450,7 @@ function renderDureesForm(){
       <fieldset id="subtypesFieldset" class="hidden">
         <legend>Sous-type d'infection :</legend>
         <select id="subtypesSelect" name="subtype">
-          <!-- Options de sous-types qui seront ajoutées dynamiquement en fonction du type d'infection choisi -->
+          <!-- Options des sous-types qui seront ajoutées dynamiquement en fonction du type d'infection choisi -->
         </select>
       </fieldset>
 
@@ -1511,13 +1511,15 @@ function renderDureesForm(){
   // --- Mise à jour des sous-types d'infection en fonction du type choisi
   function updateSubtypes(infectionType) {
     const subtypes = {
-      "Pneumonies": ["Pneumonie communautaire", "Pneumonie nosocomiale", "Pneumonie par aspiration", "Pneumonie sévère"],
-      "Infections urinaires": ["Cystite", "Pyélonéphrite", "Infection urinaire compliquée"],
-      "Bactériémies": ["Bactériémie communautaire", "Bactériémie nosocomiale"],
-      "Infections intra-abdominales": ["Péritonite", "Abcès abdominal", "Infection biliaire"],
-      "Infections neuro-méningées": ["Méningite", "Méningo-encéphalite", "Abcès cérébral"],
-      "Infections des parties molles": ["Cellulite", "Nécrose", "Fasciite", "Choc toxique"],
-      "Endocardites infectieuses": ["Endocardite native", "Endocardite prothétique"]
+      "Pneumonies": ["Communautaire", "PAVM", "Nécrose/abcès", "Empyème pleural"],
+      "Infections urinaires": ["Cystite", "Pyélonéphrite", "IU masculine"],
+      "Bactériémies": ["Inconnue", "Cathéter", "Autre infection"],
+      "Infections intra-abdominales": ["Cholécystite", "Angiocholite", "Abcès hépatique", "Infection nécrose pancréatique", 
+                                      "Péritonite communautaire", "Péritonite nosocomiale", "Appendicite", "Diverticulite", 
+                                      "Entéro-colite", "Infection liquide ascite"],
+      "Infections neuro-méningées": ["Méningite", "Encéphalite", "Abcès cérébral"],
+      "Infections des parties molles": ["Non nécrosantes", "Nécrosantes"],
+      "Endocardites infectieuses": ["Valve native", "Prothèse valvulaire (< ou > 1 an)"]
     };
 
     const options = subtypes[infectionType] || [];
@@ -1529,34 +1531,73 @@ function renderDureesForm(){
     const specBacterie = document.getElementById("specBacterie");
 
     if (bacterieType === "Cocci Gram +") {
-      specBacterie.innerHTML = `
-        <option value="Streptococcus spp.">Streptococcus spp.</option>
-        <option value="Staphylococcus spp.">Staphylococcus spp.</option>
-        <option value="Enterococcus spp.">Enterococcus spp.</option>
-      `;
-    } else if (bacterieType === "Cocci Gram -") {
-      specBacterie.innerHTML = `
-        <option value="Neisseria meningitidis">Neisseria meningitidis</option>
-      `;
-    } else if (bacterieType === "Bacille Gram -") {
-      specBacterie.innerHTML = `
-        <option value="Entérobactéries">Entérobactéries</option>
-        <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
-        <option value="Acinetobacter">Acinetobacter</option>
-        <option value="Stenotrophomonas">Stenotrophomonas</option>
-        <option value="Haemophilus">Haemophilus</option>
-      `;
-    } else if (bacterieType === "Bacille Gram +") {
-      specBacterie.innerHTML = `
-        <option value="Clostridium">Clostridium</option>
-        <option value="Listeria">Listeria</option>
-        <option value="Nocardia">Nocardia</option>
-      `;
-    } else if (bacterieType === "Autres") {
-      specBacterie.innerHTML = `
-        <option value="Mycoplasma pneumoniae">Mycoplasma pneumoniae</option>
-        <option value="Mycobacterium tuberculosis">Mycobacterium tuberculosis</option>
-      `;
+      const options = [
+        "Streptococcus spp.",
+        "Staphylococcus spp.",
+        "Enterococcus spp."
+      ];
+      options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        specBacterie.appendChild(opt);
+      });
+    }
+
+    if (bacterieType === "Cocci Gram -") {
+      const options = [
+        "Neisseria meningitidis"
+      ];
+      options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        specBacterie.appendChild(opt);
+      });
+    }
+
+    if (bacterieType === "Bacille Gram -") {
+      const options = [
+        "Entérobactéries",
+        "Pseudomonas aeruginosa",
+        "Stenotrophomonas maltophilia",
+        "Acinetobacter baumannii",
+        "Haemophilus influenzae",
+        "Legionella pneumophila"
+      ];
+      options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        specBacterie.appendChild(opt);
+      });
+    }
+
+    if (bacterieType === "Bacille Gram +") {
+      const options = [
+        "Clostridium difficile",
+        "Listeria monocytogenes",
+        "Nocardia spp."
+      ];
+      options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        specBacterie.appendChild(opt);
+      });
+    }
+
+    if (bacterieType === "Autres") {
+      const options = [
+        "Mycoplasma pneumoniae",
+        "Mycobacterium tuberculosis"
+      ];
+      options.forEach(option => {
+        const opt = document.createElement("option");
+        opt.value = option;
+        opt.textContent = option;
+        specBacterie.appendChild(opt);
+      });
     }
   }
 
