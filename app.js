@@ -13,6 +13,7 @@ const routes = {
   "#/proba/neuro": renderProbaNeuroForm,
   "#/proba/dermohypo": renderProbaDermohypodermiteForm,
   "#/proba/endocardite": renderProbaEndocarditeForm,
+  "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
@@ -60,7 +61,7 @@ function renderProbaMenu(){
       <button class="btn outline" onclick="location.hash='#/proba/neuro'">Infections neuro-méningées</button>
       <button class="btn outline" onclick="location.hash='#/proba/dermohypo'">Infections des parties molles</button>
       <button class="btn outline" onclick="location.hash='#/proba/endocardite'">Endocardite infectieuse</button>
-      <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
+      <button class="btn outline" onclick="location.hash='#/proba/sepsis'">Sepsis sans porte d'entrée</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
@@ -1239,6 +1240,158 @@ function renderProbaEndocarditeForm(){
       "  OU Daptomycine 10 mg/kg/j",
       "+ Gentamicine 3 mg/kg/j IVL 30 min"
     ].join("\n"); // :contentReference[oaicite:2]{index=2}
+  }
+}
+
+function renderProbaSepsisForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Caractéristiques du sepsis sans point d'appel</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/sepsis.png" alt="Sepsis sans porte d'entrée" class="form-hero">
+    </div>
+
+    <form id="formSepsis" class="form">
+      <fieldset>
+        <legend>Lieu de survenue</legend>
+        <label><input type="radio" name="lieu" value="Communautaire" checked> Communautaire</label>
+        <label><input type="radio" name="lieu" value="Nosocomiale"> Nosocomiale</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Patient neutropénique</legend>
+        <label><input type="radio" name="neutro" value="Non" checked> Non</label>
+        <label><input type="radio" name="neutro" value="Oui"> Oui</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Allergie aux bêta-lactamines</legend>
+        <label><input type="radio" name="allergie" value="Non" checked> Non</label>
+        <label><input type="radio" name="allergie" value="Oui"> Oui</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Critères microbiologiques</legend>
+        <label><input type="checkbox" name="blse"> FdR de BLSE*</label>
+        <label><input type="checkbox" name="sarm"> FdR de SARM**</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Choc septique</legend>
+        <label><input type="radio" name="choc" value="Non" checked> Non</label>
+        <label><input type="radio" name="choc" value="Oui"> Oui</label>
+      </fieldset>
+
+      <aside class="card ghost" style="max-width:520px">
+        <strong>Conseil malin !</strong><br>
+        Avez-vous bien pensé à la Leptospirose et à la maladie de Still ?
+      </aside>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnSepsis">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+
+      <div id="resSepsis" class="result"></div>
+    </form>
+  `;
+
+  document.getElementById("btnSepsis").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formSepsis"));
+    const isCommu   = (fd.get("lieu") || "Communautaire") === "Communautaire";
+    const isNoso    = !isCommu;
+    const isNeutro  = (fd.get("neutro") === "Oui");
+    const isAllergy = (fd.get("allergie") === "Oui");
+    const hasBLSE   = !!fd.get("blse");
+    const hasSARM   = !!fd.get("sarm");
+    const isShock   = (fd.get("choc") === "Oui");
+
+    const message = buildRegimen({isCommu,isNoso,isNeutro,isAllergy,hasBLSE,hasSARM,isShock});
+    document.getElementById("resSepsis").textContent =
+      message + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions et adapter aux protocoles locaux.";
+  });
+
+  // ===== Logique transposée du VBA =====
+  function buildRegimen(p){
+    let res = "Antibiothérapie probabiliste recommandée :\n";
+    let baseTx = "", addTx = "";
+
+    // ---- Neutropénique vs non-neutropénique (allergie prioritaire) ----
+    if (p.isNeutro){
+      if (p.isAllergy){
+        baseTx =
+          "• Allergie aux bêta-lactamines :\n" +
+          "  - Ciprofloxacine 750 mg x2/j IVL/PO OU Aztréonam 1 g x4/j IVL\n" +
+          "  - + Métronidazole 500 mg x3/j\n" +
+          "  - + Vancomycine 30 mg/kg/j IVSE";
+      } else if (p.hasBLSE){
+        baseTx =
+          "• FdR de BLSE :\n" +
+          "  - Méropénème 4–6 g/j OU Imipénème 1 g x3/j";
+        baseTx += p.isNoso ? "\n  - + Vancomycine 30 mg/kg/j" : "\n  - +/- Vancomycine 30 mg/kg/j";
+      } else {
+        baseTx =
+          "• Référence neutropénique :\n" +
+          "  - Pipéracilline–tazobactam 4 g x4/j IVL OU\n" +
+          "  - Céfépime 4–6 g/24h IVL + Métronidazole 500 mg x3/j";
+        baseTx += p.isNoso ? "\n  - + Vancomycine 30 mg/kg/j" : "\n  - +/- Vancomycine 30 mg/kg/j";
+      }
+
+    } else {
+      if (p.isAllergy){
+        if (p.isCommu){
+          baseTx =
+            "• Allergie aux bêta-lactamines (communautaire) :\n" +
+            "  - Lévofloxacine 500 mg x2/j + Métronidazole 500 mg x3/j";
+        } else {
+          baseTx =
+            "• Allergie aux bêta-lactamines (nosocomial) :\n" +
+            "  - Ciprofloxacine 750 mg x2/j IVL/PO OU Aztréonam 1 g x4/j IVL\n" +
+            "  - + Métronidazole 500 mg x3/j\n" +
+            "  - + Vancomycine 30 mg/kg/j IVSE";
+        }
+      } else if (p.hasBLSE){
+        baseTx =
+          "• FdR de BLSE :\n" +
+          "  - Méropénème 4–6 g/j OU Imipénème 1 g x3/j";
+      } else {
+        if (p.isCommu){
+          // Correction #1 : une seule proposition
+          baseTx =
+            "• Référence (communautaire) :\n" +
+            "  - Céfotaxime 4–6 g/24h IVL + Métronidazole 500 mg x3/j";
+        } else {
+          baseTx =
+            "• Référence (nosocomial) :\n" +
+            "  - Pipéracilline–tazobactam 4 g x4/j IVL OU\n" +
+            "  - Céfépime 4–6 g/24h IVL + Métronidazole 500 mg x3/j";
+        }
+      }
+    }
+
+    // ---- Ajouts imposés ----
+    // Aminoside si choc septique (+/- caspofungine)
+    if (p.isShock){
+      if (p.isCommu){
+        addTx += "\n• Choc septique : ajouter Gentamicine 5–8 mg/kg IVL (30 min)";
+      } else {
+        addTx += "\n• Choc septique : ajouter Amikacine 25–30 mg/kg IVL (30 min)";
+      }
+      addTx += "\n  +/- Caspofungine 70 mg J1 puis 50 mg/j";
+    }
+
+    // Vancomycine si FdR SARM (sauf communautaire non-neutropénique sans choc)
+    if (p.hasSARM){
+      let shouldAddVanco = true;
+      // Correction #2
+      if (p.isCommu && !p.isNeutro && !p.isShock) shouldAddVanco = false;
+
+      if (shouldAddVanco && baseTx.toLowerCase().indexOf("vancomycine") === -1){
+        addTx += "\n• Ajouter : Vancomycine 30 mg/kg/j";
+      }
+    }
+
+    return res + baseTx + addTx;
   }
 }
 
