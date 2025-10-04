@@ -15,7 +15,7 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
-  "#/proba/dureeATB": renderDureesForm,
+   "#/proba/dureeATB": renderDureesForm
 };
 
 window.addEventListener("hashchange", () => mount());
@@ -24,8 +24,18 @@ window.addEventListener("load", () => {
   mount();
 });
 
-function mount(){ (routes[location.hash] || renderNotFound)(); }
-function h(cls, html){ return `<div class="${cls}">${html}</div>`; }
+function mount() {
+  const route = routes[location.hash];
+  if (route) {
+    route(); // Appelle la fonction de la route
+  } else {
+    renderNotFound(); // Fonction à définir pour afficher un message ou une page 404
+  }
+}
+
+function h(cls, html) { 
+  return `<div class="${cls}">${html}</div>`; 
+}
 
 // ---------- Pages ----------
 function renderHome(){
