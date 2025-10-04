@@ -12,6 +12,7 @@ const routes = {
   "#/proba/abdo": renderProbaAbdoForm,
   "#/proba/neuro": renderProbaNeuroForm,
   "#/proba/dermohypo": renderProbaDermohypodermiteForm,
+  "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/adaptee": renderAdapteeMenu,
   "#/durees": renderDureesForm
 };
@@ -58,7 +59,7 @@ function renderProbaMenu(){
       <button class="btn outline" onclick="location.hash='#/proba/abdo'">Infections intra-abdominales</button>
       <button class="btn outline" onclick="location.hash='#/proba/neuro'">Infections neuro-méningées</button>
       <button class="btn outline" onclick="location.hash='#/proba/dermohypo'">Infections des parties molles</button>
-      <button class="btn outline" disabled>Endocardites infectieuses</button>
+      <button class="btn outline" onclick="location.hash='#/proba/endocardite'">Endocardite infectieuse</button>
       <button class="btn outline" disabled>Sepsis sans porte d’entrée</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
@@ -1132,6 +1133,112 @@ function renderProbaDermohypodermiteForm(){
       "Choc streptococcique : Evolution possible vers une forme nécrosante nécessitant la chirurgie",
       "Choc staphylococcique : Recherche d’un tampon hygiénique usagé chez la femme jeune"
     ].join("\n");
+  }
+}
+
+function renderProbaEndocarditeForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Caractéristiques de l'endocardite infectieuse</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/endocardite.png" alt="Endocardite infectieuse" class="form-hero">
+    </div>
+
+    <form id="formEndo" class="form">
+      <fieldset>
+        <legend>Lieu de survenue</legend>
+        <label><input type="radio" name="lieu" value="Communautaire" checked> Communautaire</label>
+        <label><input type="radio" name="lieu" value="Nosocomiale/Associée aux soins"> Nosocomiale / Associée aux soins</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Type de valve</legend>
+        <label><input type="radio" name="valve" value="Native" checked> Native</label>
+        <label><input type="radio" name="valve" value="Prothétique"> Prothétique</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Allergie aux bêta-lactamines</legend>
+        <label><input type="radio" name="aller" value="Non" checked> Non</label>
+        <label><input type="radio" name="aller" value="Oui"> Oui</label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnEndo">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+
+      <div id="resEndo" class="result"></div>
+    </form>
+  `;
+
+  document.getElementById("btnEndo").addEventListener("click", () => {
+    const fd = new FormData(document.getElementById("formEndo"));
+    const lieu = fd.get("lieu") || "Communautaire";
+    const valve = fd.get("valve") || "Native";
+    const allergie = (fd.get("aller") === "Oui");
+
+    const message = buildRecoEndocardite(lieu, valve, allergie);
+    document.getElementById("resEndo").textContent =
+      message + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions et adapter aux protocoles locaux.";
+  });
+
+  // ---------- Logique (transposition du VBA) ----------
+  function buildRecoEndocardite(lieu, valve, allergie){
+    const intro = [
+      "Contexte : " + lieu,
+      "Valve : " + valve,
+      "Allergie aux bêta-lactamines : " + (allergie ? "Oui" : "Non"),
+      "----------------------------------------------------------------------"
+    ].join(" | ").replace(" | ----------------------------------------------------------------------", "\n----------------------------------------------------------------------") + "\n";
+
+    let res = "";
+
+    if (allergie){
+      res = rec_VancoDaptoGent();
+      if (valve === "Prothétique") res += "\n" + rifampicineLine();
+
+    } else if (lieu.indexOf("Nosocomiale") === 0){
+      res = rec_VancoDaptoGent();
+      if (valve === "Prothétique") res += "\n" + rifampicineLine();
+
+    } else {
+      // Communautaire
+      if (valve === "Native"){
+        res = rec_Native_AmoxCloxa_Ou_AmoxCeftriax();
+      } else if (valve === "Prothétique"){
+        res = rec_VancoDaptoGent() + "\n" + rifampicineLine();
+      }
+    }
+    return intro + res;
+  }
+
+  // --- Blocs de texte thérapeutiques ---
+  function rifampicineLine(){
+    return "+ Rifampicine 900 mg/j (< 70 kg) ou 1200 mg/j (> 70 kg) IV/PO en 1 à 2 prises";
+    // d’après le module VBA. :contentReference[oaicite:0]{index=0}
+  }
+
+  function rec_Native_AmoxCloxa_Ou_AmoxCeftriax(){
+    return [
+      "Option 1 :",
+      "• Amoxicilline 200 mg/kg/j IV en 6 injections +",
+      "  Cloxacilline 150 mg/kg/j IV en 4–6 injections +",
+      "  Gentamicine 3 mg/kg/j IVL 30 min",
+      "OU",
+      "Option 2 :",
+      "• Amoxicilline 200 mg/kg/j IV en 6 injections +",
+      "  Ceftriaxone 2–4 g/j en 1–2 injections +",
+      "  Gentamicine 3 mg/kg/j IVL 30 min"
+    ].join("\n"); // :contentReference[oaicite:1]{index=1}
+  }
+
+  function rec_VancoDaptoGent(){
+    return [
+      "• Vancomycine 30–60 mg/kg/j IVSE (objectif résiduelle 20–30 mg/L)",
+      "  OU Daptomycine 10 mg/kg/j",
+      "+ Gentamicine 3 mg/kg/j IVL 30 min"
+    ].join("\n"); // :contentReference[oaicite:2]{index=2}
   }
 }
 
