@@ -1446,7 +1446,7 @@ function renderDureesForm(){
         <label><input type="radio" name="typeInfect" value="Endocardites infectieuses"> Endocardites infectieuses</label>
       </fieldset>
 
-      <!-- Bactéries -->
+      <!-- Documentation bactériologique -->
       <fieldset>
         <legend>Documentation bactériologique :</legend>
         <label><input type="radio" name="bacterie" value="Cocci Gram -"> Cocci Gram -</label>
@@ -1456,7 +1456,7 @@ function renderDureesForm(){
         <label><input type="radio" name="bacterie" value="Autres"> Autres</label>
       </fieldset>
 
-      <!-- ComboBox pour Bactérie (appears based on previous selection) -->
+      <!-- ComboBox pour Bactérie (affichage dynamique en fonction du type de bactérie) -->
       <div id="comboBacterie" class="hidden">
         <label for="specBacterie">Spécificité de la bactérie :</label>
         <select id="specBacterie" name="specBacterie">
@@ -1480,13 +1480,46 @@ function renderDureesForm(){
     </form>
   `;
 
-  // --- Affichage de la comboBox basée sur la sélection
+  // --- Affichage dynamique de la comboBox en fonction du choix de la bactérie
   const form = document.getElementById("formDureeATB");
+  
+  // Fonction pour afficher ou masquer la comboBox en fonction du choix
   form.addEventListener("change", function () {
     const bacterie = form.querySelector('input[name="bacterie"]:checked');
     const comboBact = document.getElementById("comboBacterie");
-    comboBact.classList.toggle("hidden", !bacterie || bacterie.value !== "Cocci Gram +" && bacterie.value !== "Bacille Gram -");
+
+    // Affiche la comboBox seulement pour les options pertinentes
+    if (bacterie) {
+      if (bacterie.value === "Cocci Gram +" || bacterie.value === "Bacille Gram -") {
+        comboBact.classList.remove("hidden");
+        updateSpecBacterieOptions(bacterie.value);
+      } else {
+        comboBact.classList.add("hidden");
+      }
+    }
   });
+
+  // --- Met à jour les options de la comboBox selon le type de bactérie
+  function updateSpecBacterieOptions(bacterieType) {
+    const specBacterie = document.getElementById("specBacterie");
+    
+    if (bacterieType === "Cocci Gram +") {
+      specBacterie.innerHTML = `
+        <option value="Streptococcus spp.">Streptococcus spp.</option>
+        <option value="Staphylococcus spp.">Staphylococcus spp.</option>
+        <option value="Enterococcus spp.">Enterococcus spp.</option>
+      `;
+    } else if (bacterieType === "Cocci Gram -") {
+      specBacterie.innerHTML = `
+        <option value="Neisseria meningitidis">Neisseria meningitidis</option>
+      `;
+    } else if (bacterieType === "Bacille Gram -") {
+      specBacterie.innerHTML = `
+        <option value="Entérobactéries">Entérobactéries</option>
+        <option value="Pseudomonas aeruginosa">Pseudomonas aeruginosa</option>
+      `;
+    }
+  }
 
   // --- Calcul de la durée d'antibiothérapie
   document.getElementById("btnDureeATB").addEventListener("click", () => {
