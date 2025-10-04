@@ -902,6 +902,239 @@ function buildAbces(p){
   return "Abcès cérébral (ATB idéalement après ponction-aspiration si possible) :\n• " + S + addImmuno;
 }
 
+function renderProbaDermohypodermiteForm(){
+  $app.innerHTML = `
+    <div class="card"><strong>Caractéristiques de l’infection des parties molles</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/dermohypodermite.png" alt="Dermohypodermite" class="form-hero">
+    </div>
+
+    <form id="formDH" class="form">
+      <!-- Type d'infection -->
+      <fieldset>
+        <legend>Type d’infection</legend>
+        <div class="row">
+          <label><input type="radio" name="type" value="DHNN" checked> Dermohypodermite bactérienne non nécrosante</label>
+          <label><input type="radio" name="type" value="Shock"> Suspicion choc strepto ou staphylococcique</label>
+          <label><input type="radio" name="type" value="DHN"> Dermohypodermite bactérienne nécrosante</label>
+          <label><input type="radio" name="type" value="FN"> Fasciite nécrosante</label>
+        </div>
+      </fieldset>
+
+      <!-- BLOC GAUCHE : visible pour DH non nécrosante OU choc toxique -->
+      <fieldset id="fsLeft">
+        <legend>&nbsp;</legend>
+        <div class="row">
+          <label><input type="checkbox" name="morsure"> Morsure</label>
+          <label><input type="checkbox" name="cath"> Infection de cathéter</label>
+          <label><input type="checkbox" name="sarmLeft"> FdR de SARM**</label>
+          <label><input type="checkbox" name="allergieLeft"> Allergie aux béta-lact.</label>
+        </div>
+      </fieldset>
+
+      <!-- BLOC DROIT : visible uniquement pour DH nécrosante ou fasciite -->
+      <fieldset id="fsRight" class="hidden">
+        <legend>&nbsp;</legend>
+
+        <fieldset>
+          <legend>Lieu de survenue</legend>
+          <label><input type="radio" name="origine" value="Communautaire" checked> Communautaire</label>
+          <label><input type="radio" name="origine" value="Nosocomiale"> Nosocomiale/Post-opératoire</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Localisation</legend>
+          <label><input type="radio" name="loc" value="Membres" checked> Membres</label>
+          <label><input type="radio" name="loc" value="Cervico-faciales"> Cervico-faciale</label>
+          <label><input type="radio" name="loc" value="Abdomino-périnéales"> Abdomino-périnéale</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Facteurs</legend>
+          <div class="row">
+            <label><input type="checkbox" name="blse"> FdR de BLSE*</label>
+            <label><input type="checkbox" name="sarmRight"> FdR de SARM**</label>
+            <label><input type="checkbox" name="allergieRight"> Allergie aux béta-lactamines</label>
+            <label><input type="checkbox" name="sepsis"> Sepsis/choc septique</label>
+          </div>
+        </fieldset>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnDH">Antibiothérapie probabiliste recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+      <div id="resDH" class="result"></div>
+    </form>
+  `;
+
+  // --- Affichages conditionnels des blocs (mêmes règles que le UserForm VBA)
+  const form   = document.getElementById("formDH");
+  const fsLeft = document.getElementById("fsLeft");
+  const fsRight= document.getElementById("fsRight");
+
+  function syncBlocks(){
+    const type = new FormData(form).get("type");
+    // Bloc gauche visible pour DH non nécrosante ET pour Choc toxique
+    fsLeft.classList.toggle("hidden", !(type==="DHNN" || type==="Shock"));
+    // Bloc droit visible uniquement pour infections nécrosantes
+    fsRight.classList.toggle("hidden", !(type==="DHN" || type==="FN"));
+  }
+  form.addEventListener("change", syncBlocks);
+  syncBlocks();
+
+  // --- Génération de la recommandation (transposition stricte du VBA)
+  document.getElementById("btnDH").addEventListener("click", () => {
+    const fd = new FormData(form);
+    const p = {
+      type: fd.get("type") || "DHNN",
+
+      // Bloc gauche
+      morsure: !!fd.get("morsure"),
+      cath: !!fd.get("cath"),
+      sarmLeft: !!fd.get("sarmLeft"),
+      allergieLeft: !!fd.get("allergieLeft"),
+
+      // Bloc droit
+      origine: fd.get("origine") || "Communautaire",
+      loc: fd.get("loc") || "Membres",
+      blse: !!fd.get("blse"),
+      sarmRight: !!fd.get("sarmRight"),
+      allergieRight: !!fd.get("allergieRight"),
+      sepsis: !!fd.get("sepsis")
+    };
+
+    const out = decideDermohypo(p);
+    document.getElementById("resDH").textContent =
+      out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
+  });
+
+  // ===== Logique (équivalente à M1_BuildReco/M1_ShockBlock) =====
+  function decideDermohypo(p){
+    // 1) Choc toxique
+    if (p.type==="Shock"){
+      const allergic   = p.allergieLeft;
+      const fdrSarmAny = (p.sarmLeft || p.sarmRight);
+      return shockBlock(allergic, fdrSarmAny);
+    }
+
+    // 2) DH non nécrosante
+    if (p.type==="DHNN"){
+      // Point de départ cathéter prioritaire
+      if (p.cath){
+        const atbSevere = p.allergieLeft
+          ? "Ciprofloxacine + Vancomycine + Amikacine/Gentamicine"
+          : "Céfepime/Imipénème + Vancomycine + Amikacine/Gentamicine";
+        return [
+          "Dermohypodermite bactérienne non nécrosante – point de départ de cathéter",
+          "• Retrait du cathéter +",
+          "  - Si absence de signe de gravité : Pas d’antibiothérapie probabiliste",
+          "  - Si sepsis/choc septique : " + atbSevere,
+          "  - +/- Caspofungine 70 mg puis 50 mg si haut risque d’infection fongique."
+        ].join("\n");
+      }
+
+      // DHBNN standard
+      let S = "Dermohypodermite bactérienne non nécrosante (DHBNN)\n";
+      if (p.allergieLeft){
+        S += "• Allergie ß-lactamines : Pristinamycine 1 g x3/j ou Clindamycine 600 mg x3/j IV/PO.\n";
+      } else if (p.morsure){
+        S += "• Morsure : Amoxicilline–acide clavulanique 4–6 g/j IVL.\n";
+      } else {
+        S += "• Référence : Amoxicilline 4–6 g/j IVL.\n";
+      }
+      return S.trim();
+    }
+
+    // 3) Infections nécrosantes (DHN/FN)
+    const isNosocomial = (p.origine === "Nosocomiale");
+    const hasAllergy   = p.allergieRight;
+    const hasBLSE      = p.blse;
+    const hasSARM      = p.sarmRight;
+    const hasSepsis    = p.sepsis;
+    const loc          = p.loc; // "Membres" | "Cervico-faciales" | "Abdomino-périnéales"
+
+    if (isNosocomial){
+      let S = "Infection nécrosante nosocomiale/post-opératoire\n";
+      if (hasAllergy){
+        S += "• Schéma : Ciprofloxacine 750 mg x2/j IVL/PO + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.";
+      } else {
+        if (hasBLSE){
+          S += "• Schéma : Méropénème 4–6 g/j IVL.";
+        } else {
+          S += "• Schéma : Pipéracilline–tazobactam 4 g x4/j IVL ou Méropénème 4–6 g/j IVL.";
+        }
+        if (hasSARM){
+          S += " + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.";
+        }
+      }
+      if (hasSepsis) S += " + Amikacine 25–30 mg/kg IVL 30 min.";
+      return S;
+    }
+
+    // Communautaire
+    let S = "Infection nécrosante communautaire – Localisation : " + loc + "\n";
+    if (loc === "Membres"){
+      if (hasAllergy){
+        S += "• Ciprofloxacine 750 mg x2/j IVL/PO + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.";
+      } else {
+        if (hasBLSE){
+          S += "• Méropénème 4–6 g/j IVL";
+        } else {
+          S += "• Pipéracilline–tazobactam 4 g x4/j IVL + Clindamycine 600 mg x3/j (48 h)";
+        }
+        if (hasSARM) S += " + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j ";
+        S += ".";
+      }
+      if (hasSepsis) S += " + Amikacine 25–30 mg/kg IVL 30 min.";
+      return S;
+    }
+
+    if (loc === "Cervico-faciales"){
+      if (hasAllergy){
+        S += "• Ciprofloxacine 750 mg x2/j IVL/PO + Clindamycine 600 mg x3/j.";
+      } else {
+        S += "• Amoxicilline–acide clavulanique 4–6 g/j IVL ou Céfotaxime 4–6 g/j IVL + Métronidazole 500 mg x3/j IVL/PO.";
+      }
+      if (hasSepsis) S += " + Gentamicine 5–8 mg/kg IVL 30 min.";
+      return S;
+    }
+
+    if (loc === "Abdomino-périnéales"){
+      if (hasAllergy){
+        S += "• Ciprofloxacine 750 mg x2/j IVL/PO + Métronidazole 500 mg x3/j IVL/PO + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j.";
+      } else {
+        if (hasBLSE){
+          S += "• Méropénème 4–6 g/j IVL";
+        } else {
+          S += "• Pipéracilline–tazobactam 4 g x4/j IVL";
+        }
+        if (hasSARM) S += " + Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j ";
+        S += ".";
+      }
+      if (hasSepsis) S += " + Amikacine 25–30 mg/kg IVL 30 min.";
+      return S;
+    }
+
+    return S + "• Veuillez sélectionner une localisation.";
+  }
+
+  function shockBlock(allergic, fdrSarmAny){
+    const topLine = (allergic || fdrSarmAny)
+      ? "Vancomycine 30 mg/kg/j ou Linézolide 600 mg x2/j IV/PO"
+      : "Céfazoline 4–6 g/24 h IVL (Ou autre ß-lactamine anti-strepto/staphylococcique)";
+    return [
+      topLine,
+      "",
+      "+ Clindamycine 600 mg x3/j",
+      "+ Immunoglobulines IV 1 g/kg à discuter",
+      "Choc streptococcique : Evolution possible vers une forme nécrosante nécessitant la chirurgie",
+      "Choc staphylococcique : Recherche d’un tampon hygiénique usagé chez la femme jeune"
+    ].join("\n");
+  }
+}
+
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
