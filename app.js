@@ -1891,7 +1891,8 @@ function renderAdapteeMenu() {
   container.appendChild(linksContainer);
   container.appendChild(imageContainer);
 
-  return container;
+ console.log("Inserting content into #app");  // Log pour vérifier l'insertion du contenu
+  appContainer.appendChild(container); // Insère le contenu dans #app
 }
 
 // Fonction pour afficher les images correspondantes
