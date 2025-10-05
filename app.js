@@ -1829,22 +1829,6 @@ function renderAdapteeMenu() {
   `;
 }
 
-function renderAdapteeMenu() {
-  $app.innerHTML = `
-    <div class="card"><strong>Antibiothérapie adaptée</strong></div>
-
-    <div class="grid">
-      <button class="btn" onclick="renderGermesSensiblesTable()">Germes Sensibles</button>
-      <button class="btn" onclick="renderAmpCTable()">Céphalosporinases AmpC</button>
-      <button class="btn" onclick="renderBLSETable()">BLSE</button>
-      <button class="btn" onclick="renderPseudomonasTable()">Pseudomonas</button>
-      <button class="btn" onclick="renderAcinetobacterTable()">Acinetobacter</button>
-      <button class="btn" onclick="renderStenotrophomonasTable()">Stenotrophomonas</button>
-      <button class="btn" onclick="renderEPCTable()">EPC</button>
-      <button class="btn" onclick="renderERVTable()">ERV</button>
-    </div>
-  `;
-}
 
 function renderGermesSensiblesTable() {
   $app.innerHTML = `
