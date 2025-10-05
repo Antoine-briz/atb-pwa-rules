@@ -1819,19 +1819,18 @@ function renderDureesForm() {
   }
 }
 
-
 function renderAdapteeMenu() {
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
     ${h("grid cols-2", `
-      <button class="btn outline" onclick="renderGermesSensiblesTable()">Germes sensibles</button>
-      <button class="btn outline" onclick="renderAmpCTable()">Céphalosporinases AmpC</button>
-      <button class="btn outline" onclick="renderBLSETable()">Entérobactéries BLSE</button>
-      <button class="btn outline" onclick="renderPseudomonasTable()">Pseudomonas aeruginosa MDR/XDR</button>
-      <button class="btn outline" onclick="renderAcinetobacterTable()">Acinetobacter baumannii Imipénèm-R</button>
-      <button class="btn outline" onclick="renderStenotrophomonasTable()">Stenotrophomonas maltophilia</button>
-      <button class="btn outline" onclick="renderEPCTable()">Entérobactérie carbapénèmases</button>
-      <button class="btn outline" onclick="renderERVTable()">E.faecium Vancomycine-R</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/germes-sensibles'">Germes sensibles</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/ampc'">Céphalosporinases AmpC</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/blse'">Entérobactéries BLSE</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/pseudomonas'">Pseudomonas aeruginosa MDR/XDR</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/acinetobacter'">Acinetobacter baumannii Imipénèm-R</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/stenotrophomonas'">Stenotrophomonas maltophilia</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/epc'">Entérobactérie carbapénèmases</button>
+      <button class="btn outline" onclick="location.hash='#/adaptee/erv'">E.faecium Vancomycine-R</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
