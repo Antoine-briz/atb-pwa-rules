@@ -1843,17 +1843,17 @@ function renderAdapteeMenu() {
   const linksContainer = document.createElement("div");
   linksContainer.classList.add("germs-links");
 
-  const links = [
-    { href: "#/adaptee/germes-sensibles", text: "Germes Sensibles" },
-    { href: "#/adaptee/sarm", text: "SARM" },
-    { href: "#/adaptee/ampc", text: "Entérobactéries ampC" },
-    { href: "#/adaptee/blse", text: "BLSE" },
-    { href: "#/adaptee/pseudomonas", text: "Pseudomonas aeruginosas MDR/XDR" },
-    { href: "#/adaptee/acinetobacter", text: "Acinetobacter baumannii Imipénème-R" },
-    { href: "#/adaptee/stenotrophomonas", text: "Stenotrophomonas maltophilia" },
-    { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases" },
-    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R" },
-  ];
+const links = [
+  { href: "#/adaptee/germes-sensibles", text: "Germes Sensibles", imageIds: ["sensibles1", "sensibles2"] },
+  { href: "#/adaptee/sarm", text: "SARM", imageIds: ["SARM"] },
+  { href: "#/adaptee/ampc", text: "Entérobactéries ampC", imageIds: ["ampC"] },
+  { href: "#/adaptee/blse", text: "BLSE", imageIds: ["BLSE"] },
+  { href: "#/adaptee/pseudomonas", text: "Pseudomonas aeruginosas MDR/XDR", imageIds: ["pyo"] },
+  { href: "#/adaptee/acinetobacter", text: "Acinetobacter baumannii Imipénème-R", imageIds: ["acineto"] },
+  { href: "#/adaptee/stenotrophomonas", text: "Stenotrophomonas maltophilia", imageIds: ["steno"] },
+  { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases", imageIds: ["carba"] },
+  { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", imageIds: ["erv"] },
+];
 
   links.forEach(link => {
     const anchor = document.createElement("a");
