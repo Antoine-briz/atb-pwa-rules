@@ -1837,16 +1837,16 @@ function renderAdapteeMenu() {
         <a href="#/adaptee/erv" onClick={() => showImage("erv")}>E. faecium Vancomycine-R</a>
       </div>
       <div className="image-container">
-        <img id="sensibles1" src="/mnt/data/sensibles1.png" alt="Germes Sensibles 1" style={{ display: 'none' }} />
-        <img id="sensibles2" src="/mnt/data/sensibles2.png" alt="Germes Sensibles 2" style={{ display: 'none' }} />
-        <img id="SARM" src="/mnt/data/SARM.png" alt="SARM" style={{ display: 'none' }} />
-        <img id="ampC" src="/mnt/data/ampC.png" alt="AmpC" style={{ display: 'none' }} />
-        <img id="BLSE" src="/mnt/data/BLSE.png" alt="BLSE" style={{ display: 'none' }} />
-        <img id="pyo" src="/mnt/data/pyo.png" alt="Pseudomonas" style={{ display: 'none' }} />
-        <img id="acineto" src="/mnt/data/acineto.png" alt="Acinetobacter" style={{ display: 'none' }} />
-        <img id="steno" src="/mnt/data/steno.png" alt="Stenotrophomonas" style={{ display: 'none' }} />
-        <img id="carba" src="/mnt/data/carba.png" alt="Entérobactéries Carbapénémases" style={{ display: 'none' }} />
-        <img id="erv" src="/mnt/data/erv.png" alt="E. faecium Vancomycine-R" style={{ display: 'none' }} />
+        <img id="sensibles1" src="/img/sensibles1.png" alt="Germes Sensibles 1" style={{ display: 'none' }} />
+        <img id="sensibles2" src="/img/sensibles2.png" alt="Germes Sensibles 2" style={{ display: 'none' }} />
+        <img id="SARM" src="/img/SARM.png" alt="SARM" style={{ display: 'none' }} />
+        <img id="ampC" src="/img/ampC.png" alt="AmpC" style={{ display: 'none' }} />
+        <img id="BLSE" src="/img/BLSE.png" alt="BLSE" style={{ display: 'none' }} />
+        <img id="pyo" src="/img/pyo.png" alt="Pseudomonas" style={{ display: 'none' }} />
+        <img id="acineto" src="/img/acineto.png" alt="Acinetobacter" style={{ display: 'none' }} />
+        <img id="steno" src="/img/steno.png" alt="Stenotrophomonas" style={{ display: 'none' }} />
+        <img id="carba" src="/img/carba.png" alt="Entérobactéries Carbapénémases" style={{ display: 'none' }} />
+        <img id="erv" src="/img/erv.png" alt="E. faecium Vancomycine-R" style={{ display: 'none' }} />
       </div>
     </div>
   );
