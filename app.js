@@ -1821,44 +1821,86 @@ function renderDureesForm() {
 }
 
 function renderAdapteeMenu() {
-  return (
-    <div className="antibiotherapy-container">
-      <h2>Antibiothérapie Adaptée</h2>
-      <div className="germs-links">
-        <a href="#/adaptee/sensibles" onClick={() => showImage("sensibles1")}>Germes Sensibles 1</a>
-        <a href="#/adaptee/sensibles" onClick={() => showImage("sensibles2")}>Germes Sensibles 2</a>
-        <a href="#/adaptee/SARM" onClick={() => showImage("SARM")}>SARM</a>
-        <a href="#/adaptee/ampC" onClick={() => showImage("ampC")}>AmpC</a>
-        <a href="#/adaptee/BLSE" onClick={() => showImage("BLSE")}>BLSE</a>
-        <a href="#/adaptee/pyo" onClick={() => showImage("pyo")}>Pseudomonas</a>
-        <a href="#/adaptee/acineto" onClick={() => showImage("acineto")}>Acinetobacter</a>
-        <a href="#/adaptee/steno" onClick={() => showImage("steno")}>Stenotrophomonas</a>
-        <a href="#/adaptee/carba" onClick={() => showImage("carba")}>Entérobactéries Carbapénémases</a>
-        <a href="#/adaptee/erv" onClick={() => showImage("erv")}>E. faecium Vancomycine-R</a>
-      </div>
-      <div className="image-container">
-        <img id="sensibles1" src="/img/sensibles1.png" alt="Germes Sensibles 1" style={{ display: 'none' }} />
-        <img id="sensibles2" src="/img/sensibles2.png" alt="Germes Sensibles 2" style={{ display: 'none' }} />
-        <img id="SARM" src="/img/SARM.png" alt="SARM" style={{ display: 'none' }} />
-        <img id="ampC" src="/img/ampC.png" alt="AmpC" style={{ display: 'none' }} />
-        <img id="BLSE" src="/img/BLSE.png" alt="BLSE" style={{ display: 'none' }} />
-        <img id="pyo" src="/img/pyo.png" alt="Pseudomonas" style={{ display: 'none' }} />
-        <img id="acineto" src="/img/acineto.png" alt="Acinetobacter" style={{ display: 'none' }} />
-        <img id="steno" src="/img/steno.png" alt="Stenotrophomonas" style={{ display: 'none' }} />
-        <img id="carba" src="/img/carba.png" alt="Entérobactéries Carbapénémases" style={{ display: 'none' }} />
-        <img id="erv" src="/img/erv.png" alt="E. faecium Vancomycine-R" style={{ display: 'none' }} />
-      </div>
-    </div>
-  );
+  // Création de la div principale
+  const container = document.createElement("div");
+  container.classList.add("antibiotherapy-container");
+
+  // Création du titre
+  const title = document.createElement("h2");
+  title.textContent = "Antibiothérapie Adaptée";
+
+  // Création du conteneur des liens
+  const linksContainer = document.createElement("div");
+  linksContainer.classList.add("germs-links");
+
+  // Liste des liens pour chaque bactérie
+  const links = [
+    { href: "#/adaptee/sensibles", text: "Germes Sensibles 1", imageId: "sensibles1" },
+    { href: "#/adaptee/sensibles", text: "Germes Sensibles 2", imageId: "sensibles2" },
+    { href: "#/adaptee/SARM", text: "SARM", imageId: "SARM" },
+    { href: "#/adaptee/ampC", text: "AmpC", imageId: "ampC" },
+    { href: "#/adaptee/BLSE", text: "BLSE", imageId: "BLSE" },
+    { href: "#/adaptee/pyo", text: "Pseudomonas", imageId: "pyo" },
+    { href: "#/adaptee/acineto", text: "Acinetobacter", imageId: "acineto" },
+    { href: "#/adaptee/steno", text: "Stenotrophomonas", imageId: "steno" },
+    { href: "#/adaptee/carba", text: "Entérobactéries Carbapénémases", imageId: "carba" },
+    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", imageId: "erv" },
+  ];
+
+  // Création des liens dynamiquement
+  links.forEach(link => {
+    const anchor = document.createElement("a");
+    anchor.href = link.href;
+    anchor.textContent = link.text;
+    anchor.addEventListener("click", () => showImage(link.imageId));  // Ajout du gestionnaire d'événements
+    linksContainer.appendChild(anchor);
+  });
+
+  // Création de la div des images
+  const imageContainer = document.createElement("div");
+  imageContainer.classList.add("image-container");
+
+  // Liste des images (les id correspondent aux mêmes noms que ceux dans `showImage`)
+  const images = [
+    { id: "sensibles1", src: "/img/sensibles1.png", alt: "Germes Sensibles 1" },
+    { id: "sensibles2", src: "/img/sensibles2.png", alt: "Germes Sensibles 2" },
+    { id: "SARM", src: "/img/SARM.png", alt: "SARM" },
+    { id: "ampC", src: "/img/ampC.png", alt: "AmpC" },
+    { id: "BLSE", src: "/img/BLSE.png", alt: "BLSE" },
+    { id: "pyo", src: "/img/pyo.png", alt: "Pseudomonas" },
+    { id: "acineto", src: "/img/acineto.png", alt: "Acinetobacter" },
+    { id: "steno", src: "/img/steno.png", alt: "Stenotrophomonas" },
+    { id: "carba", src: "/img/carba.png", alt: "Entérobactéries Carbapénémases" },
+    { id: "erv", src: "/img/erv.png", alt: "E. faecium Vancomycine-R" },
+  ];
+
+  // Création des images
+  images.forEach(image => {
+    const img = document.createElement("img");
+    img.id = image.id;
+    img.src = image.src;
+    img.alt = image.alt;
+    img.style.display = "none"; // Initialement masquées
+    imageContainer.appendChild(img);
+  });
+
+  // Ajout du titre, des liens et des images dans le conteneur principal
+  container.appendChild(title);
+  container.appendChild(linksContainer);
+  container.appendChild(imageContainer);
+
+  // Retour du conteneur principal
+  return container;
 }
 
+// Fonction pour afficher l'image sélectionnée
 function showImage(imageId) {
   const images = document.querySelectorAll('.image-container img');
-  images.forEach(img => img.style.display = 'none');
+  images.forEach(img => img.style.display = 'none');  // Masquer toutes les images
   
   const selectedImage = document.getElementById(imageId);
   if (selectedImage) {
-    selectedImage.style.display = 'block';
+    selectedImage.style.display = 'block';  // Afficher l'image sélectionnée
   }
 }
 
