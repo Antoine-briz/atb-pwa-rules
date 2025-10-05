@@ -74,3 +74,34 @@ input[type="text"], input[type="number"], select, textarea {
   border: 1px solid var(--border);
   object-fit: cover;
 }
+
+/* ----------- CSS spécifique pour le menu antibiothérapie et l'affichage des images ----------- */
+
+/* Style pour les liens dans le menu des antibiothérapies */
+.germs-links a {
+  display: block;
+  margin: 10px 0;
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.germs-links a:hover {
+  color: var(--fg);
+}
+
+/* Style des images */
+.image-container img {
+  width: 100%;
+  height: auto;
+  max-width: 600px;  /* Limite la taille des images */
+  margin-top: 20px;
+  border-radius: 12px;
+  display: none;  /* Par défaut, les images sont cachées */
+}
+
+/* Ajout d'une animation pour l'affichage des images */
+.image-container img {
+  transition: opacity 0.5s ease;
+}
