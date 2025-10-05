@@ -1820,20 +1820,21 @@ function renderDureesForm() {
   }
 }
 
+// Fonction pour afficher le menu de l'antibiothérapie adaptée
 function renderAdapteeMenu() {
-  // Création de la div principale
+  // Création du conteneur principal
   const container = document.createElement("div");
   container.classList.add("antibiotherapy-container");
 
-  // Création du titre
+  // Titre principal
   const title = document.createElement("h2");
   title.textContent = "Antibiothérapie Adaptée";
 
-  // Création du conteneur des liens
+  // Conteneur pour les liens
   const linksContainer = document.createElement("div");
   linksContainer.classList.add("germs-links");
 
-  // Liste des liens pour chaque bactérie
+  // Liste des liens
   const links = [
     { href: "#/adaptee/sensibles", text: "Germes Sensibles 1", imageId: "sensibles1" },
     { href: "#/adaptee/sensibles", text: "Germes Sensibles 2", imageId: "sensibles2" },
@@ -1852,15 +1853,18 @@ function renderAdapteeMenu() {
     const anchor = document.createElement("a");
     anchor.href = link.href;
     anchor.textContent = link.text;
-    anchor.addEventListener("click", () => showImage(link.imageId));  // Ajout du gestionnaire d'événements
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault(); // Empêche la navigation par défaut
+      showImage(link.imageId);
+    });
     linksContainer.appendChild(anchor);
   });
 
-  // Création de la div des images
+  // Création de la section pour les images
   const imageContainer = document.createElement("div");
   imageContainer.classList.add("image-container");
 
-  // Liste des images (les id correspondent aux mêmes noms que ceux dans `showImage`)
+  // Liste des images à afficher
   const images = [
     { id: "sensibles1", src: "/img/sensibles1.png", alt: "Germes Sensibles 1" },
     { id: "sensibles2", src: "/img/sensibles2.png", alt: "Germes Sensibles 2" },
@@ -1880,29 +1884,47 @@ function renderAdapteeMenu() {
     img.id = image.id;
     img.src = image.src;
     img.alt = image.alt;
-    img.style.display = "none"; // Initialement masquées
+    img.style.display = "none"; // Initialement cachées
     imageContainer.appendChild(img);
   });
 
-  // Ajout du titre, des liens et des images dans le conteneur principal
+  // Ajout des éléments à la page
   container.appendChild(title);
   container.appendChild(linksContainer);
   container.appendChild(imageContainer);
 
-  // Retour du conteneur principal
   return container;
 }
 
-// Fonction pour afficher l'image sélectionnée
+// Fonction pour afficher l'image correspondante
 function showImage(imageId) {
   const images = document.querySelectorAll('.image-container img');
-  images.forEach(img => img.style.display = 'none');  // Masquer toutes les images
+  images.forEach(img => img.style.display = 'none'); // Masquer toutes les images
   
   const selectedImage = document.getElementById(imageId);
   if (selectedImage) {
-    selectedImage.style.display = 'block';  // Afficher l'image sélectionnée
+    selectedImage.style.display = 'block'; // Afficher l'image correspondante
   }
 }
+
+// Router simple pour gérer la navigation
+function handleRoute() {
+  const route = window.location.hash;
+  const appContainer = document.getElementById("app");
+
+  if (route === "#/adaptee") {
+    appContainer.innerHTML = ""; // Effacer le contenu précédent
+    appContainer.appendChild(renderAdapteeMenu()); // Afficher le menu
+  } else {
+    appContainer.innerHTML = "<h2>Page Non Trouvée</h2>"; // Afficher un message d'erreur si la route n'est pas trouvée
+  }
+}
+
+// Ecouteur pour détecter les changements dans l'URL
+window.addEventListener("hashchange", handleRoute);
+
+// Initialisation du routeur
+window.addEventListener("load", handleRoute); // Charger le bon contenu au démarrage
 
 
 function renderNotFound(){
