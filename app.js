@@ -1865,18 +1865,18 @@ function renderAdapteeMenu() {
   imageContainer.classList.add("image-container");
 
   // Liste des images à afficher
-  const images = [
-    { id: "sensibles1", src: "/img/sensibles1.png", alt: "Germes Sensibles 1" },
-    { id: "sensibles2", src: "/img/sensibles2.png", alt: "Germes Sensibles 2" },
-    { id: "SARM", src: "/img/SARM.png", alt: "SARM" },
-    { id: "ampC", src: "/img/ampC.png", alt: "AmpC" },
-    { id: "BLSE", src: "/img/BLSE.png", alt: "BLSE" },
-    { id: "pyo", src: "/img/pyo.png", alt: "Pseudomonas" },
-    { id: "acineto", src: "/img/acineto.png", alt: "Acinetobacter" },
-    { id: "steno", src: "/img/steno.png", alt: "Stenotrophomonas" },
-    { id: "carba", src: "/img/carba.png", alt: "Entérobactéries Carbapénémases" },
-    { id: "erv", src: "/img/erv.png", alt: "E. faecium Vancomycine-R" },
-  ];
+const images = [
+  { id: "sensibles1", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/sensibles1.png", alt: "Germes Sensibles 1" },
+  { id: "sensibles2", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/sensibles2.png", alt: "Germes Sensibles 2" },
+  { id: "SARM", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/SARM.png", alt: "SARM" },
+  { id: "ampC", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/ampC.png", alt: "AmpC" },
+  { id: "BLSE", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/BLSE.png", alt: "BLSE" },
+  { id: "pyo", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/pyo.png", alt: "Pseudomonas" },
+  { id: "acineto", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/acineto.png", alt: "Acinetobacter" },
+  { id: "steno", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/steno.png", alt: "Stenotrophomonas" },
+  { id: "carba", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/carba.png", alt: "Entérobactéries Carbapénémases" },
+  { id: "erv", src: "https://raw.githubusercontent.com/Antoine-briz/atb-pwa-rules/main/img/erv.png", alt: "E. faecium Vancomycine-R" }
+];
 
   // Création des images
   images.forEach(image => {
