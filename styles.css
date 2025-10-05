@@ -1,7 +1,16 @@
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-body { background: var(--bg,#0b1220); color: var(--fg,#e5e7eb); }
+body {
+  background-image: url('./img/fond.png'); /* Le chemin vers ton image */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--fg,#e5e7eb);
+}
+
+/* Pour les modes clair et sombre */
 @media (prefers-color-scheme: light){
   body { --bg:#f8fafc; --fg:#0f172a; --card:#ffffff; --muted:#475569; --border:#e2e8f0; --accent:#3b82f6; }
 }
