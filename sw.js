@@ -30,6 +30,7 @@ const PRECACHE = [
   '/img/steno.png',
   '/img/carba.png',
   '/img/erv.png',
+  '/img/fond.png',
 ];
 
 self.addEventListener("install", (event) => {
