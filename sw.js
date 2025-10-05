@@ -19,8 +19,8 @@ const PRECACHE = [
   "./img/urinaire.png",
   "./img/abdo.png",
   "./img/neuro.png", 
-  "./img/dermohypodermite.png"
-  "./img/fabrice.png"
+  "./img/dermohypodermite.png",
+  "./img/fabrice.png",
   '/img/sensibles1.png',
   '/img/sensibles2.png',
   '/img/SARM.png',
