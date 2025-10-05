@@ -1812,24 +1812,325 @@ function renderDureesForm() {
 }
 
 
-function renderAdapteeMenu(){
+function renderAdapteeMenu() {
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
     ${h("grid cols-2", `
-      <button class="btn outline" disabled>Germes multisenstibles</button>
-      <button class="btn outline" disabled>SARM</button>
-      <button class="btn outline" disabled>Entérobactéries AmpC (groupe 3)</button>
-      <button class="btn outline" disabled>Entérobactéries BLSE</button>
-      <button class="btn outline" disabled><em>Pseudomonas</em> aeruginosa MDR/XDR</button>
-      <button class="btn outline" disabled><em>A. baumannii</em> Imipénème-R</button>
-      <button class="btn outline" disabled><em>Stenotrophomonas</em> maltophilia</button>
-      <button class="btn outline" disabled>Entérobactéries carbapénèmase</button>
-      <button class="btn outline" disabled><em>E. faecium</em> Vancomycine-R</button>
+      <button class="btn outline" onclick="renderGermesSensiblesTable()">Germes Sensibles</button>
+      <button class="btn outline" onclick="renderAmpCTable()">Céphalosporinases AmpC</button>
+      <button class="btn outline" onclick="renderBLSETable()">BLSE</button>
+      <button class="btn outline" onclick="renderPseudomonasTable()">Pseudomonas</button>
+      <button class="btn outline" onclick="renderAcinetobacterTable()">Acinetobacter</button>
+      <button class="btn outline" onclick="renderStenotrophomonasTable()">Stenotrophomonas</button>
+      <button class="btn outline" onclick="renderEPCTable()">EPC</button>
+      <button class="btn outline" onclick="renderERVTable()">ERV</button>
     `)}
-    ${h("card", `<div class="muted">Tu me donneras les tableaux par bactérie et je remplirai les écrans.</div>`)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
 }
+
+function renderAdapteeMenu() {
+  $app.innerHTML = `
+    <div class="card"><strong>Antibiothérapie adaptée</strong></div>
+
+    <div class="grid">
+      <button class="btn" onclick="renderGermesSensiblesTable()">Germes Sensibles</button>
+      <button class="btn" onclick="renderAmpCTable()">Céphalosporinases AmpC</button>
+      <button class="btn" onclick="renderBLSETable()">BLSE</button>
+      <button class="btn" onclick="renderPseudomonasTable()">Pseudomonas</button>
+      <button class="btn" onclick="renderAcinetobacterTable()">Acinetobacter</button>
+      <button class="btn" onclick="renderStenotrophomonasTable()">Stenotrophomonas</button>
+      <button class="btn" onclick="renderEPCTable()">EPC</button>
+      <button class="btn" onclick="renderERVTable()">ERV</button>
+    </div>
+  `;
+}
+
+function renderGermesSensiblesTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Germes Sensibles</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries pathogènes</th>
+          <th>Antibiotique de référence</th>
+          <th>Posologie</th>
+          <th>Break-points cliniques (mg/L)</th>
+          <th>Alternatives (dont allergies)</th>
+          <th>Remarques</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Staphylococcus aureus</td>
+          <td>Cloxacilline</td>
+          <td>100-200mg/kg/j IVL</td>
+          <td>2 (mecA-), 2 (mecA+)</td>
+          <td>Céfazoline, Cotrimoxazole, Fluoroquinolones</td>
+          <td>Sensibilité préservée à l’Amoxicilline dans 10% des cas (à privilégier dans ce cas)</td>
+        </tr>
+        <tr>
+          <td>Staphylocoques blancs</td>
+          <td>Vancomycine</td>
+          <td>30-40mg/kg/24h</td>
+          <td>4 (mecA-), 4 (mecA+)</td>
+          <td>Linezolide, Daptomycine</td>
+          <td>S. epidermidis résistant aux β-lactamines dans 70-90% des cas</td>
+        </tr>
+        <tr>
+          <td>Streptococcus pneumoniae</td>
+          <td>Amoxicilline</td>
+          <td>50-100mg/kg/24h</td>
+          <td>0.5, 2</td>
+          <td>Lévofloxacine, Spiramycine</td>
+          <td>C3G en probabiliste, à maintenir si S. diminuée à l’Amoxicilline. Si méningite : Dose méningées.</td>
+        </tr>
+        <tr>
+          <td>Autres streptocoques (Groupes A, B, C & G)</td>
+          <td>Amoxicilline</td>
+          <td>50-100mg/kg/24h</td>
+          <td>0.25, 0.25</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Enterococcus faecalis</td>
+          <td>Amoxicilline</td>
+          <td>50-100mg/kg/24h</td>
+          <td>4, 8</td>
+          <td>Vancomycine, Linezolide, Daptomycine</td>
+          <td>Résistance à l’Amoxicilline dans 0.5% des cas. Résistant céphalosporines</td>
+        </tr>
+        <tr>
+          <td>Enterococcus faecium</td>
+          <td>Vancomycine</td>
+          <td>30-40mg/kg/24h</td>
+          <td>4 (vanA-), 4 (vanA+)</td>
+          <td>Linezolide, Daptomycine, Tigécycline</td>
+          <td>Résistance à l’Amoxicilline dans 80% des cas. Résistant céphalosporines</td>
+        </tr>
+        <tr>
+          <td>Neisseria meningitidis</td>
+          <td>Amoxicilline</td>
+          <td>150-200mg/kg/j si méningite</td>
+          <td>0.125, 1</td>
+          <td>Macrolides, Fluoroquinolones, Cyclines, Rifampicine</td>
+          <td>C3G en probabiliste (dose méningée si méningite). Résistance naturelle au Cotrimoxazole.</td>
+        </tr>
+        <tr>
+          <td>Neisseria gonorrhoeae</td>
+          <td>Amoxicilline</td>
+          <td>50-100mg/kg/j</td>
+          <td>0.06, 1</td>
+          <td>C3G en probabiliste</td>
+          <td>Résistance naturelle au Cotrimoxazole.</td>
+        </tr>
+        <tr>
+          <td>Moraxella catarrhalis</td>
+          <td>Amoxicilline-Clav.</td>
+          <td>1g/0.5g x3/24h IVL</td>
+          <td>1</td>
+          <td>Pénicillinase dans 95% des cas</td>
+          <td>R. amox, S. augmentin</td>
+        </tr>
+        <tr>
+          <td>Clostridium difficile</td>
+          <td>Fidaxomycine</td>
+          <td>200mg x2/j PO</td>
+          <td>0.5</td>
+          <td>Vancomycine, Métronidazole, Tigécycline</td>
+          <td>Privilégier Fidaxomycine car moins de récurrences.</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderAmpCTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Céphalosporinases AmpC</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Entérobactéries sécrétrices de Céphalosporinase AmpC</td>
+          <td>Céfépime IV 2g + Métronidazole 500mg x3/j IV/PO</td>
+        </tr>
+        <tr>
+          <td>Klebsiella pneumoniae</td>
+          <td>Ciprofloxacine 400mg x2/j IV</td>
+        </tr>
+        <tr>
+          <td>Escherichia coli</td>
+          <td>Céfépime 2g IV + Métronidazole 500mg x3/j IV/PO</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderBLSETable() {
+  $app.innerHTML = `
+    <div class="card"><strong>BLSE</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Escherichia coli</td>
+          <td>Méropénème 4-6g/24h IVL</td>
+        </tr>
+        <tr>
+          <td>Klebsiella pneumoniae</td>
+          <td>Imipénème 3-4g/24h IVL</td>
+        </tr>
+        <tr>
+          <td>Enterobacter spp.</td>
+          <td>Imipénème 3-4g/24h IVL</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderPseudomonasTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Pseudomonas</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pseudomonas aeruginosa</td>
+          <td>Ceftolozane-Tazobactam 2g/1g x3/j IVL</td>
+        </tr>
+        <tr>
+          <td>Pseudomonas aeruginosa (MDR)</td>
+          <td>Ceftazidime-avibactam 2g/0.5g x3/j IVL</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderAcinetobacterTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Acinetobacter baumannii</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acinetobacter baumannii</td>
+          <td>Ampicilline-sulbactam 2g/1g x3/j IV</td>
+        </tr>
+        <tr>
+          <td>Acinetobacter baumannii (résistant aux carbapénèmes)</td>
+          <td>Colimycine 9-12 MUI x3/j IV + Méropénème 4-6g/24h IVL</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderStenotrophomonasTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Stenotrophomonas maltophilia</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Stenotrophomonas maltophilia</td>
+          <td>Cotrimoxazole 20+100mg/kg/j PO/IV</td>
+        </tr>
+        <tr>
+          <td>Stenotrophomonas maltophilia (résistante aux béta-lactamines)</td>
+          <td>Cotrimoxazole + Lévofloxacine 500mg x2/j IV/PO</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderEPCTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Entérobactéries productrices de carbapénèmases (EPC)</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Entérobactéries (KPC, NDM, OXA48)</td>
+          <td>Ceftazidime-avibactam 2g/0.5g x3/j IVL</td>
+        </tr>
+        <tr>
+          <td>Enterobacter spp. (carbapénèmes résistants)</td>
+          <td>Imipénème-Relebactam 500mg/250mg x4/j IV</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+function renderERVTable() {
+  $app.innerHTML = `
+    <div class="card"><strong>Enterococcus faecium résistant à la vancomycine (ERV)</strong></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bactéries</th>
+          <th>Antibiothérapie recommandée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Enterococcus faecium résistant à la vancomycine</td>
+          <td>Linézolide 600mg x2/j PO/IV</td>
+        </tr>
+        <tr>
+          <td>Enterococcus faecium (infect. sévère)</td>
+          <td>Daptomycine 12mg/kg/j IV</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn ghost" onclick="history.back()">← Retour</button>
+  `;
+}
+
+
 
 
 function renderNotFound(){
