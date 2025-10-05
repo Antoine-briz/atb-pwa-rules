@@ -13,7 +13,7 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
-  "#/adaptee/germes-sensibles": () => showImages(["sensibles1", "sensibles2"]),
+  "#/adaptee/sensibles": () => showImages("sensibles"),
   "#/adaptee/SARM": () => showImage("SARM"),
   "#/adaptee/ampC": () => showImage("ampC"),
   "#/adaptee/BLSE": () => showImage("BLSE"),
@@ -1844,7 +1844,7 @@ function renderAdapteeMenu() {
   linksContainer.classList.add("germs-links");
 
 const links = [
-  { href: "#/adaptee/germes-sensibles", text: "Germes Sensibles", imageIds: ["sensibles1", "sensibles2"] },
+  { href: "#/adaptee/sensibles", text: "Germes Sensibles", imageIds: ["sensibles"] },
   { href: "#/adaptee/SARM", text: "SARM", imageIds: ["SARM"] },
   { href: "#/adaptee/ampC", text: "Entérobactéries ampC", imageIds: ["ampC"] },
   { href: "#/adaptee/BLSE", text: "BLSE", imageIds: ["BLSE"] },
@@ -1871,8 +1871,7 @@ const links = [
 
   // Afficher les images de manière dynamique avec les chemins relatifs
   const images = [
-    { id: "sensibles1", src: "./img/sensibles1.png", alt: "Germes Sensibles" },
-    { id: "sensibles2", src: "./img/sensibles2.png", alt: "Germes Sensibles" },
+    { id: "sensibles", src: "./img/sensibles.png", alt: "Germes Sensibles" },
     { id: "SARM", src: "./img/SARM.png", alt: "SARM" },
     { id: "ampC", src: "./img/ampC.png", alt: "Entérobactéries ampC" },
     { id: "BLSE", src: "./img/BLSE.png", alt: "Entérobactéries BLSE" },
