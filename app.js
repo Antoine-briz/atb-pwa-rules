@@ -72,7 +72,6 @@ function renderProbaMenu() {
       <button class="btn outline" onclick="location.hash='#/proba/dermohypo'">Infections des parties molles</button>
       <button class="btn outline" onclick="location.hash='#/proba/endocardite'">Endocardite infectieuse</button>
       <button class="btn outline" onclick="location.hash='#/proba/sepsis'">Sepsis sans porte d'entrée</button>
-      <button class="btn outline" onclick="location.hash='#/proba/dureeATB'">Durée d'antibiothérapie</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
@@ -1405,6 +1404,413 @@ function renderProbaSepsisForm(){
     return res + baseTx + addTx;
   }
 }
+
+function renderDureesForm() {
+  // ======================= Données – listes =======================
+  const INFECTIONS = {
+    "Pneumonies": ["Communautaire", "PAVM", "Nécrose/abcès", "Empyème pleural"],
+    "Infections urinaires": ["Cystite", "Pyélonéphrite", "IU masculine"],
+    "Bactériémies": ["Inconnue", "Cathéter", "Autre infection"],
+    "Infections intra-abdominales": [
+      "Cholécystite","Angiocholite","Abcès hépatique","Inf. nécrose pancréatique",
+      "Péritonite communautaire","Péritonite nosocomiale","Appendicite","Diverticulite",
+      "Entéro-colite","Inf. liquide ascite"
+    ],
+    "Infections neuro-méningées": ["Méningite", "Encéphalite", "Abcès cérébral"],
+    "Infections des parties molles": ["Non nécrosantes","Nécrosantes"],
+    "Endocardite infectieuse": ["Valve native","Prothèse valvulaire (< ou > 1 an)"]
+  };
+
+  const BACTERIES = {
+    "Cocci Gram -": ["Neisseria meningitidis"],
+    "Cocci Gram +": ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."],
+    "Bacilles Gram -": [
+      "Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia",
+      "Acinetobacter baumannii","Haemophilus influenzae","Legionella pneumophila"
+    ],
+    "Bacilles Gram +": ["Clostridium difficile","Listeria monocytogenes","Nocardia spp."],
+    "Autres": ["Mycoplasma pneumoniae","Mycobacterium tuberculosis"]
+  };
+
+  const GROUPES_BACT = Object.keys(BACTERIES);
+
+  // ======================= UI =======================
+  $app.innerHTML = `
+    <div class="card"><strong>Durée d’antibiothérapie</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/fabrice.png" alt="Durée d'antibiothérapie" class="form-hero">
+    </div>
+
+    <form id="formDuree" class="form">
+      <div class="grid two">
+        <fieldset>
+          <legend>Infection</legend>
+          <label for="selTypeInfect">Type d’infection</label>
+          <select id="selTypeInfect"></select>
+
+          <label for="selSousType">Sous-type d’infection</label>
+          <select id="selSousType"></select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Documentation</legend>
+          <label for="selCatBact">Catégorie</label>
+          <select id="selCatBact"></select>
+
+          <label for="selEspece">Espèce bactérienne</label>
+          <select id="selEspece"></select>
+        </fieldset>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnCalcul">Durée recommandée</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+
+      <div id="resDuree" class="result"></div>
+    </form>
+  `;
+
+  // Remplissage des combos + dépendances
+  const $type = document.getElementById("selTypeInfect");
+  const $sous = document.getElementById("selSousType");
+  const $cat  = document.getElementById("selCatBact");
+  const $esp  = document.getElementById("selEspece");
+
+  function fillSelect(sel, arr) {
+    sel.innerHTML = arr.map(v => `<option value="${v}">${v}</option>`).join("");
+  }
+
+  fillSelect($type, Object.keys(INFECTIONS));
+  fillSelect($cat, GROUPES_BACT);
+
+  function updateSousTypes() {
+    fillSelect($sous, INFECTIONS[$type.value] || []);
+  }
+  function updateEspeces() {
+    fillSelect($esp, BACTERIES[$cat.value] || []);
+  }
+
+  $type.addEventListener("change", updateSousTypes);
+  $cat.addEventListener("change", updateEspeces);
+
+  // init
+  updateSousTypes();
+  updateEspeces();
+
+  // ======================= Logique / table des durées =======================
+  // dictionnaire "G|S|GB|B" -> durée brute (sera formatée avant affichage)
+  const map = buildDureesMap();
+
+  document.getElementById("btnCalcul").addEventListener("click", () => {
+    const cle = `${$type.value}|${$sous.value}|${$cat.value}|${$esp.value}`;
+    const brut = map[cle] || "Aucune recommandation disponible pour cette combinaison.";
+    document.getElementById("resDuree").textContent = formatDuree(brut);
+  });
+
+  // ---------------- helpers ----------------
+  function buildDureesMap() {
+    const d = {};
+    // 1) tout à "NA" par défaut (seules les combinaisons présentes seront écrasées)
+    for (const g of Object.keys(INFECTIONS)) {
+      for (const s of INFECTIONS[g]) {
+        for (const gb of GROUPES_BACT) {
+          for (const b of BACTERIES[gb]) {
+            d[`${g}|${s}|${gb}|${b}`] = "NA";
+          }
+        }
+      }
+    }
+
+    const add = (G,S,GB,B,val) => { d[`${G}|${S}|${GB}|${B}`] = val; };
+
+    // --------- PNEUMONIES ---------
+    // Communautaire
+    add("Pneumonies","Communautaire","Cocci Gram -","Neisseria meningitidis","7 j");                                           // :contentReference[oaicite:0]{index=0}
+    add("Pneumonies","Communautaire","Cocci Gram +","Streptococcus spp.","5 à 7 j");                                           // :contentReference[oaicite:1]{index=1}
+    add("Pneumonies","Communautaire","Cocci Gram +","Staphylococcus spp.","5 à 7 j");                                          // :contentReference[oaicite:2]{index=2}
+    add("Pneumonies","Communautaire","Cocci Gram +","Enterococcus spp.","5 à 7 j");                                            // :contentReference[oaicite:3]{index=3}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Entérobactéries","5 à 7 j");                                           // :contentReference[oaicite:4]{index=4}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Pseudomonas aeruginosa","7 j");                                        // :contentReference[oaicite:5]{index=5}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Stenotrophomonas maltophilia","5 à 7 j");                              // :contentReference[oaicite:6]{index=6}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Acinetobacter baumannii","14 à 21 j (réanimation)");                   // :contentReference[oaicite:7]{index=7}
+    // Correctifs
+    add("Pneumonies","Communautaire","Bacilles Gram -","Haemophilus influenzae","5 à 7 j");                                    // :contentReference[oaicite:8]{index=8}
+    add("Pneumonies","Communautaire","Bacilles Gram +","Nocardia spp.","6 mois");                                              // :contentReference[oaicite:9]{index=9}
+    add("Pneumonies","Communautaire","Autres","Mycoplasma pneumoniae","5 à 7 j");                                              // :contentReference[oaicite:10]{index=10}
+    add("Pneumonies","Communautaire","Autres","Mycobacterium tuberculosis","6 mois");                                          // :contentReference[oaicite:11]{index=11}
+
+    // PAVM
+    add("Pneumonies","PAVM","Cocci Gram +","Streptococcus spp.","7 j");                                                        // :contentReference[oaicite:12]{index=12}
+    add("Pneumonies","PAVM","Cocci Gram +","Staphylococcus spp.","7 j");                                                       // :contentReference[oaicite:13]{index=13}
+    add("Pneumonies","PAVM","Cocci Gram +","Enterococcus spp.","7 j");                                                         // :contentReference[oaicite:14]{index=14}
+    add("Pneumonies","PAVM","Bacilles Gram -","Entérobactéries","7 j");                                                        // :contentReference[oaicite:15]{index=15}
+    add("Pneumonies","PAVM","Bacilles Gram -","Pseudomonas aeruginosa","8 à 15 j");                                            // :contentReference[oaicite:16]{index=16}
+    add("Pneumonies","PAVM","Bacilles Gram -","Stenotrophomonas maltophilia","7 j");                                           // :contentReference[oaicite:17]{index=17}
+    add("Pneumonies","PAVM","Bacilles Gram -","Acinetobacter baumannii","14 à 21 j (réanimation)");                            // :contentReference[oaicite:18]{index=18}
+    // Correctif
+    add("Pneumonies","PAVM","Bacilles Gram -","Haemophilus influenzae","7 j");                                                 // :contentReference[oaicite:19]{index=19}
+
+    // Nécrose / abcès pulmonaires
+    const necabc = "3 à 6 semaines";                                                                                            // :contentReference[oaicite:20]{index=20}
+    add("Pneumonies","Nécrose/abcès","Cocci Gram +","Streptococcus spp.",necabc);
+    add("Pneumonies","Nécrose/abcès","Cocci Gram +","Staphylococcus spp.",necabc);
+    add("Pneumonies","Nécrose/abcès","Cocci Gram +","Enterococcus spp.",necabc);
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Entérobactéries",necabc);
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Pseudomonas aeruginosa",necabc);
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Stenotrophomonas maltophilia",necabc);
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Acinetobacter baumannii",necabc);
+    // Correctifs
+    add("Pneumonies","Nécrose/abcès","Cocci Gram -","Neisseria meningitidis",necabc);                                          // :contentReference[oaicite:21]{index=21}
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Haemophilus influenzae",necabc);                                       // :contentReference[oaicite:22]{index=22}
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram +","Nocardia spp.","6 mois");                                              // :contentReference[oaicite:23]{index=23}
+    add("Pneumonies","Nécrose/abcès","Autres","Mycobacterium tuberculosis","9 à 12 mois");                                     // :contentReference[oaicite:24]{index=24}
+
+    // Empyème pleural
+    const emp = "15 jours après drainage ; 3 à 4 semaines si pas de drainage";                                                 // :contentReference[oaicite:25]{index=25}
+    add("Pneumonies","Empyème pleural","Cocci Gram +","Streptococcus spp.",emp);
+    add("Pneumonies","Empyème pleural","Cocci Gram +","Staphylococcus spp.",emp);
+    add("Pneumonies","Empyème pleural","Cocci Gram +","Enterococcus spp.",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Entérobactéries",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Pseudomonas aeruginosa",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Stenotrophomonas maltophilia",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Acinetobacter baumannii",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram +","Nocardia spp.","6 mois");                                            // :contentReference[oaicite:26]{index=26}
+    add("Pneumonies","Empyème pleural","Autres","Mycobacterium tuberculosis",">= 6 mois");                                     // :contentReference[oaicite:27]{index=27}
+
+    // --------- INFECTIONS URINAIRES ---------
+    // Cystite
+    add("Infections urinaires","Cystite","Cocci Gram +","Streptococcus spp.","7 jours si bêta-lactamine");                      // :contentReference[oaicite:28]{index=28}
+    add("Infections urinaires","Cystite","Cocci Gram +","Staphylococcus spp.","7 jours si bêta-lactamine");                     // :contentReference[oaicite:29]{index=29}
+    add("Infections urinaires","Cystite","Cocci Gram +","Enterococcus spp.","7 jours si bêta-lactamine");                       // :contentReference[oaicite:30]{index=30}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Entérobactéries","7 jours si bêta-lactamine");                      // :contentReference[oaicite:31]{index=31}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Pseudomonas aeruginosa","7 jours si bêta-lactamine");               // :contentReference[oaicite:32]{index=32}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Stenotrophomonas maltophilia","7 jours si bêta-lactamine");         // :contentReference[oaicite:33]{index=33}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Acinetobacter baumannii","7 jours si bêta-lactamine");              // :contentReference[oaicite:34]{index=34}
+    add("Infections urinaires","Cystite","Autres","Mycobacterium tuberculosis","6 mois");                                       // :contentReference[oaicite:35]{index=35}
+
+    // Pyélonéphrite
+    const py = "7 jours si forme simple ; 10 jours si forme grave ou à risque de complication";                                 // :contentReference[oaicite:36]{index=36}
+    add("Infections urinaires","Pyélonéphrite","Cocci Gram +","Streptococcus spp.",py);
+    add("Infections urinaires","Pyélonéphrite","Cocci Gram +","Staphylococcus spp.",py);
+    add("Infections urinaires","Pyélonéphrite","Cocci Gram +","Enterococcus spp.",py);
+    add("Infections urinaires","Pyélonéphrite","Bacilles Gram -","Entérobactéries",py);
+    add("Infections urinaires","Pyélonéphrite","Bacilles Gram -","Pseudomonas aeruginosa",py);
+    add("Infections urinaires","Pyélonéphrite","Bacilles Gram -","Stenotrophomonas maltophilia",py);
+    add("Infections urinaires","Pyélonéphrite","Bacilles Gram -","Acinetobacter baumannii",py);
+    add("Infections urinaires","Pyélonéphrite","Autres","Mycobacterium tuberculosis","9 à 12 mois");
+
+    // IU masculine
+    const ium = "14 jours (21 jours si uropathie non corrigée)";                                                                // :contentReference[oaicite:37]{index=37}
+    add("Infections urinaires","IU masculine","Cocci Gram +","Streptococcus spp.",ium);
+    add("Infections urinaires","IU masculine","Cocci Gram +","Staphylococcus spp.",ium);
+    add("Infections urinaires","IU masculine","Cocci Gram +","Enterococcus spp.",ium);
+    add("Infections urinaires","IU masculine","Bacilles Gram -","Entérobactéries",ium);
+    add("Infections urinaires","IU masculine","Bacilles Gram -","Pseudomonas aeruginosa",ium);
+    add("Infections urinaires","IU masculine","Bacilles Gram -","Stenotrophomonas maltophilia",ium);
+    add("Infections urinaires","IU masculine","Bacilles Gram -","Acinetobacter baumannii",ium);
+    add("Infections urinaires","IU masculine","Autres","Mycobacterium tuberculosis","9 à 12 mois");
+
+    // --------- BACTÉRIÉMIES ---------
+    // Inconnue
+    add("Bactériémies","Inconnue","Cocci Gram -","Neisseria meningitidis","7 j");                                               // :contentReference[oaicite:38]{index=38}
+    add("Bactériémies","Inconnue","Cocci Gram +","Streptococcus spp.","7 j");                                                   // :contentReference[oaicite:39]{index=39}
+    add("Bactériémies","Inconnue","Cocci Gram +","Staphylococcus spp.","Staphylocoques à coagulase négative : 3 j ; Staphylococcus aureus : 14 j"); // :contentReference[oaicite:40]{index=40}
+    add("Bactériémies","Inconnue","Cocci Gram +","Enterococcus spp.","7 j");                                                    // :contentReference[oaicite:41]{index=41}
+    add("Bactériémies","Inconnue","Bacilles Gram -","Entérobactéries","7 j");                                                   // :contentReference[oaicite:42]{index=42}
+    add("Bactériémies","Inconnue","Bacilles Gram -","Pseudomonas aeruginosa","7 à 10 j");                                       // :contentReference[oaicite:43]{index=43}
+    add("Bactériémies","Inconnue","Bacilles Gram -","Acinetobacter baumannii","7 j");                                           // :contentReference[oaicite:44]{index=44}
+    add("Bactériémies","Inconnue","Bacilles Gram +","Listeria monocytogenes","21 j");                                           // :contentReference[oaicite:45]{index=45}
+    add("Bactériémies","Inconnue","Bacilles Gram +","Nocardia spp.","6 mois");                                                  // :contentReference[oaicite:46]{index=46}
+    add("Bactériémies","Inconnue","Autres","Mycobacterium tuberculosis","9 à 12 mois");                                         // :contentReference[oaicite:47]{index=47}
+
+    // Cathéter
+    add("Bactériémies","Cathéter","Cocci Gram -","Neisseria meningitidis","7 j");                                               // :contentReference[oaicite:48]{index=48}
+    add("Bactériémies","Cathéter","Cocci Gram +","Streptococcus spp.","7 j");                                                   // :contentReference[oaicite:49]{index=49}
+    add("Bactériémies","Cathéter","Cocci Gram +","Staphylococcus spp.","Staphylocoques à coagulase négative : 3 j ; Staphylococcus aureus : 14 j"); // :contentReference[oaicite:50]{index=50}
+    add("Bactériémies","Cathéter","Cocci Gram +","Enterococcus spp.","7 j");                                                    // :contentReference[oaicite:51]{index=51}
+    add("Bactériémies","Cathéter","Bacilles Gram -","Entérobactéries","7 j");                                                   // :contentReference[oaicite:52]{index=52}
+    add("Bactériémies","Cathéter","Bacilles Gram -","Pseudomonas aeruginosa","7 à 10 j");                                       // :contentReference[oaicite:53]{index=53}
+    add("Bactériémies","Cathéter","Bacilles Gram -","Acinetobacter baumannii","7 j");                                           // :contentReference[oaicite:54]{index=54}
+
+    // Autre infection – identique à l’infection source
+    const idem = "Identique à l'infection responsable";                                                                         // :contentReference[oaicite:55]{index=55}
+    add("Bactériémies","Autre infection","Cocci Gram -","Neisseria meningitidis",idem);
+    add("Bactériémies","Autre infection","Cocci Gram +","Streptococcus spp.",idem);
+    add("Bactériémies","Autre infection","Cocci Gram +","Staphylococcus spp.",idem);
+    add("Bactériémies","Autre infection","Cocci Gram +","Enterococcus spp.",idem);
+    add("Bactériémies","Autre infection","Bacilles Gram -","Entérobactéries",idem);
+    add("Bactériémies","Autre infection","Bacilles Gram -","Pseudomonas aeruginosa",idem);
+    add("Bactériémies","Autre infection","Bacilles Gram +","Listeria monocytogenes","21 j");
+    add("Bactériémies","Autre infection","Bacilles Gram +","Nocardia spp.","6 mois");
+    add("Bactériémies","Autre infection","Autres","Mycobacterium tuberculosis",idem);                                           // :contentReference[oaicite:56]{index=56}
+
+    // --------- INFECTIONS INTRA-ABDOMINALES ---------
+    const chole     = "3 jours post-opératoire ; 7 jours si non opérée";                                                        // :contentReference[oaicite:57]{index=57}
+    const angio     = "3 jours post-drainage, 7 à 10 jours si non drainée";
+    const absh      = "3 à 4 semaines si drainage ; 6 semaines sinon";
+    const inp       = "Aucune recommandation – dépend de l’évolution clinique/radiologique";
+    const peritCom  = "4 jours (5 jours si sepsis)";
+    const peritNos  = "5 à 8 jours (8 jours si sepsis)";
+    const app       = "1 jour (si péritonite = 3 jours ; si non opérée = 7)";
+    const divert    = "7 jours (gravité, grossesse, immunodépression, ASA3)";
+    const entecol   = "3 à 7 j";
+    const cdiff     = "10 j";
+    const asc       = "5 à 7 jours (5 jours si C3G IV)";
+    const tbLong    = "9 à 12 mois";
+
+    // Cholécystite
+    for (const gb of ["Cocci Gram +","Bacilles Gram -"]) {
+      for (const b of (gb==="Cocci Gram +"? ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]
+                                         : ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"])) {
+        add("Infections intra-abdominales","Cholécystite",gb,b,chole);
+      }
+    }                                                                                                                            // :contentReference[oaicite:58]{index=58}
+    add("Infections intra-abdominales","Cholécystite","Autres","Mycobacterium tuberculosis",tbLong);                            // :contentReference[oaicite:59]{index=59}
+
+    // Angiocholite
+    for (const gb of ["Cocci Gram +","Bacilles Gram -"]) {
+      for (const b of (gb==="Cocci Gram +"? ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]
+                                         : ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"])) {
+        add("Infections intra-abdominales","Angiocholite",gb,b,angio);
+      }
+    }                                                                                                                            // :contentReference[oaicite:60]{index=60}
+    add("Infections intra-abdominales","Angiocholite","Autres","Mycobacterium tuberculosis",tbLong);
+
+    // Abcès hépatique
+    for (const b of ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]) add("Infections intra-abdominales","Abcès hépatique","Cocci Gram +",b,absh);
+    for (const b of ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"]) add("Infections intra-abdominales","Abcès hépatique","Bacilles Gram -",b,absh);
+    add("Infections intra-abdominales","Abcès hépatique","Autres","Mycobacterium tuberculosis",tbLong);                         // :contentReference[oaicite:61]{index=61}
+
+    // Infection de nécrose pancréatique
+    for (const b of ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]) add("Infections intra-abdominales","Inf. nécrose pancréatique","Cocci Gram +",b,inp);
+    for (const b of ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"]) add("Infections intra-abdominales","Inf. nécrose pancréatique","Bacilles Gram -",b,inp);
+    add("Infections intra-abdominales","Inf. nécrose pancréatique","Autres","Mycobacterium tuberculosis",tbLong);               // :contentReference[oaicite:62]{index=62}
+
+    // Péritonite communautaire
+    for (const b of ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]) add("Infections intra-abdominales","Péritonite communautaire","Cocci Gram +",b,peritCom);
+    for (const b of ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"]) add("Infections intra-abdominales","Péritonite communautaire","Bacilles Gram -",b,peritCom); // :contentReference[oaicite:63]{index=63}
+    add("Infections intra-abdominales","Péritonite communautaire","Autres","Mycobacterium tuberculosis",tbLong);
+
+    // Péritonite nosocomiale
+    for (const b of ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]) add("Infections intra-abdominales","Péritonite nosocomiale","Cocci Gram +",b,peritNos);
+    for (const b of ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"]) add("Infections intra-abdominales","Péritonite nosocomiale","Bacilles Gram -",b,peritNos); // :contentReference[oaicite:64]{index=64}
+
+    // Appendicite
+    for (const gb of ["Cocci Gram +","Bacilles Gram -"]) {
+      for (const b of (gb==="Cocci Gram +"? ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]
+                                         : ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"])) {
+        add("Infections intra-abdominales","Appendicite",gb,b,app);
+      }
+    }
+    // Diverticulite
+    for (const gb of ["Cocci Gram +","Bacilles Gram -"]) {
+      for (const b of (gb==="Cocci Gram +"? ["Streptococcus spp.","Staphylococcus spp.","Enterococcus spp."]
+                                         : ["Entérobactéries","Pseudomonas aeruginosa","Stenotrophomonas maltophilia","Acinetobacter baumannii"])) {
+        add("Infections intra-abdominales","Diverticulite",gb,b,divert);
+      }
+    }
+    // Entéro-colite
+    add("Infections intra-abdominales","Entéro-colite","Bacilles Gram -","Entérobactéries",entecol);
+    add("Infections intra-abdominales","Entéro-colite","Bacilles Gram +","Clostridium difficile",cdiff);
+    add("Infections intra-abdominales","Entéro-colite","Autres","Mycobacterium tuberculosis","6 mois");                          // :contentReference[oaicite:65]{index=65}
+    // Inf. liquide ascite
+    add("Infections intra-abdominales","Inf. liquide ascite","Bacilles Gram -","Entérobactéries",asc);
+    add("Infections intra-abdominales","Inf. liquide ascite","Autres","Mycobacterium tuberculosis","NA");                        // :contentReference[oaicite:66]{index=66}
+
+    // --------- INFECTIONS NEURO-MÉNINGÉES ---------
+    // Méningite
+    add("Infections neuro-méningées","Méningite","Cocci Gram -","Neisseria meningitidis","5 à 7 j");                             // :contentReference[oaicite:67]{index=67}
+    add("Infections neuro-méningées","Méningite","Cocci Gram +","Streptococcus spp.","10 à 14 j (14 à 21 j si groupe B)");
+    add("Infections neuro-méningées","Méningite","Cocci Gram +","Staphylococcus spp.","10 à 21 j (nosocomial)");
+    add("Infections neuro-méningées","Méningite","Cocci Gram +","Enterococcus spp.","21 j (nosocomial)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Entérobactéries","21 j");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Pseudomonas aeruginosa","21 j (nosocomial)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Haemophilus influenzae","7 j");                              // :contentReference[oaicite:68]{index=68}
+    add("Infections neuro-méningées","Méningite","Bacilles Gram +","Listeria monocytogenes","21 j");
+    add("Infections neuro-méningées","Méningite","Autres","Mycobacterium tuberculosis","12 mois");
+
+    // Encéphalite (bactérienne)
+    add("Infections neuro-méningées","Encéphalite","Bacilles Gram +","Listeria monocytogenes","21 j");
+    add("Infections neuro-méningées","Encéphalite","Autres","Mycobacterium tuberculosis","12 à 18 mois");                         // :contentReference[oaicite:69]{index=69}
+
+    // Abcès cérébral
+    const abc = "4 à 6 semaines si drainage (4 semaines si exérèse chirurgicale) ; 8 à 12 semaines en l’absence de geste";       // :contentReference[oaicite:70]{index=70}
+    add("Infections neuro-méningées","Abcès cérébral","Cocci Gram +","Streptococcus spp.",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Cocci Gram +","Staphylococcus spp.",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Entérobactéries",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram +","Nocardia spp.","12 à 18 mois");
+    add("Infections neuro-méningées","Abcès cérébral","Autres","Mycobacterium tuberculosis","12 mois");
+
+    // --------- INFECTIONS DES PARTIES MOLLES ---------
+    // Non nécrosantes
+    add("Infections des parties molles","Non nécrosantes","Cocci Gram +","Streptococcus spp.","7 j");                             // :contentReference[oaicite:71]{index=71}
+    add("Infections des parties molles","Non nécrosantes","Cocci Gram +","Staphylococcus spp.","7 j");
+    add("Infections des parties molles","Non nécrosantes","Cocci Gram +","Enterococcus spp.","7 j");
+    add("Infections des parties molles","Non nécrosantes","Bacilles Gram -","Entérobactéries","7 j");
+    add("Infections des parties molles","Non nécrosantes","Bacilles Gram -","Pseudomonas aeruginosa","7 j");
+    add("Infections des parties molles","Non nécrosantes","Autres","Mycobacterium tuberculosis","6 mois");                        // :contentReference[oaicite:72]{index=72}
+
+    // Nécrosantes
+    const npo = "10 à 15 jours post-opératoire (selon évolution)";                                                               // :contentReference[oaicite:73]{index=73}
+    add("Infections des parties molles","Nécrosantes","Cocci Gram -","Neisseria meningitidis","7 j (purpura fulminans)");
+    add("Infections des parties molles","Nécrosantes","Cocci Gram +","Streptococcus spp.",npo);
+    add("Infections des parties molles","Nécrosantes","Cocci Gram +","Staphylococcus spp.",npo);
+    add("Infections des parties molles","Nécrosantes","Cocci Gram +","Enterococcus spp.",npo);
+    add("Infections des parties molles","Nécrosantes","Bacilles Gram -","Entérobactéries",npo);
+    add("Infections des parties molles","Nécrosantes","Bacilles Gram -","Pseudomonas aeruginosa",npo);
+    add("Infections des parties molles","Nécrosantes","Bacilles Gram +","Nocardia spp.","3 à 6 mois");
+    add("Infections des parties molles","Nécrosantes","Autres","Mycobacterium tuberculosis","9 à 12 mois");
+
+    // --------- ENDOCARDITE INFECTIEUSE ---------
+    // Valve native
+    add("Endocardite infectieuse","Valve native","Cocci Gram +","Streptococcus spp.","2 à 4 semaines (2 semaines si gentamicine)"); // :contentReference[oaicite:74]{index=74}
+    add("Endocardite infectieuse","Valve native","Cocci Gram +","Staphylococcus spp.","4 à 6 semaines (pas d’aminoside)");
+    add("Endocardite infectieuse","Valve native","Cocci Gram +","Enterococcus spp.","6 semaines (+ 2 semaines gentamicine ou + 6 semaines C3G)");
+    add("Endocardite infectieuse","Valve native","Bacilles Gram -","Entérobactéries","6 semaines (+ 2 semaines gentamicine)");
+    add("Endocardite infectieuse","Valve native","Bacilles Gram -","Pseudomonas aeruginosa",">= 6 semaines en bithérapie");
+    add("Endocardite infectieuse","Valve native","Bacilles Gram -","Haemophilus influenzae","4 sem C3G (ou 4 sem amoxicilline + 2 sem gentamicine)");
+    add("Endocardite infectieuse","Valve native","Bacilles Gram +","Listeria monocytogenes","4 semaines de C3G (ou 4 semaines amoxicilline + 2 semaines gentamicine)");
+    add("Endocardite infectieuse","Valve native","Bacilles Gram +","Nocardia spp.","6 mois");
+    add("Endocardite infectieuse","Valve native","Autres","Mycobacterium tuberculosis","9 à 12 mois");
+
+    // Prothèse valvulaire (< ou > 1 an)
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Cocci Gram +","Streptococcus spp.","6 semaines (dont gentamicine 2 semaines)"); // :contentReference[oaicite:75]{index=75}
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Cocci Gram +","Staphylococcus spp.",">= 6 semaines (dont gentamicine 2 semaines)");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Cocci Gram +","Enterococcus spp.","6 semaines (+ 2 semaines gentamicine ou + 6 semaines C3G)");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Bacilles Gram -","Entérobactéries","6 semaines (+ 2 semaines gentamicine)");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Bacilles Gram -","Pseudomonas aeruginosa",">= 6 semaines en bithérapie");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Bacilles Gram -","Haemophilus influenzae","6 sem C3G (ou 6 sem amoxicilline + 2 sem gentamicine)");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Bacilles Gram +","Nocardia spp.","6 mois");
+    add("Endocardite infectieuse","Prothèse valvulaire (< ou > 1 an)","Autres","Mycobacterium tuberculosis","12 à 18 mois");
+
+    return d;
+  }
+
+  function formatDuree(txt) {
+    if (!txt) return "";
+    if (txt.trim().toUpperCase() === "NA") {
+      return "Non applicable : bactérie jamais/rarement impliquée dans ce type d’infection.";
+    }
+    let r = txt;
+    // Conserver l'intention "=" en ASCII ">="
+    r = r.replace(/=/g, ">=");
+    r = r.replace(/Idem infect°/g, "Identique à l'infection responsable");
+    // j -> jours
+    r = r.replace(/ j /g, " jours ");
+    r = r.replace(/ j$/g, " jours");
+    r = r.replace(/\(j/g, "(jours");
+    r = r.replace(/j\)/g, "jours)");
+    // sem -> semaines
+    r = r.replace(/ sem\. /g, " semaines ");
+    r = r.replace(/ sem /g, " semaines ");
+    r = r.replace(/sem\.$/g, "semaines");
+    r = r.replace(/sem$/g, "semaines");
+    return r;
+  }
+}
+
 
 function renderAdapteeMenu(){
   $app.innerHTML = `
