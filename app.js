@@ -37,6 +37,7 @@ function mount() {
   const appContainer = document.getElementById("app");
 
   console.log("Current hash:", location.hash); // Log du hash actuel
+  console.log("Route:", route); // Log de la fonction associée à la route
 
   if (route) {
     console.log("Calling route:", route); // Log de la fonction qui sera appelée
@@ -1826,6 +1827,8 @@ function renderDureesForm() {
 }
 
 function renderAdapteeMenu() {
+  console.log("renderAdapteeMenu is called!"); 
+  
   const container = document.createElement("div");
   container.classList.add("antibiotherapy-container");
 
