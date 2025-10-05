@@ -29,15 +29,17 @@ const routes = {
 window.addEventListener("hashchange", () => mount());
 window.addEventListener("load", () => {
   if (!location.hash) location.hash = "#/"; // Par défaut, rediriger vers la page d'accueil
-  mount();
+  mount(); // Appel initial pour afficher le bon contenu
 });
 
 function mount() {
   const route = routes[location.hash];  // Vérifie le hash actuel
+  const appContainer = document.getElementById("app");
+
   if (route) {
     route(); // Appelle la fonction associée à la route
   } else {
-    renderNotFound(); // Fonction à définir pour afficher un message 404
+    appContainer.innerHTML = "<h2>Page Non Trouvée</h2>"; // Afficher un message 404 si la route n'est pas trouvée
   }
 }
 
