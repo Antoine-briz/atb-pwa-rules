@@ -2,7 +2,6 @@
 
 const $app = document.getElementById("app");
 
-// --- Router ---
 const routes = {
   "#/": renderHome,
   "#/proba": renderProbaMenu,
@@ -13,19 +12,21 @@ const routes = {
   "#/proba/dermohypo": renderProbaDermohypodermiteForm,
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
-  "#/adaptee": renderAdapteeMenu,
-  "#/adaptee/germes-sensibles": () => renderImage("sensibles1"),
-  "#/adaptee/sarm": () => renderImage("SARM"),
-  "#/adaptee/ampc": () => renderImage("ampC"),
-  "#/adaptee/blse": () => renderImage("BLSE"),
-  "#/adaptee/pseudomonas": () => renderImage("pyo"),
-  "#/adaptee/acinetobacter": () => renderImage("acineto"),
-  "#/adaptee/stenotrophomonas": () => renderImage("steno"),
-  "#/adaptee/carba": () => renderImage("carba"),
-  "#/adaptee/erv": () => renderImage("erv"),
+  "#/adaptee": renderAdapteeMenu, // Charge le menu "Antibiothérapie Adaptée"
+  "#/adaptee/sensibles1": () => showImage("sensibles1"),
+  "#/adaptee/sensibles2": () => showImage("sensibles2"),
+  "#/adaptee/sarm": () => showImage("SARM"),
+  "#/adaptee/ampc": () => showImage("ampC"),
+  "#/adaptee/blse": () => showImage("BLSE"),
+  "#/adaptee/pseudomonas": () => showImage("pyo"),
+  "#/adaptee/acinetobacter": () => showImage("acineto"),
+  "#/adaptee/stenotrophomonas": () => showImage("steno"),
+  "#/adaptee/carba": () => showImage("carba"),
+  "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm // Route pour "Durée d'antibiothérapie"
 };
 
+// Fonction pour monter le contenu en fonction du hash dans l'URL
 window.addEventListener("hashchange", () => mount());
 window.addEventListener("load", () => {
   if (!location.hash) location.hash = "#/"; // Par défaut, rediriger vers la page d'accueil
@@ -1820,51 +1821,44 @@ function renderDureesForm() {
   }
 }
 
-// Fonction pour afficher le menu de l'antibiothérapie adaptée
 function renderAdapteeMenu() {
-  // Création du conteneur principal
   const container = document.createElement("div");
   container.classList.add("antibiotherapy-container");
 
-  // Titre principal
   const title = document.createElement("h2");
   title.textContent = "Antibiothérapie Adaptée";
 
-  // Conteneur pour les liens
   const linksContainer = document.createElement("div");
   linksContainer.classList.add("germs-links");
 
-  // Liste des liens
   const links = [
-    { href: "#/adaptee/sensibles", text: "Germes Sensibles 1", imageId: "sensibles1" },
-    { href: "#/adaptee/sensibles", text: "Germes Sensibles 2", imageId: "sensibles2" },
-    { href: "#/adaptee/SARM", text: "SARM", imageId: "SARM" },
-    { href: "#/adaptee/ampC", text: "AmpC", imageId: "ampC" },
-    { href: "#/adaptee/BLSE", text: "BLSE", imageId: "BLSE" },
-    { href: "#/adaptee/pyo", text: "Pseudomonas", imageId: "pyo" },
-    { href: "#/adaptee/acineto", text: "Acinetobacter", imageId: "acineto" },
-    { href: "#/adaptee/steno", text: "Stenotrophomonas", imageId: "steno" },
-    { href: "#/adaptee/carba", text: "Entérobactéries Carbapénémases", imageId: "carba" },
-    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", imageId: "erv" },
+    { href: "#/adaptee/sensibles1", text: "Germes Sensibles 1" },
+    { href: "#/adaptee/sensibles2", text: "Germes Sensibles 2" },
+    { href: "#/adaptee/sarm", text: "SARM" },
+    { href: "#/adaptee/ampc", text: "AmpC" },
+    { href: "#/adaptee/blse", text: "BLSE" },
+    { href: "#/adaptee/pseudomonas", text: "Pseudomonas" },
+    { href: "#/adaptee/acinetobacter", text: "Acinetobacter" },
+    { href: "#/adaptee/stenotrophomonas", text: "Stenotrophomonas" },
+    { href: "#/adaptee/carba", text: "Entérobactéries Carbapénémases" },
+    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R" },
   ];
 
-  // Création des liens dynamiquement
   links.forEach(link => {
     const anchor = document.createElement("a");
     anchor.href = link.href;
     anchor.textContent = link.text;
     anchor.addEventListener("click", (e) => {
       e.preventDefault(); // Empêche la navigation par défaut
-      showImage(link.imageId);
+      showImage(link.href.split("/").pop()); // Extrait l'image à partir du lien
     });
     linksContainer.appendChild(anchor);
   });
 
-  // Création de la section pour les images
   const imageContainer = document.createElement("div");
   imageContainer.classList.add("image-container");
 
-  // Liste des images à afficher
+  // Afficher les images de manière dynamique
   const images = [
     { id: "sensibles1", src: "/img/sensibles1.png", alt: "Germes Sensibles 1" },
     { id: "sensibles2", src: "/img/sensibles2.png", alt: "Germes Sensibles 2" },
@@ -1878,17 +1872,15 @@ function renderAdapteeMenu() {
     { id: "erv", src: "/img/erv.png", alt: "E. faecium Vancomycine-R" }
   ];
 
-  // Création des images
   images.forEach(image => {
     const img = document.createElement("img");
     img.id = image.id;
     img.src = image.src;
     img.alt = image.alt;
-    img.style.display = "none"; // Initialement cachées
+    img.style.display = "none"; // Images cachées par défaut
     imageContainer.appendChild(img);
   });
 
-  // Ajout des éléments à la page
   container.appendChild(title);
   container.appendChild(linksContainer);
   container.appendChild(imageContainer);
@@ -1896,7 +1888,6 @@ function renderAdapteeMenu() {
   return container;
 }
 
-// Fonction pour afficher l'image correspondante
 function showImage(imageId) {
   const images = document.querySelectorAll('.image-container img');
   images.forEach(img => img.style.display = 'none'); // Masquer toutes les images
@@ -1906,26 +1897,6 @@ function showImage(imageId) {
     selectedImage.style.display = 'block'; // Afficher l'image correspondante
   }
 }
-
-// Router simple pour gérer la navigation
-function handleRoute() {
-  const route = window.location.hash;
-  const appContainer = document.getElementById("app");
-
-  if (route === "#/adaptee") {
-    appContainer.innerHTML = ""; // Effacer le contenu précédent
-    appContainer.appendChild(renderAdapteeMenu()); // Afficher le menu
-  } else {
-    appContainer.innerHTML = "<h2>Page Non Trouvée</h2>"; // Afficher un message d'erreur si la route n'est pas trouvée
-  }
-}
-
-// Ecouteur pour détecter les changements dans l'URL
-window.addEventListener("hashchange", handleRoute);
-
-// Initialisation du routeur
-window.addEventListener("load", handleRoute); // Charger le bon contenu au démarrage
-
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
