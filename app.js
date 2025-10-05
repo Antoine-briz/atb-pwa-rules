@@ -14,12 +14,12 @@ const routes = {
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
   "#/adaptee/germes-sensibles": () => showImages(["sensibles1", "sensibles2"]),
-  "#/adaptee/sarm": () => showImage("SARM"),
-  "#/adaptee/ampc": () => showImage("ampC"),
-  "#/adaptee/blse": () => showImage("BLSE"),
-  "#/adaptee/pseudomonas": () => showImage("pyo"),
-  "#/adaptee/acinetobacter": () => showImage("acineto"),
-  "#/adaptee/stenotrophomonas": () => showImage("steno"),
+  "#/adaptee/SARM": () => showImage("SARM"),
+  "#/adaptee/ampC": () => showImage("ampC"),
+  "#/adaptee/BLSE": () => showImage("BLSE"),
+  "#/adaptee/pyo": () => showImage("pyo"),
+  "#/adaptee/acineto": () => showImage("acineto"),
+  "#/adaptee/steno": () => showImage("steno"),
   "#/adaptee/carba": () => showImage("carba"),
   "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm // Route pour "Durée d'antibiothérapie"
@@ -1845,12 +1845,12 @@ function renderAdapteeMenu() {
 
 const links = [
   { href: "#/adaptee/germes-sensibles", text: "Germes Sensibles", imageIds: ["sensibles1", "sensibles2"] },
-  { href: "#/adaptee/sarm", text: "SARM", imageIds: ["SARM"] },
-  { href: "#/adaptee/ampc", text: "Entérobactéries ampC", imageIds: ["ampC"] },
-  { href: "#/adaptee/blse", text: "BLSE", imageIds: ["BLSE"] },
-  { href: "#/adaptee/pseudomonas", text: "Pseudomonas aeruginosas MDR/XDR", imageIds: ["pyo"] },
-  { href: "#/adaptee/acinetobacter", text: "Acinetobacter baumannii Imipénème-R", imageIds: ["acineto"] },
-  { href: "#/adaptee/stenotrophomonas", text: "Stenotrophomonas maltophilia", imageIds: ["steno"] },
+  { href: "#/adaptee/SARM", text: "SARM", imageIds: ["SARM"] },
+  { href: "#/adaptee/ampC", text: "Entérobactéries ampC", imageIds: ["ampC"] },
+  { href: "#/adaptee/BLSE", text: "BLSE", imageIds: ["BLSE"] },
+  { href: "#/adaptee/pyo", text: "Pseudomonas aeruginosas MDR/XDR", imageIds: ["pyo"] },
+  { href: "#/adaptee/acineto", text: "Acinetobacter baumannii Imipénème-R", imageIds: ["acineto"] },
+  { href: "#/adaptee/steno", text: "Stenotrophomonas maltophilia", imageIds: ["steno"] },
   { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases", imageIds: ["carba"] },
   { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", imageIds: ["erv"] },
 ];
