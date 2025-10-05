@@ -36,7 +36,10 @@ function mount() {
   const route = routes[location.hash];  // Vérifie le hash actuel
   const appContainer = document.getElementById("app");
 
+  console.log("Current hash:", location.hash); // Log du hash actuel
+
   if (route) {
+    console.log("Calling route:", route); // Log de la fonction qui sera appelée
     route(); // Appelle la fonction associée à la route
   } else {
     appContainer.innerHTML = "<h2>Page Non Trouvée</h2>"; // Afficher un message 404 si la route n'est pas trouvée
