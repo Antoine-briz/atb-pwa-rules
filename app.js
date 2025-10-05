@@ -1828,6 +1828,11 @@ function renderDureesForm() {
 
 function renderAdapteeMenu() {
   console.log("renderAdapteeMenu is called!"); 
+
+  const appContainer = document.getElementById("app");
+
+  // Efface le contenu précédent
+  appContainer.innerHTML = "";
   
   const container = document.createElement("div");
   container.classList.add("antibiotherapy-container");
