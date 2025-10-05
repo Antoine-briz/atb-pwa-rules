@@ -15,19 +15,14 @@
     <h1>Protocoles d’antibiothérapie<br><small>MIR – CHV André Mignot</small></h1>
   </header>
 
-  <!-- Conteneur principal où tout le contenu dynamique sera rendu -->
-  <main id="app" class="container">
-    <!-- Le contenu sera injecté ici par JavaScript -->
-  </main>
+  <!-- Conteneur principal où le contenu dynamique sera affiché -->
+  <div id="app"></div> <!-- Ajouté ici -->
 
   <footer class="footer">
     <small>⚠️ Aide à la décision — adapter aux référentiels locaux, CI/IR, allergies, grossesse, interactions.</small>
   </footer>
 
-  <!-- Lien vers le fichier JavaScript -->
   <script type="module" src="./app.js"></script>
-
-  <!-- Service Worker (si vous l'utilisez) -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
