@@ -1871,14 +1871,14 @@ function renderAdapteeMenu() {
 
   // Afficher les images de manière dynamique avec les chemins relatifs
   const images = [
-    { id: "sensibles1", src: "./img/sensibles1.png", alt: "Germes Sensibles 1" },
-    { id: "sensibles2", src: "./img/sensibles2.png", alt: "Germes Sensibles 2" },
+    { id: "sensibles1", src: "./img/sensibles1.png", alt: "Germes Sensibles" },
+    { id: "sensibles2", src: "./img/sensibles2.png", alt: "Germes Sensibles" },
     { id: "SARM", src: "./img/SARM.png", alt: "SARM" },
-    { id: "ampC", src: "./img/ampC.png", alt: "AmpC" },
-    { id: "BLSE", src: "./img/BLSE.png", alt: "BLSE" },
-    { id: "pyo", src: "./img/pyo.png", alt: "Pseudomonas" },
-    { id: "acineto", src: "./img/acineto.png", alt: "Acinetobacter" },
-    { id: "steno", src: "./img/steno.png", alt: "Stenotrophomonas" },
+    { id: "ampC", src: "./img/ampC.png", alt: "Entérobactéries ampC" },
+    { id: "BLSE", src: "./img/BLSE.png", alt: "Entérobactéries BLSE" },
+    { id: "pyo", src: "./img/pyo.png", alt: "Pseudomonas aeruginosa MDR/XDR" },
+    { id: "acineto", src: "./img/acineto.png", alt: "Acinetobacter baumannii Imipénème-R" },
+    { id: "steno", src: "./img/steno.png", alt: "Stenotrophomonas maltophilia" },
     { id: "carba", src: "./img/carba.png", alt: "Entérobactéries Carbapénémases" },
     { id: "erv", src: "./img/erv.png", alt: "E. faecium Vancomycine-R" }
   ];
