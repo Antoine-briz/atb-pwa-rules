@@ -14,6 +14,14 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu,
+  "#/adaptee/germes-sensibles": renderGermesSensiblesTable,
+  "#/adaptee/ampc": renderAmpCTable,
+  "#/adaptee/blse": renderBLSETable,
+  "#/adaptee/pseudomonas": renderPseudomonasTable,
+  "#/adaptee/acinetobacter": renderAcinetobacterTable,
+  "#/adaptee/stenotrophomonas": renderStenotrophomonasTable,
+  "#/adaptee/epc": renderEPCTable,
+  "#/adaptee/erv": renderERVTable,
   "#/proba/dureeATB": renderDureesForm // Route pour "Durée d'antibiothérapie"
 };
 
@@ -1816,19 +1824,18 @@ function renderAdapteeMenu() {
   $app.innerHTML = `
     ${h("card", `<strong>Antibiothérapie adaptée</strong>`)}
     ${h("grid cols-2", `
-      <button class="btn outline" onclick="renderGermesSensiblesTable()">Germes Sensibles</button>
+      <button class="btn outline" onclick="renderGermesSensiblesTable()">Germes sensibles</button>
       <button class="btn outline" onclick="renderAmpCTable()">Céphalosporinases AmpC</button>
-      <button class="btn outline" onclick="renderBLSETable()">BLSE</button>
-      <button class="btn outline" onclick="renderPseudomonasTable()">Pseudomonas</button>
-      <button class="btn outline" onclick="renderAcinetobacterTable()">Acinetobacter</button>
-      <button class="btn outline" onclick="renderStenotrophomonasTable()">Stenotrophomonas</button>
-      <button class="btn outline" onclick="renderEPCTable()">EPC</button>
-      <button class="btn outline" onclick="renderERVTable()">ERV</button>
+      <button class="btn outline" onclick="renderBLSETable()">Entérobactéries BLSE</button>
+      <button class="btn outline" onclick="renderPseudomonasTable()">Pseudomonas aeruginosa MDR/XDR</button>
+      <button class="btn outline" onclick="renderAcinetobacterTable()">Acinetobacter baumannii Imipénèm-R</button>
+      <button class="btn outline" onclick="renderStenotrophomonasTable()">Stenotrophomonas maltophilia</button>
+      <button class="btn outline" onclick="renderEPCTable()">Entérobactérie carbapénèmases</button>
+      <button class="btn outline" onclick="renderERVTable()">E.faecium Vancomycine-R</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
 }
-
 
 function renderGermesSensiblesTable() {
   $app.innerHTML = `
