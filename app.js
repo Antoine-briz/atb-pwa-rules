@@ -63,10 +63,10 @@ function renderHome() {
         <img src="./img/proba.png" alt="" class="icon-btn">
         Antibiothérapie probabiliste
       </button>
-      <button class="btn" onclick="location.hash='#/adaptee'">
-        <img src="./img/adaptee.png" alt="" class="icon-btn">
-        Antibiothérapie adaptée
-      </button>
+      <button class="btn" onclick="location.hash='#/adaptee'" aria-label="Accéder à la section Antibiothérapie adaptée">
+    <img src="./img/adaptee.png" alt="Icône Antibiothérapie adaptée" class="icon-btn">
+    Antibiothérapie adaptée
+</button>
       <button class="btn" onclick="location.hash='#/proba/dureeATB'">
         <img src="./img/duree.png" alt="" class="icon-btn">
         Durée d’antibiothérapie
