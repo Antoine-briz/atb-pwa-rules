@@ -1902,6 +1902,8 @@ function renderAdapteeMenu() {
 
 // Fonction pour afficher les images correspondantes
 function showImages(imageIds) {
+  console.log("Requested image(s):", imageIds);  // Log pour vérifier l'image demandée
+
   const images = document.querySelectorAll('.image-container img');
   images.forEach(img => img.style.display = 'none');  // Masquer toutes les images
 
@@ -1910,16 +1912,19 @@ function showImages(imageIds) {
     imageIds.forEach(id => {
       const selectedImage = document.getElementById(id);
       if (selectedImage) {
+        console.log("Displaying image:", id);  // Log de l'image affichée
         selectedImage.style.display = 'block';  // Afficher l'image sélectionnée
       }
     });
   } else {
     const selectedImage = document.getElementById(imageIds);
     if (selectedImage) {
+      console.log("Displaying image:", imageIds);  // Log de l'image affichée
       selectedImage.style.display = 'block';  // Afficher l'image unique
     }
   }
 }
+
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
