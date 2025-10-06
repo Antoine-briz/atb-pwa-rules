@@ -33,10 +33,21 @@ const appContainer = document.getElementById("app");
   backButton.textContent = "Retour";
   backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
   backButton.addEventListener("click", () => {
-    window.location.href = "#/"; // Redirige vers le menu principal
-  });
+try {
+      console.log("Retour bouton cliqué"); // Log pour vérifier si l'événement click se déclenche
 
-  // Ajouter le bouton "Retour" en haut de la page
+      // Debugging avant la redirection
+      console.log("Redirection vers le menu principal...");
+      
+      // Redirection vers le menu principal (menu #/)
+      window.location.href = "#/";  // Modifie l'URL pour revenir au menu
+      console.log("Redirection effectuée");
+
+    } catch (error) {
+      console.error("Erreur lors du clic sur le bouton Retour : ", error);  // Log d'erreur si problème
+    }
+  });
+    
   appContainer.appendChild(backButton);
   
   // Charger le PDF avec PDF.js
