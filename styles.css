@@ -160,3 +160,18 @@ input[type="text"], input[type="number"], select, textarea {
   display: block;  /* Assure que le canvas occupe toute la largeur */
 }
 
+/* Style du bouton Retour */
+#pdfViewer button {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#pdfViewer button:hover {
+  background-color: #e64a19;
+}
+
