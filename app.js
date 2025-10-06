@@ -3,7 +3,7 @@ let currentPage = 1;  // Page actuelle
 let pdfDoc = null; // Référence au document PDF
 
 export function openPDF(pdfPath) {
-const appContainer = document.getElementById("app");
+  const appContainer = document.getElementById("app");
 
   // Effacer le contenu existant
   appContainer.innerHTML = "";
@@ -12,6 +12,26 @@ const appContainer = document.getElementById("app");
   const pdfViewer = document.createElement("div");
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
+
+  // Créer un bouton "Retour" pour revenir au menu principal
+  const backButton = document.createElement("button");
+  backButton.textContent = "Retour";
+  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
+  backButton.addEventListener("click", () => {
+    console.log("Retour bouton cliqué");
+
+    // Essaye de revenir à la page précédente
+    if (history.length > 1) {
+      history.back();  // Si possible, revenir en arrière dans l'historique
+    } else {
+      location.hash = "#/"; // Sinon, revenir à la page d'accueil
+    }
+
+    console.log("Retour effectué");
+  });
+
+  // Ajouter le bouton "Retour" en haut de la page
+  appContainer.appendChild(backButton);
 
   // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
@@ -29,33 +49,13 @@ const appContainer = document.getElementById("app");
   navContainer.appendChild(nextButton);
   appContainer.appendChild(navContainer);
 
-  const backButton = document.createElement("button");
-  backButton.textContent = "Retour";
-  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
-  backButton.addEventListener("click", () => {
-try {
-      console.log("Retour bouton cliqué"); // Log pour vérifier si l'événement click se déclenche
-
-      // Debugging avant la redirection
-      console.log("Redirection vers le menu principal...");
-      
-      // Redirection vers le menu principal (menu #/)
-      window.location.href = "#/";  // Modifie l'URL pour revenir au menu
-      console.log("Redirection effectuée");
-
-    } catch (error) {
-      console.error("Erreur lors du clic sur le bouton Retour : ", error);  // Log d'erreur si problème
-    }
-  });
-    
-  appContainer.appendChild(backButton);
-  
   // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
     renderPage(currentPage);
   });
 }
+
 
 // Fonction pour afficher une page spécifique
 function renderPage(pageNum) {
