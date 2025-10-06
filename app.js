@@ -3,20 +3,28 @@ let currentPage = 1;  // Page actuelle
 let pdfDoc = null; // Référence au document PDF
 
 export function openPDF(pdfPath) {
-  const appContainer = document.getElementById("app");
+const appContainer = document.getElementById("app");
 
   // Effacer le contenu existant
   appContainer.innerHTML = "";
 
-  // Créer un div pour le PDF
+  // Créer un div pour le PDF avec une barre de défilement
   const pdfViewer = document.createElement("div");
   pdfViewer.id = "pdfViewer";
-  pdfViewer.style.display = "flex";  // Flexbox pour aligner à gauche
-  pdfViewer.style.justifyContent = "flex-start"; // Alignement à gauche
-  pdfViewer.style.alignItems = "flex-start"; // Alignement en haut
   appContainer.appendChild(pdfViewer);
 
-  // Créer les boutons de navigation
+  // Créer un bouton "Retour" pour revenir au menu principal
+  const backButton = document.createElement("button");
+  backButton.textContent = "Retour au menu";
+  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
+  backButton.addEventListener("click", () => {
+    location.hash = "#/"; // Redirige vers le menu principal
+  });
+
+  // Ajouter le bouton "Retour" en haut de la page
+  appContainer.appendChild(backButton);
+
+  // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
 
@@ -68,7 +76,7 @@ function renderPage(pageNum) {
 function goToPage(pageNum) {
   renderPage(pageNum);
 }
-
+  
 const $app = document.getElementById("app");
 
 const routes = {
