@@ -15,7 +15,9 @@ export function openPDF(pdfPath) {
 
   // Modifier l'URL pour refléter l'ouverture du PDF
   const pdfName = pdfPath.split("/").pop().split(".")[0]; // Exemple : "antibiorein" pour antibiotique rénal
-  window.location.hash = `#/${pdfName}`; // Change le hash dans l'URL pour le PDF spécifique
+  history.pushState(null, '', `#/${pdfName}`);
+
+   console.log('Current URL:', window.location.href);
 
   // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
