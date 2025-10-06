@@ -73,11 +73,13 @@ function renderHome() {
         Durée d’antibiothérapie
       </button>
       <button class="btn" onclick="openPDF('./pdf/antibiorein.pdf')">
+ <img src="./img/rein.png" alt="Icône Adaptation rénale des antibiotiques" class="icon-btn">
   Adaptation rénale des antibiotiques
 </button>
 
 <!-- Nouveau bouton pour les Modalités d'administration des antibiotiques -->
 <button class="btn" onclick="openPDF('./pdf/antibiomoda.pdf')">
+ <img src="./img/modalite.png" alt="Icône Modalités d'administration des antibiotiques" class="icon-btn">
   Modalités d'administration des antibiotiques
 </button>
     </div>
