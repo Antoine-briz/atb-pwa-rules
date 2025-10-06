@@ -319,7 +319,7 @@ function renderProbaIUForm(){
     <fieldset>
       <legend>Facteurs de risque microbiologique</legend>
       <label><input type="checkbox" name="blse" value="BLSE/portage"> Infection/portage BLSE < 6 mois</label>
-      <label><input type="checkbox" name="autreFdrBlse" value="Autre FdR BLSE*"> Autre FdR BLSE</label>
+      <label><input type="checkbox" name="autreFdrBlse" value="Autre FdR BLSE*"> Autre FdR BLSE*</label>
       <label><input type="checkbox" name="cocciGramPlus" value="Cocci Gram +"> Cocci Gram +</label>
     </fieldset>
 
@@ -520,9 +520,9 @@ function renderProbaAbdoForm(){
  <fieldset>
   <legend>Facteurs de risque microbiologiques</legend>
   <div class="row">
-    <label><input type="checkbox" name="BLSE"> FdR BLSE / portage</label>
-    <label><input type="checkbox" name="Faecium"> FdR <em>E. faecium</em></label>
-    <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3</label>
+    <label><input type="checkbox" name="BLSE"> FdR de BLSE* </label>
+    <label><input type="checkbox" name="Faecium"> FdR de E. faecium**</label>
+    <label><input type="checkbox" name="Dupont"> Score de Dupont ≥ 3*** </label>
     <label><input type="checkbox" name="ProtheseBiliaire"> Prothèse biliaire</label>
   </div>
 </fieldset>
@@ -543,6 +543,12 @@ function renderProbaAbdoForm(){
   </div>
 </fieldset>
 
+<!-- Ajout de l'encadré avec la légende pour les infections intra-abdominales -->
+      <div class="warning-container">
+        <p><strong>*Facteurs de risque d’infection à BLSE (un seul critère suffit parmi) :</strong> traitement < 1 mois par Tazocilline ou céphalosporine anti-P. aeruginosa, colonisation/infection à EBLSE, colonisation/infection à P. aeruginosa Tazo-R dans les 3 derniers mois.</p>
+        <p><strong>**Facteurs de risque d’infection à E. faecium (un seul critère suffit parmi) :</strong> immunodéprimé, infection biliaire, antibiothérapie en cours, colonisation connue à E. faecium.</p>
+        <p><strong>***Score de Dupont :</strong> Indication à un traitement antifongique en cas de péritonite si ≥ 3 critères parmi : Sexe féminin, perforation sus-mésocolique, choc septique, antibiothérapie en cours depuis > 48h.</p>
+      </div>
 
       <div class="actions">
         <button type="button" class="btn" id="btnAbdo">Antibiothérapie probabiliste recommandée</button>
