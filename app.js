@@ -226,9 +226,9 @@ function renderProbaPneumonieForm(){
       <fieldset>
         <legend>Risque de bactérie multirésistante</legend>
         <div class="row">
-          <label><input type="checkbox" name="pseudo"> P. aeruginosa</label>
-          <label><input type="checkbox" name="blse"> BLSE</label>
-          <label><input type="checkbox" name="sarm"> SARM</label>
+          <label><input type="checkbox" name="pseudo"> FdR de P. aeruginosa*</label>
+          <label><input type="checkbox" name="blse"> FdR de BLSE**</label>
+          <label><input type="checkbox" name="sarm"> FdR de SARM***</label>
         </div>
       </fieldset>
 
@@ -252,6 +252,17 @@ function renderProbaPneumonieForm(){
           <label><input type="checkbox" name="inhal"> Inhalation</label>
         </div>
       </fieldset>
+
+ <!-- Ajout de la légende avec l'encadré -->
+      <div class="warning-container">
+        <p><strong>*Risque de P. aeruginosa:</strong> Un facteur de risque parmi « antibiothérapie < 3 mois, BPCO sévère (VEMS < 50%), bronchectasies/mucoviscidose, trachéotomie, ATCD de colonisation/infection à P. aeruginosa »</p>
+        <p><strong>**Risque de BLSE:</strong> « Antibiothérapie < 3 mois, ATCD de colonisation/infection à BLSE, hospitalisation depuis plus de 5j, voyage dans un pays endémique ». Indications des carbapénèmes:</p>
+        <ul>
+          <li>• Choc septique ou P/F < 150 + 1 facteur de risque</li>
+          <li>• 3 facteurs de risque</li>
+        </ul>
+        <p><strong>***Risque de SARM:</strong> Un facteur de risque parmi « colonisation/infection récente à SARM, prévalence locale > 10-12%, lésion cutanée chronique, dialyse chronique ».</p>
+      </div>
 
       <div class="actions">
         <button type="button" class="btn" id="btnReco">Antibiothérapie probabiliste recommandée</button>
