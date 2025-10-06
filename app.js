@@ -15,10 +15,10 @@ const appContainer = document.getElementById("app");
 
   // Créer un bouton "Retour" pour revenir au menu principal
   const backButton = document.createElement("button");
-  backButton.textContent = "Retour au menu";
+  backButton.textContent = "Retour";
   backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
   backButton.addEventListener("click", () => {
-    location.hash = "#/"; // Redirige vers le menu principal
+    window.location.hash = "#/"; // Redirige vers le menu principal
   });
 
   // Ajouter le bouton "Retour" en haut de la page
