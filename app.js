@@ -13,11 +13,10 @@ export function openPDF(pdfPath) {
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
 
-  // Modifier l'URL de la page pour refléter l'ouverture du PDF
+  // Modifier l'URL pour refléter l'ouverture du PDF
   const pdfName = pdfPath.split("/").pop().split(".")[0]; // Exemple : "antibiorein" pour antibiotique rénal
-  location.hash = `#/${pdfName}`;  // Mettez à jour le hash de l'URL
+  window.location.hash = `#/${pdfName}`; // Change le hash dans l'URL pour le PDF spécifique
 
-  
   // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
@@ -34,16 +33,17 @@ export function openPDF(pdfPath) {
   navContainer.appendChild(nextButton);
   appContainer.appendChild(navContainer);
 
+  // Créer un bouton "Retour" pour revenir au menu principal
   const backButton = document.createElement("button");
   backButton.textContent = "Retour";
   backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
   backButton.addEventListener("click", () => {
-    window.location.replace("#/"); // Redirige vers le menu principal
+    window.location.hash = "#/"; // Redirige vers le menu principal
   });
 
-  // Ajouter le bouton "Retour" en haut de la page
+  // Ajouter le bouton "Retour" en dessous des autres boutons
   appContainer.appendChild(backButton);
-  
+
   // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
