@@ -1,4 +1,7 @@
 // app.js — structure en 3 pages + sous-pages, routes hash
+let currentPage = 1;  // Page actuelle
+let pdfDoc = null; // Référence au document PDF
+
 export function openPDF(pdfPath) {
   const appContainer = document.getElementById("app");
 
@@ -8,29 +11,62 @@ export function openPDF(pdfPath) {
   // Créer un div pour le PDF
   const pdfViewer = document.createElement("div");
   pdfViewer.id = "pdfViewer";
-
-  // Ajouter ce div au conteneur de l'application
+  pdfViewer.style.display = "flex";  // Flexbox pour aligner à gauche
+  pdfViewer.style.justifyContent = "flex-start"; // Alignement à gauche
+  pdfViewer.style.alignItems = "flex-start"; // Alignement en haut
   appContainer.appendChild(pdfViewer);
+
+  // Créer les boutons de navigation
+  const navContainer = document.createElement("div");
+  navContainer.classList.add("pdf-nav");
+
+  const prevButton = document.createElement("button");
+  prevButton.textContent = "Précédent";
+  prevButton.addEventListener("click", () => goToPage(currentPage - 1));
+
+  const nextButton = document.createElement("button");
+  nextButton.textContent = "Suivant";
+  nextButton.addEventListener("click", () => goToPage(currentPage + 1));
+
+  navContainer.appendChild(prevButton);
+  navContainer.appendChild(nextButton);
+  appContainer.appendChild(navContainer);
 
   // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
-    const viewer = document.getElementById('pdfViewer');
-    pdfDoc_ = pdfDoc_;
+    pdfDoc = pdfDoc_;
+    renderPage(currentPage);
+  });
+}
 
-    // Créer un canvas pour afficher le PDF
+// Fonction pour afficher une page spécifique
+function renderPage(pageNum) {
+  const viewer = document.getElementById('pdfViewer');
+
+  // Vérifier les limites des pages
+  if (pageNum < 1 || pageNum > pdfDoc.numPages) return;
+
+  pdfDoc.getPage(pageNum).then(page => {
     const canvas = document.createElement('canvas');
+    viewer.innerHTML = ''; // Réinitialiser la vue avant d'ajouter une nouvelle page
     viewer.appendChild(canvas);
+
     const context = canvas.getContext('2d');
+    const viewport = page.getViewport({ scale: 1.5 }); // Ajuster le zoom si nécessaire
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
 
-    // Afficher la première page du PDF
-    pdfDoc_.getPage(1).then(page => {
-      const viewport = page.getViewport({ scale: 1.5 }); // Ajuste la taille du PDF
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      page.render({ canvasContext: context, viewport: viewport });
+    // Rendu de la page sur le canvas
+    page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+      // Mettre à jour la page actuelle
+      currentPage = pageNum;
     });
   });
+}
+
+// Fonction pour aller à une page spécifique
+function goToPage(pageNum) {
+  renderPage(pageNum);
 }
 
 const $app = document.getElementById("app");
