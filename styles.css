@@ -183,3 +183,22 @@ input[type="text"], input[type="number"], select, textarea {
   margin-top: 10px;
 }
 
+/* Style spécifique pour l'encadré contenant la légende */
+.warning-container {
+  border: 2px solid #ffcc00; /* Couleur pour l'encadré */
+  padding: 10px;
+  margin: 20px 0;
+  background-color: #fff9c4; /* Fond léger pour la visibilité */
+  border-radius: 8px;
+}
+
+.warning-container p, .warning-container ul {
+  font-size: 14px;
+  color: #333;
+}
+
+.warning-container ul {
+  padding-left: 20px;
+}
+
+
