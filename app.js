@@ -278,9 +278,9 @@ function renderProbaPneumonieForm(){
     // ——— Logique PROVISOIRE pour démonstration (on branchera tes vraies règles ensuite)
     const reco = decidePneumonie(params);
     document.getElementById("resPneu").textContent = reco +
-      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
-}
+  "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
 function renderProbaIUForm(){
   $app.innerHTML = `
