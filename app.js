@@ -1,5 +1,5 @@
 // app.js — structure en 3 pages + sous-pages, routes hash
-function openPDF(pdfPath) {
+export function openPDF(pdfPath) {
   const appContainer = document.getElementById("app");
 
   // Créer un iframe pour afficher le PDF
