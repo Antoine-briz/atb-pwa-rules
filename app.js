@@ -278,7 +278,7 @@ function renderProbaPneumonieForm(){
     // ——— Logique PROVISOIRE pour démonstration (on branchera tes vraies règles ensuite)
     const reco = decidePneumonie(params);
     document.getElementById("resPneu").textContent = reco +
-      "\n\n⚠️ Posologies indicatives pour poids 70-80 kg et fonction rénale normale. Vérifier contre-indications: allergies, grossesse...";
+      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
   });
 }
 
