@@ -22,7 +22,9 @@ const routes = {
   "#/adaptee/steno": () => showImage("steno"),
   "#/adaptee/carba": () => showImage("carba"),
   "#/adaptee/erv": () => showImage("erv"),
-  "#/proba/dureeATB": renderDureesForm // Route pour "Durée d'antibiothérapie"
+  "#/proba/dureeATB": renderDureesForm,
+  "#/antibiorein": () => openPDF('./pdf/antibiorein.pdf'),
+"#/antibiomoda": () => openPDF('./pdf/antibiomoda.pdf')
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
