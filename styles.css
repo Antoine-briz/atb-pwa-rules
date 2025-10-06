@@ -162,6 +162,7 @@ input[type="text"], input[type="number"], select, textarea {
 
 /* Style du bouton Retour */
 #pdfViewer button {
+  width: 50%; 
   margin: 10px 0;
   padding: 8px 16px;  /* Bouton plus petit */
   background-color: #ff5722;
