@@ -143,3 +143,20 @@ input[type="text"], input[type="number"], select, textarea {
   display: block; /* Bloquer le canvas pour qu'il s'étire */
 }
 
+/* Ajouter un conteneur pour le PDF avec des barres de défilement */
+#pdfViewer {
+  width: 100%;
+  height: 80vh; /* Hauteur du PDF */
+  overflow: auto; /* Active la barre de défilement si nécessaire */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start; /* Aligner le PDF à gauche */
+  background-color: #f1f1f1; /* Optionnel, juste pour le fond */
+}
+
+#pdfViewer canvas {
+  margin: 0;  /* Supprime les marges autour du canvas */
+  display: block;  /* Assure que le canvas occupe toute la largeur */
+}
+
