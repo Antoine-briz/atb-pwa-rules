@@ -1,7 +1,7 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
 const CACHE_NAME = "atb-rules-v13";
 
-// ...
+// Liste des fichiers à pré-cacher, incluant les fichiers PDF
 const PRECACHE = [
   "./", "./index.html", 
   "./styles.css", 
@@ -31,6 +31,8 @@ const PRECACHE = [
   '/img/carba.png',
   '/img/erv.png',
   '/img/fond.png',
+  './pdf/antibiorein.pdf',  // Fichier PDF 1
+  './pdf/antibiomoda.pdf',  // Fichier PDF 2
 ];
 
 self.addEventListener("install", (event) => {
