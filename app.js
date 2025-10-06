@@ -33,7 +33,7 @@ const appContainer = document.getElementById("app");
   backButton.textContent = "Retour";
   backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
   backButton.addEventListener("click", () => {
-    window.location.hash = "#/"; // Redirige vers le menu principal
+    location.replace("#/"); // Redirige vers le menu principal
   });
 
   // Ajouter le bouton "Retour" en haut de la page
