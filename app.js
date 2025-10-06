@@ -13,26 +13,11 @@ export function openPDF(pdfPath) {
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
 
-  // Créer un bouton "Retour" pour revenir au menu principal
-  const backButton = document.createElement("button");
-  backButton.textContent = "Retour";
-  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
-  backButton.addEventListener("click", () => {
-    console.log("Retour bouton cliqué");
+  // Modifier l'URL de la page pour refléter l'ouverture du PDF
+  const pdfName = pdfPath.split("/").pop().split(".")[0]; // Exemple : "antibiorein" pour antibiotique rénal
+  location.hash = `#/${pdfName}`;  // Mettez à jour le hash de l'URL
 
-    // Essaye de revenir à la page précédente
-    if (history.length > 1) {
-      history.back();  // Si possible, revenir en arrière dans l'historique
-    } else {
-      location.hash = "#/"; // Sinon, revenir à la page d'accueil
-    }
-
-    console.log("Retour effectué");
-  });
-
-  // Ajouter le bouton "Retour" en haut de la page
-  appContainer.appendChild(backButton);
-
+  
   // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
@@ -49,6 +34,16 @@ export function openPDF(pdfPath) {
   navContainer.appendChild(nextButton);
   appContainer.appendChild(navContainer);
 
+  const backButton = document.createElement("button");
+  backButton.textContent = "Retour";
+  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
+  backButton.addEventListener("click", () => {
+    window.location.replace("#/"); // Redirige vers le menu principal
+  });
+
+  // Ajouter le bouton "Retour" en haut de la page
+  appContainer.appendChild(backButton);
+  
   // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
