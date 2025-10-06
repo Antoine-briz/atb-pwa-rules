@@ -258,8 +258,8 @@ function renderProbaPneumonieForm(){
         <p><strong>*Risque de P. aeruginosa:</strong> Un facteur de risque parmi « antibiothérapie < 3 mois, BPCO sévère (VEMS < 50%), bronchectasies/mucoviscidose, trachéotomie, ATCD de colonisation/infection à P. aeruginosa »</p>
         <p><strong>**Risque de BLSE:</strong> « Antibiothérapie < 3 mois, ATCD de colonisation/infection à BLSE, hospitalisation depuis plus de 5j, voyage dans un pays endémique ». Indications des carbapénèmes:</p>
         <ul>
-          <li>• Choc septique ou P/F < 150 + 1 facteur de risque</li>
-          <li>• 3 facteurs de risque</li>
+          <li> Choc septique ou P/F < 150 + 1 facteur de risque</li>
+          <li> 3 facteurs de risque</li>
         </ul>
         <p><strong>***Risque de SARM:</strong> Un facteur de risque parmi « colonisation/infection récente à SARM, prévalence locale > 10-12%, lésion cutanée chronique, dialyse chronique ».</p>
       </div>
@@ -318,8 +318,8 @@ function renderProbaIUForm(){
     <!-- Facteurs de risque microbiologique -->
     <fieldset>
       <legend>Facteurs de risque microbiologique</legend>
-      <label><input type="checkbox" name="blse" value="BLSE/portage"> BLSE/Portage</label>
-      <label><input type="checkbox" name="autreFdrBlse" value="Autre FdR BLSE"> Autre FdR BLSE</label>
+      <label><input type="checkbox" name="blse" value="BLSE/portage"> Infection/portage BLSE < 6 mois</label>
+      <label><input type="checkbox" name="autreFdrBlse" value="Autre FdR BLSE*"> Autre FdR BLSE</label>
       <label><input type="checkbox" name="cocciGramPlus" value="Cocci Gram +"> Cocci Gram +</label>
     </fieldset>
 
@@ -336,6 +336,11 @@ function renderProbaIUForm(){
       <label><input type="checkbox" name="pnaEmphy"> Pyélonéphrite emphysémateuse</label>
     </fieldset>
   </div>
+
+<!-- Ajout de l'encadré avec la légende pour les infections urinaires -->
+      <div class="warning-container">
+        <p><strong>*Facteurs de risque de BLSE:</strong> ATCD de colonisation/infection à BLSE dans les 6 mois, antibiothérapie dans les 6 mois (Spectre ≥ Augmentin/C1G/C2G), voyage en pays endémique.</p>
+      </div>
 
   <div class="actions">
     <button type="button" class="btn" id="btnIU">Antibiothérapie probabiliste recommandée</button>
