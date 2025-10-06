@@ -13,17 +13,6 @@ const appContainer = document.getElementById("app");
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
 
-  // Créer un bouton "Retour" pour revenir au menu principal
-  const backButton = document.createElement("button");
-  backButton.textContent = "Retour";
-  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
-  backButton.addEventListener("click", () => {
-    window.location.hash = "#/"; // Redirige vers le menu principal
-  });
-
-  // Ajouter le bouton "Retour" en haut de la page
-  appContainer.appendChild(backButton);
-
   // Créer les boutons de navigation pour le PDF
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
@@ -40,6 +29,16 @@ const appContainer = document.getElementById("app");
   navContainer.appendChild(nextButton);
   appContainer.appendChild(navContainer);
 
+  const backButton = document.createElement("button");
+  backButton.textContent = "Retour";
+  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
+  backButton.addEventListener("click", () => {
+    window.location.hash = "#/"; // Redirige vers le menu principal
+  });
+
+  // Ajouter le bouton "Retour" en haut de la page
+  appContainer.appendChild(backButton);
+  
   // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
