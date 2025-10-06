@@ -1947,7 +1947,7 @@ function renderAdapteeMenu() {
 
   // Efface le contenu précédent
   appContainer.innerHTML = "";
-  
+
   const container = document.createElement("div");
   container.classList.add("antibiotherapy-container");
 
@@ -1957,17 +1957,17 @@ function renderAdapteeMenu() {
   const linksContainer = document.createElement("div");
   linksContainer.classList.add("germs-links");
 
-const links = [
-  { href: "#/adaptee/sensibles", text: "Germes Sensibles", imageIds: ["sensibles"] },
-  { href: "#/adaptee/SARM", text: "SARM", imageIds: ["SARM"] },
-  { href: "#/adaptee/ampC", text: "Entérobactéries ampC", imageIds: ["ampC"] },
-  { href: "#/adaptee/BLSE", text: "BLSE", imageIds: ["BLSE"] },
-  { href: "#/adaptee/pyo", text: "Pseudomonas aeruginosas MDR/XDR", imageIds: ["pyo"] },
-  { href: "#/adaptee/acineto", text: "Acinetobacter baumannii Imipénème-R", imageIds: ["acineto"] },
-  { href: "#/adaptee/steno", text: "Stenotrophomonas maltophilia", imageIds: ["steno"] },
-  { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases", imageIds: ["carba"] },
-  { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", imageIds: ["erv"] },
-];
+  const links = [
+    { href: "#/adaptee/sensibles", text: "Germes Sensibles", pdf: "sensibles" },
+    { href: "#/adaptee/SARM", text: "SARM", pdf: "SARM" },
+    { href: "#/adaptee/ampC", text: "Entérobactéries ampC", pdf: "ampC" },
+    { href: "#/adaptee/BLSE", text: "BLSE", pdf: "BLSE" },
+    { href: "#/adaptee/pyo", text: "Pseudomonas aeruginosas MDR/XDR", pdf: "pyo" },
+    { href: "#/adaptee/acineto", text: "Acinetobacter baumannii Imipénème-R", pdf: "acineto" },
+    { href: "#/adaptee/steno", text: "Stenotrophomonas maltophilia", pdf: "steno" },
+    { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases", pdf: "carba" },
+    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", pdf: "erv" }
+  ];
 
   links.forEach(link => {
     const anchor = document.createElement("a");
@@ -1975,67 +1975,16 @@ const links = [
     anchor.textContent = link.text;
     anchor.addEventListener("click", (e) => {
       e.preventDefault(); // Empêche la navigation par défaut
-      showImages(link.href.split("/").pop()); // Extrait l'image à partir du lien
+      openPDF(`./pdf/${link.pdf}.pdf`); // Ouvre le PDF correspondant
     });
     linksContainer.appendChild(anchor);
   });
 
-  const imageContainer = document.createElement("div");
-  imageContainer.classList.add("image-container");
-
-  // Afficher les images de manière dynamique avec les chemins relatifs
-  const images = [
-    { id: "sensibles", src: "./img/sensibles.png", alt: "Germes Sensibles" },
-    { id: "SARM", src: "./img/SARM.png", alt: "SARM" },
-    { id: "ampC", src: "./img/ampC.png", alt: "Entérobactéries ampC" },
-    { id: "BLSE", src: "./img/BLSE.png", alt: "Entérobactéries BLSE" },
-    { id: "pyo", src: "./img/pyo.png", alt: "Pseudomonas aeruginosa MDR/XDR" },
-    { id: "acineto", src: "./img/acineto.png", alt: "Acinetobacter baumannii Imipénème-R" },
-    { id: "steno", src: "./img/steno.png", alt: "Stenotrophomonas maltophilia" },
-    { id: "carba", src: "./img/carba.png", alt: "Entérobactéries Carbapénémases" },
-    { id: "erv", src: "./img/erv.png", alt: "E. faecium Vancomycine-R" }
-  ];
-
-  images.forEach(image => {
-    const img = document.createElement("img");
-    img.id = image.id;
-    img.src = image.src;
-    img.alt = image.alt;
-    img.style.display = "none"; // Images cachées par défaut
-    imageContainer.appendChild(img);
-  });
-
   container.appendChild(title);
   container.appendChild(linksContainer);
-  container.appendChild(imageContainer);
 
- console.log("Inserting content into #app");  // Log pour vérifier l'insertion du contenu
+  console.log("Inserting content into #app");  // Log pour vérifier l'insertion du contenu
   appContainer.appendChild(container); // Insère le contenu dans #app
-}
-
-// Fonction pour afficher les images correspondantes
-function showImages(imageIds) {
-  console.log("Requested image(s):", imageIds);  // Log pour vérifier l'image demandée
-
-  const images = document.querySelectorAll('.image-container img');
-  images.forEach(img => img.style.display = 'none');  // Masquer toutes les images
-
-  // Si plusieurs images doivent être affichées (exemple pour "Germes Sensibles")
-  if (Array.isArray(imageIds)) {
-    imageIds.forEach(id => {
-      const selectedImage = document.getElementById(id);
-      if (selectedImage) {
-        console.log("Displaying image:", id);  // Log de l'image affichée
-        selectedImage.style.display = 'block';  // Afficher l'image sélectionnée
-      }
-    });
-  } else {
-    const selectedImage = document.getElementById(imageIds);
-    if (selectedImage) {
-      console.log("Displaying image:", imageIds);  // Log de l'image affichée
-      selectedImage.style.display = 'block';  // Afficher l'image unique
-    }
-  }
 }
 
 
