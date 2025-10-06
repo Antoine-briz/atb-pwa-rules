@@ -35,6 +35,15 @@ const PRECACHE = [
   '/img/fond.png',
   './pdf/antibiorein.pdf',  
   './pdf/antibiomoda.pdf',
+  './pdf/sensibles.pdf',
+  './pdf/SARM.pdf',
+  './pdf/ampC.pdf',
+  './pdf/BLSE.pdf',
+  './pdf/pyo.pdf',
+  './pdf/acineto.pdf',
+  './pdf/steno.pdf',
+  './pdf/carba.pdf',
+  './pdf/erv.pdf'
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js', 
 ];
 
