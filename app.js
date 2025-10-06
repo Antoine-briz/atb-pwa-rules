@@ -349,9 +349,10 @@ const params = {
   pnaEmphy: !!fd.get("pnaEmphy")
 };
 const out = decideIU(params);
-document.getElementById("resIU").textContent = out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
-}
+document.getElementById("resIU").textContent = out +  
+  "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
 // ——— Transposition stricte de ta macro VBA (IU_GenerateResult) ———
 function decideIU(p){
@@ -592,9 +593,9 @@ function renderProbaAbdoForm(){
     }
     const out = decideAbdo(p);
     document.getElementById("resAbdo").textContent = out +
-      "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
-}
+      "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
 // ======= LOGIQUE (transposition VBA) =======
 
@@ -933,9 +934,9 @@ function renderProbaNeuroForm(){
 
     const out = decideNeuro(p);
     document.getElementById("resNeuro").textContent =
-      out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
-}
+      out + "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
 // ===== Logique (transposition du VBA) =====
 function decideNeuro(p){
@@ -1148,8 +1149,9 @@ function renderProbaDermohypodermiteForm(){
 
     const out = decideDermohypo(p);
     document.getElementById("resDH").textContent =
-      out + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions, et adapter au contexte local.";
-  });
+      out + "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
   // ===== Logique (équivalente à M1_BuildReco/M1_ShockBlock) =====
   function decideDermohypo(p){
@@ -1320,8 +1322,9 @@ function renderProbaEndocarditeForm(){
 
     const message = buildRecoEndocardite(lieu, valve, allergie);
     document.getElementById("resEndo").textContent =
-      message + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions et adapter aux protocoles locaux.";
-  });
+      message + "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
   // ---------- Logique (transposition du VBA) ----------
   function buildRecoEndocardite(lieu, valve, allergie){
@@ -1447,8 +1450,9 @@ function renderProbaSepsisForm(){
 
     const message = buildRegimen({isCommu,isNoso,isNeutro,isAllergy,hasBLSE,hasSARM,isShock});
     document.getElementById("resSepsis").textContent =
-      message + "\n\n⚠️ Vérifier CI/IR, allergies, grossesse, interactions et adapter aux protocoles locaux.";
-  });
+      message + "\n\n⚠️ Posologies indicatives pour un patient de 70-80kg, ayant une fonction rénale préservée." +
+  "\n⚠️ Vérifier l'absence de contre-indication: allergie, grossesse, interaction...";
+});
 
   // ===== Logique transposée du VBA =====
   function buildRegimen(p){
