@@ -2,18 +2,35 @@
 export function openPDF(pdfPath) {
   const appContainer = document.getElementById("app");
 
-  // Créer un iframe pour afficher le PDF
-  const iframe = document.createElement("iframe");
-  iframe.src = pdfPath;
-  iframe.style.width = "100%";
-  iframe.style.height = "80vh";  // Ajuste la hauteur selon ton besoin
-  iframe.style.border = "none";
-
   // Effacer le contenu existant
   appContainer.innerHTML = "";
 
-  // Ajouter l'iframe au conteneur de l'application
-  appContainer.appendChild(iframe);
+  // Créer un div pour le PDF
+  const pdfViewer = document.createElement("div");
+  pdfViewer.id = "pdfViewer";
+
+  // Ajouter ce div au conteneur de l'application
+  appContainer.appendChild(pdfViewer);
+
+  // Charger le PDF avec PDF.js
+  pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
+    const viewer = document.getElementById('pdfViewer');
+    pdfDoc_ = pdfDoc_;
+
+    // Créer un canvas pour afficher le PDF
+    const canvas = document.createElement('canvas');
+    viewer.appendChild(canvas);
+    const context = canvas.getContext('2d');
+
+    // Afficher la première page du PDF
+    pdfDoc_.getPage(1).then(page => {
+      const viewport = page.getViewport({ scale: 1.5 }); // Ajuste la taille du PDF
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      page.render({ canvasContext: context, viewport: viewport });
+    });
+  });
 }
 
 const $app = document.getElementById("app");
