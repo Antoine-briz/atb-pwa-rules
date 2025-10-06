@@ -854,7 +854,7 @@ function renderProbaNeuroForm(){
         <fieldset style="margin-top:10px">
           <legend>Eléments complémentaires</legend>
           <div class="row">
-            <label><input type="checkbox" name="argListeria"> Argument listériose</label>
+            <label><input type="checkbox" name="argListeria"> Argument pour listériose*</label>
             <label><input type="checkbox" name="lcsHSV"> LCS compatible HSV/VZV</label>
           </div>
         </fieldset>
@@ -898,6 +898,11 @@ function renderProbaNeuroForm(){
           </div>
         </fieldset>
       </fieldset>
+
+<!-- Encadré des infections neuroméningées -->
+      <div class="warning-container">
+        <p><strong>*Arguments en faveur d’une listériose :</strong> Un critère suffit parmi : « âge > 65 ans, grossesse, diabète, immunodépression (dont cancer évolutif), maladies hépatiques chroniques (hépatite chronique, cirrhose, OH chronique) ».</p>
+      </div>
 
       <div class="actions">
         <button type="button" class="btn" id="btnNeuro">Antibiothérapie probabiliste recommandée</button>
@@ -1123,6 +1128,12 @@ function renderProbaDermohypodermiteForm(){
           </div>
         </fieldset>
       </fieldset>
+
+<!-- Ajout de l'encadré avec la légende pour les infections des parties molles -->
+      <div class="warning-container">
+        <p><strong>*FdR de BLSE :</strong> ATB < 3 mois, ATCD de colonisation/infection BLSE, hospit. dans les 3 mois, voyage dans un pays endémique.</p>
+        <p><strong>**FdR de SARM :</strong> colo/infection récente SARM, vie institution/long séjour, lésion cutanée chronique, dialyse chronique.</p>
+      </div>
 
       <div class="actions">
         <button type="button" class="btn" id="btnDH">Antibiothérapie probabiliste recommandée</button>
@@ -1447,6 +1458,12 @@ function renderProbaSepsisForm(){
         <strong>Conseil malin !</strong><br>
         Avez-vous bien pensé à la Leptospirose et à la maladie de Still ?
       </aside>
+
+<!-- Ajout de l'encadré avec la légende pour les sepsis sans porte d'entrée -->
+      <div class="warning-container">
+        <p><strong>*FdR de BLSE :</strong> ATB < 3 mois, ATCD de colonisation/infection BLSE, hospit. dans les 3 mois, voyage dans un pays endémique.</p>
+        <p><strong>**FdR de SARM :</strong> colo/infection récente SARM, vie institution/long séjour, lésion cutanée chronique, dialyse chronique.</p>
+      </div>
 
       <div class="actions">
         <button type="button" class="btn" id="btnSepsis">Antibiothérapie probabiliste recommandée</button>
