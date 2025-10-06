@@ -1,4 +1,20 @@
 // app.js — structure en 3 pages + sous-pages, routes hash
+function openPDF(pdfPath) {
+  const appContainer = document.getElementById("app");
+
+  // Créer un iframe pour afficher le PDF
+  const iframe = document.createElement("iframe");
+  iframe.src = pdfPath;
+  iframe.style.width = "100%";
+  iframe.style.height = "80vh";  // Ajuste la hauteur selon ton besoin
+  iframe.style.border = "none";
+
+  // Effacer le contenu existant
+  appContainer.innerHTML = "";
+
+  // Ajouter l'iframe au conteneur de l'application
+  appContainer.appendChild(iframe);
+}
 
 const $app = document.getElementById("app");
 
@@ -89,22 +105,6 @@ function renderHome() {
   `;
 }
 
-function openPDF(pdfPath) {
-  const appContainer = document.getElementById("app");
-
-  // Créer un iframe pour afficher le PDF
-  const iframe = document.createElement("iframe");
-  iframe.src = pdfPath;
-  iframe.style.width = "100%";
-  iframe.style.height = "80vh";  // Ajuste la hauteur selon ton besoin
-  iframe.style.border = "none";
-
-  // Effacer le contenu existant
-  appContainer.innerHTML = "";
-
-  // Ajouter l'iframe au conteneur de l'application
-  appContainer.appendChild(iframe);
-}
 
 function renderProbaMenu() {
   $app.innerHTML = `
