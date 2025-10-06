@@ -128,3 +128,18 @@ input[type="text"], input[type="number"], select, textarea {
   background-color: #45a049;  /* Couleur de fond au survol */
 }
 
+#pdfViewer {
+  display: flex; /* Utilisation de flexbox pour un meilleur alignement */
+  justify-content: flex-start; /* Aligner à gauche */
+  align-items: flex-start; /* Aligner en haut */
+  margin: 0; /* Retirer les marges par défaut */
+  padding: 0; /* Retirer les paddings */
+  width: 100%; /* S'assurer que l'élément occupe toute la largeur disponible */
+}
+
+#pdfViewer canvas {
+  margin: 0; /* Retirer toute marge autour du canvas */
+  padding: 0; /* Retirer les paddings */
+  display: block; /* Bloquer le canvas pour qu'il s'étire */
+}
+
