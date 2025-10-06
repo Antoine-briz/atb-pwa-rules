@@ -33,8 +33,9 @@ const PRECACHE = [
   '/img/carba.png',
   '/img/erv.png',
   '/img/fond.png',
-  './pdf/antibiorein.pdf',  // Fichier PDF 1
-  './pdf/antibiomoda.pdf',  // Fichier PDF 2
+  './pdf/antibiorein.pdf',  
+  './pdf/antibiomoda.pdf',
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js', 
 ];
 
 self.addEventListener("install", (event) => {
