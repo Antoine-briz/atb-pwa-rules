@@ -103,6 +103,13 @@ function renderHome() {
 </button>
     </div>
   `;
+  document.querySelectorAll('.btn').forEach((btn, index) => {
+  if (index === 3) {
+    btn.addEventListener('click', () => openPDF('./pdf/antibiorein.pdf'));
+  } else if (index === 4) {
+    btn.addEventListener('click', () => openPDF('./pdf/antibiomoda.pdf'));
+  }
+});
 }
 
 
