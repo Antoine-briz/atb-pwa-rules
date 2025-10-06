@@ -115,10 +115,19 @@ const routes = {
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
-window.addEventListener("hashchange", () => mount());
+// Écouteur d'événements pour gérer le changement de hash (quand on change de page)
+window.addEventListener("hashchange", () => {
+  console.log("Hash changed:", location.hash);  // Affiche dans la console le hash actuel
+  mount();  // Met à jour le contenu en fonction de l'URL actuelle
+});
+
+// Écouteur d'événements pour le chargement de la page (au démarrage)
 window.addEventListener("load", () => {
-  if (!location.hash) location.hash = "#/"; // Par défaut, rediriger vers la page d'accueil
-  mount(); // Appel initial pour afficher le bon contenu
+  if (!location.hash) {
+    location.hash = "#/";  // Si aucun hash n'est spécifié, redirige vers la page d'accueil
+  }
+  console.log("Page loaded, current hash:", location.hash);  // Affiche le hash actuel
+  mount();  // Appel initial pour afficher le bon contenu en fonction du hash
 });
 
 function mount() {
