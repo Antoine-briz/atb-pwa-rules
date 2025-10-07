@@ -98,7 +98,7 @@ const routes = {
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
   "#/adaptee/sensibles": () => showImages("sensibles"),
-  "#/adaptee/SARM": () => showImage("SARM"),
+  "#/adaptee/SARM": () => openPDF('./pdf/SARM.pdf'),
   "#/adaptee/ampC": () => showImage("ampC"),
   "#/adaptee/BLSE": () => showImage("BLSE"),
   "#/adaptee/pyo": () => showImage("pyo"),
