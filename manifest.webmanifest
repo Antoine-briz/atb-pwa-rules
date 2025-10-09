@@ -1,6 +1,6 @@
 {
-  "name": "Protocoles ATB",
-  "short_name": "ATB",
+  "name": "Protocoles d'antibiothérapie MIR CHV",
+  "short_name": "Protocoles d'antibiothérapie MIR CHV",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
