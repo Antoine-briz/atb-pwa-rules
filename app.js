@@ -480,12 +480,12 @@ function wrapIU(p, gravite, res, notes){
   if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
 
   return [
-    "IU en réanimation — Antibiothérapie probabiliste recommandée (selon le tableau fourni)",
     "Origine : " + p.origine,
     "Gravité : " + gravite,
     (lignes.length ? lignes.join("\n") : null),
-    "",
+     "",
     "Proposition thérapeutique :",
+    "", 
     res,
     (notes ? "\n" + notes : "")
   ].filter(Boolean).join("\n");
