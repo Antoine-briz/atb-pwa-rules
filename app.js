@@ -67,7 +67,17 @@ function renderPage(pageNum) {
     viewer.appendChild(canvas);
 
     const context = canvas.getContext('2d');
-    const viewport = page.getViewport({ scale: 1.5 }); // Ajuster le zoom si nécessaire
+        if (!context) {
+            console.error("Impossible de récupérer le contexte du canvas.");
+            return;
+        }
+
+        // === PARAMÈTRES DE HAUTE RÉSOLUTION ===
+        const scale = 0.75;                     // Zoom inchangé
+        const dpi = window.devicePixelRatio || 2; // Densité de pixels élevée (2 ou plus pour Retina/4K)
+
+        // Récupérer le viewport
+        const viewport = page.getViewport({ scale: scale });
     canvas.height = viewport.height;
     canvas.width = viewport.width;
 
