@@ -73,7 +73,7 @@ function renderPage(pageNum) {
         }
 
         // === PARAMÈTRES DE HAUTE RÉSOLUTION ===
-        const scale = 0.75;                     // Zoom inchangé
+        const scale = 0.5;                     // Zoom inchangé
         const dpi = window.devicePixelRatio || 2; // Densité de pixels élevée (2 ou plus pour Retina/4K)
 
         // Récupérer le viewport
