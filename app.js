@@ -335,7 +335,6 @@ function renderProbaIUForm(){
       <legend>Facteurs de risque microbiologique</legend>
       <label><input type="checkbox" name="blse" value="BLSE/portage"> Infection/portage BLSE < 6 mois</label>
       <label><input type="checkbox" name="autreFdrBlse" value="Autre FdR BLSE*"> Autre FdR BLSE*</label>
-      <label><input type="checkbox" name="cocciGramPlus" value="Cocci Gram +"> Cocci Gram +</label>
     </fieldset>
 
     <!-- Facteurs liés au patient -->
@@ -374,7 +373,6 @@ const params = {
   choc: !!fd.get("choc"),
   blse: fd.get("blse") || "",
   autreFdrBlse: fd.get("autreFdrBlse") || "",
-  cocciGramPlus: fd.get("cocciGramPlus") || "",
   allergieBL: fd.get("allergieBL") || "",
   immunodep: fd.get("immunodep") || "",
   pnaEmphy: !!fd.get("pnaEmphy")
@@ -424,14 +422,6 @@ function decideIU(p){
     return wrapIU(p, gravite, res, notes);
   }
 
-  if (p.cocciGramPlus){
-    if (p.origine === "Communautaire"){
-      res = "Amoxicilline-acide clavulanique 1 g x3/j" + (p.choc ? " (+ Gentamicine si choc septique)." : ".");
-    } else {
-      res = "Pipéracilline-tazobactam 4 g x4/j" + (p.choc ? " (+ Vancomycine si choc) (+ Gentamicine si choc)." : ".");
-    }
-    return wrapIU(p, gravite, res, notes);
-  }
 
   // Tronc commun
   if (p.origine === "Communautaire"){
@@ -486,7 +476,6 @@ function wrapIU(p, gravite, res, notes){
   if (p.immuno)   lignes.push("Critère : immunodépression cochée");
   if (p.blse)   lignes.push("Critère : infection/portage BLSE < 6 mois");
   if (p.autreFdrBlse)  lignes.push("Critère : autre facteur de risque de BLSE");
-  if (p.gramPos)  lignes.push("Critère : cocci Gram+ à l’examen direct");
   if (p.pnaEmphy) lignes.push("Critère : PNA emphysémateuse");
   if (p.allergie) lignes.push("Critère : allergie sévère aux ß-lactamines");
 
