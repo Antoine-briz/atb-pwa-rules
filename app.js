@@ -78,8 +78,13 @@ function renderPage(pageNum) {
 
         // Récupérer le viewport
         const viewport = page.getViewport({ scale: scale });
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+
+        // Redimensionner le canvas pour la densité de pixels
+        canvas.width = viewport.width * dpi;
+        canvas.height = viewport.height * dpi;
+
+        // Ajuster le contexte pour la densité de pixels
+        context.setTransform(dpi, 0, 0, dpi, 0, 0);
 
     // Rendu de la page sur le canvas
     page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
