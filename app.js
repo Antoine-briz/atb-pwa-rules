@@ -2059,10 +2059,10 @@ function renderReinForm() {
         <legend>Fonction rénale</legend>
         <select id="fonction">
           <option value="">— Sélectionner —</option>
-          <option value=">120">DFG > 120 mL/min</option>
-          <option value="30-120">30–120 mL/min</option>
-          <option value="30-10">30–10 mL/min</option>
-          <option value="<10">< 10 mL/min</option>
+          <option value=">120">DFG > 120 mL/min/1.73m2</option>
+          <option value="30-120">DFG = 30–120 mL/min/1.73m2</option>
+          <option value="30-10">DFG = 30–10 mL/min/1.73m2</option>
+          <option value="<10">DFG < 10 mL/min/1.73m2</option>
           <option value="hd">Hémodialyse intermittente</option>
           <option value="cvvh">CVVH 30–35 mL/kg/h</option>
           <option value="cvvhd">CVVHD 30–35 mL/kg/h</option>
@@ -2156,10 +2156,20 @@ function renderReinForm() {
     const out = document.getElementById("resRein");
     if (!f || !m || !fn) { out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale."; return; }
     const mol = data[f][m];
+    +   const entretienBrut = mol[fn] || "—";
++   const entretienLisible = humanizeEntretien(entretienBrut);
     out.innerHTML = `<strong>${m}</strong><br>
-      💉 <em>Dose de charge :</em> ${mol.charge}<br>
-      💊 <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${mol[fn] || "—"}`;
+      <em>Dose de charge :</em> ${mol.charge}<br>
+      <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}`;
   });
+}
+
+// Remplace les "/6h", "/8h", "/12 à 24h", "/8–12h", etc. par "toutes les …"
+function humanizeEntretien(text) {
+  if (!text) return text;
+  // 1) "/ 6h" ; "/6 à 8h" ; "/6–8h" ; "/6-8h"
+  text = text.replace(/\/\s*(\d+(?:\s*(?:à|–|-)\s*\d+)?)\s*h/gi, (_m, grp) => ` toutes les ${grp}h`);
+  return text;
 }
 
 
