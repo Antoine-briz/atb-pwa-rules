@@ -197,7 +197,7 @@ function renderHome() {
   `;
   document.querySelectorAll('.btn').forEach((btn, index) => {
   if (index === 3) {
-    btn.addEventListener('click', () => openPDF('./pdf/antibiorein.pdf'));
+    btn.addEventListener('click', () => { location.hash = '#/antibiorein'; });
   } else if (index === 4) {
     btn.addEventListener('click', () => openPDF('./pdf/antibiomoda.pdf'));
   }
