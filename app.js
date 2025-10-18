@@ -122,7 +122,7 @@ const routes = {
   "#/adaptee/carba": () => showImage("carba"),
   "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm,
-  "#/antibiorein": () => openPDF('./pdf/antibiorein.pdf'),
+  "#/antibiorein": renderReinForm,
 "#/antibiomoda": () => openPDF('./pdf/antibiomoda.pdf')
 };
 
