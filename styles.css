@@ -212,5 +212,7 @@ input[type="text"], input[type="number"], select, textarea {
     height: auto !important;  /* Adapter la hauteur en fonction de la largeur */
 }
 
+#resRein strong { font-size: 18px; }
+#resRein em { color: var(--accent); font-style: normal; font-weight: 600; }
 
 
