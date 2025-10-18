@@ -2156,8 +2156,8 @@ function renderReinForm() {
     const out = document.getElementById("resRein");
     if (!f || !m || !fn) { out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale."; return; }
     const mol = data[f][m];
-    +   const entretienBrut = mol[fn] || "—";
-+   const entretienLisible = humanizeEntretien(entretienBrut);
+    const entretienBrut = mol[fn] || "—";
+    const entretienLisible = humanizeEntretien(entretienBrut);
     out.innerHTML = `<strong>${m}</strong><br>
       <em>Dose de charge :</em> ${mol.charge}<br>
       <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}`;
