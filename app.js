@@ -2322,12 +2322,12 @@ function renderModalitesForm() {
       `<em>Dose de charge :</em> ${(F.charge && F.charge.schema) || "—"}`,
       `<em>Dose d’entretien :</em>`,
       [
-        `- <u>Rythme d’administration</u> : ${F.entretien?.rythme || "—"}`,
-        `- <u>Intervalle après charge</u> : ${F.entretien?.intervalle || "—"}`,
-        `- <u>Posologie (une dose) </u> : ${F.entretien?.doses || "—"}`,
-        `- <u>Volume de dilution</u> : ${F.entretien?.volume || "—"}`,
-        `- <u>Durée de perfusion</u> : ${F.entretien?.perfusion || "—"}`,
-        `- <u>Durée de stabilité</u> : ${F.entretien?.stabilite || "—"}`
+      `- <u>Rythme d’administration</u> : ${(F.entretien && F.entretien.rythme) || "—"}`,
+`- <u>Intervalle après charge</u> : ${(F.entretien && F.entretien.intervalle) || "—"}`,
+`- <u>Posologie (une dose)</u> : ${(F.entretien && F.entretien.doses) || "—"}`,
+`- <u>Volume de dilution</u> : ${(F.entretien && F.entretien.volume) || "—"}`,
+`- <u>Durée de perfusion</u> : ${(F.entretien && F.entretien.perfusion) || "—"}`,
+`- <u>Durée de stabilité</u> : ${(F.entretien && F.entretien.stabilite) || "—"}`,
       ].join("<br>")
     ].join("<br>");
   });
