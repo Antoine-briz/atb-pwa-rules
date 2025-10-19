@@ -4,22 +4,20 @@ let pdfDoc = null; // Référence au document PDF
 
 function openPDF(pdfPath) {
   const appContainer = document.getElementById("app");
-
-  // Effacer le contenu existant
   appContainer.innerHTML = "";
 
-  // Créer un div pour le PDF avec une barre de défilement
   const pdfViewer = document.createElement("div");
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
 
-  // Modifier l'URL pour refléter l'ouverture du PDF
-  const pdfName = pdfPath.split("/").pop().split(".")[0]; // Exemple : "antibiorein" pour antibiotique rénal
-  history.pushState(null, '', `#/${pdfName}`);
+  // (Option 1) hash router :
+  const pdfName = pdfPath.split("/").pop().split(".")[0];
+  location.hash = `#/${pdfName}`;
 
-   console.log('Current URL:', window.location.href);
+  // (Option 2) si tu préfères l'historique :
+  // history.pushState(null, "", `#/${pdfName}`);
 
-  // Créer les boutons de navigation pour le PDF
+  // Boutons de nav
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
 
@@ -35,24 +33,37 @@ function openPDF(pdfPath) {
   navContainer.appendChild(nextButton);
   appContainer.appendChild(navContainer);
 
-  // Créer un bouton "Retour" pour revenir au menu principal
   const backButton = document.createElement("button");
   backButton.textContent = "Retour";
-  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
-  backButton.addEventListener("click", () => {
-    window.location.hash = "#/"; // Redirige vers le menu principal
-  });
-
-  // Ajouter le bouton "Retour" en dessous des autres boutons
+  backButton.classList.add("btn");
+  backButton.addEventListener("click", () => { location.hash = "#/"; });
   appContainer.appendChild(backButton);
 
-  // Charger le PDF avec PDF.js
-  pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
-    pdfDoc = pdfDoc_;
-    renderPage(currentPage);
-  });
+  // PDF.js prêt ?
+  if (!window.pdfjsLib) {
+    pdfViewer.textContent = "PDF.js n’est pas chargé.";
+    console.error("pdfjsLib introuvable : ajoute le script pdf.js dans index.html");
+    return;
+  }
+  if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+
+  // Reset et chargement
+  currentPage = 1;
+
+  pdfjsLib.getDocument(pdfPath).promise
+    .then(pdfDoc_ => {
+      pdfDoc = pdfDoc_;
+      renderPage(currentPage);
+    })
+    .catch(err => {
+      pdfViewer.textContent = "Erreur de chargement du PDF.";
+      console.error(err);
+    });
 }
 window.openPDF = openPDF;
+
 
 // Fonction pour afficher une page spécifique
 function renderPage(pageNum) {
