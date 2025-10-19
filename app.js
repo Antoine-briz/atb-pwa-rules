@@ -2151,18 +2151,45 @@ function renderReinForm() {
     selMolecule.innerHTML = `<option value="">— Sélectionner —</option>` + options;
   });
 
-  document.getElementById("btnRein").addEventListener("click", () => {
-    const f = selFamille.value, m = selMolecule.value, fn = document.getElementById("fonction").value;
-    const out = document.getElementById("resRein");
-    if (!f || !m || !fn) { out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale."; return; }
-    const mol = data[f][m];
-    const entretienBrut = mol[fn] || "—";
-    const entretienLisible = humanizeEntretien(entretienBrut);
-    out.innerHTML = `<strong>${m}</strong><br>
-      <em>Dose de charge :</em> ${mol.charge}<br>
-      <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}`;
-  });
-}
+// Liste des molécules avec biodisponibilité orale quasi complète
+const oraleList = [
+  "Ofloxacine", "Ciprofloxacine", "Lévofloxacine", "Moxifloxacine", // fluoroquinolones
+  "Linézolide", "Clindamycine", "Rifampicine",
+  "Cotrimoxazole (pneumocystose)", "Cotrimoxazole (autre)",
+  "Doxycycline", "Métronidazole"
+];
+  
+document.getElementById("btnRein").addEventListener("click", () => {
+  const f = selFamille.value, m = selMolecule.value, fn = document.getElementById("fonction").value;
+  const out = document.getElementById("resRein");
+  if (!f || !m || !fn) {
+    out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale.";
+    return;
+  }
+
+  const mol = data[f][m];
+  let entretienBrut = mol[fn] || "—";
+  let charge = mol.charge;
+
+  // ✅ Remplacer "IV" ou "IVL" par "PO" pour Fidaxomicine
+  if (m.toLowerCase().includes("fidaxomicine")) {
+    entretienBrut = entretienBrut.replace(/IVL?/gi, "PO");
+    charge = charge.replace(/IVL?/gi, "PO");
+  }
+
+  // ✅ Convertir les "/6h" etc. en "toutes les 6h"
+  const entretienLisible = humanizeEntretien(entretienBrut);
+
+  // ✅ Message additionnel pour les molécules à biodisponibilité orale
+  const oraleMsg = oraleList.includes(m)
+    ? `<br><small><em> 💊 Biodisponibilité proche de 100 %, voie orale possible aux mêmes posologies (en l’absence de troubles d’absorption digestive).</em></small>`
+    : "";
+
+  out.innerHTML = `<strong>${m}</strong><br>
+    💉 <em>Dose de charge :</em> ${charge}<br>
+    💉 <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}
+    ${oraleMsg}`;
+});
 
 // Remplace les "/6h", "/8h", "/12 à 24h", "/8–12h", etc. par "toutes les …"
 function humanizeEntretien(text) {
