@@ -2319,7 +2319,7 @@ function renderModalitesForm() {
       `<strong>${m}</strong>`,
       `<em>Dosage:</em> ${F.dosages || "—"}`,
       `<em>Solvant préférentiel :</em> ${F.solvant || "—"}${solvantLegend}`,
-      `<em>Dose de charge :</em> ${F.charge?.schema || "—"}`,
+      `<em>Dose de charge :</em> ${(F.charge && F.charge.schema) || "—"}`,
       `<em>Dose d’entretien :</em>`,
       [
         `- <u>Rythme d’administration</u> : ${F.entretien?.rythme || "—"}`,
