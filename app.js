@@ -2353,3 +2353,9 @@ function decideDuree(infection, germe){
   if (infection==="Pneumonies" && germe==="Autres") return "5–7 jours (à affiner selon documentation).";
   return "";
 }
+
+try {
+  eval("(()=>{" + document.querySelector("script[src*='app.js']").textContent + "})()");
+} catch(e) {
+  console.error("⛔ ERREUR DE SYNTAXE:", e.message, "→ ligne:", e.lineNumber, "colonne:", e.columnNumber);
+}
