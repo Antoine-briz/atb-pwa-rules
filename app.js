@@ -743,7 +743,7 @@ function recoEnteroColiques(p){
     if (p.BLSE) txt += "\nIdem absence de FdR de BLSE (pas de carbapénème)";
     if (isSev) txt += "\nAjout Gentamicine 5–8 mg/kg IV 30 min";
     if (p.immunodep){
-      const p2 = {...p, origine: "Nosocomiales"};
+      const p2 = Object.assign({}, p, { origine: "Nosocomiales" });
       return recoEnteroColiques(p2);
     }
   } else { // Nosocomiales
