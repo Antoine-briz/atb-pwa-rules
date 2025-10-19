@@ -778,7 +778,7 @@ function recoPeritonites(p){
     if (p.Dupont) txt += "\nAjout Caspofungine 70 mg puis 50 mg/j IVL";
     if (p.Choc) txt = "Pipéracilline-tazobactam 4 g x4/j\n+ Gentamicine 5–8 mg/kg IVL 30 min";
     if (p.immunodep){
-      const p2 = {...p, origine: "Nosocomiales"};
+      const p2 = Object.assign({}, p, { origine: "Nosocomiales" });
       return recoPeritonites(p2);
     }
   } else { // Nosocomiales
