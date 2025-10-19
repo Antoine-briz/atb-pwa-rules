@@ -215,4 +215,9 @@ input[type="text"], input[type="number"], select, textarea {
 #resRein strong { font-size: 18px; }
 #resRein em { color: var(--accent); font-style: normal; font-weight: 600; }
 
+/* Encadré résultats Modalités */
+#resModa strong { font-size: 18px; }
+#resModa em { color: var(--accent); font-style: normal; font-weight: 600; }
+#resModa u { text-underline-offset: 3px; }
+#resModa .moda-suffix { color: var(--muted); font-size: 12px; margin-left: 6px; }
 
