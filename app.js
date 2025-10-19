@@ -123,8 +123,7 @@ const routes = {
   "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
-  "#/antibiomoda": renderModalitesForm
-
+  "#/antibiomoda": renderModalitesForm,
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
@@ -2333,7 +2332,6 @@ function renderModalitesForm() {
     ].join("<br>");
   });
 }
-
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
