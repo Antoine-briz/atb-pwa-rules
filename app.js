@@ -2,7 +2,7 @@
 let currentPage = 1;  // Page actuelle
 let pdfDoc = null; // Référence au document PDF
 
-export function openPDF(pdfPath) {
+function openPDF(pdfPath) {
   const appContainer = document.getElementById("app");
 
   // Effacer le contenu existant
@@ -52,7 +52,7 @@ export function openPDF(pdfPath) {
     renderPage(currentPage);
   });
 }
-
+window.openPDF = openPDF;
 
 // Fonction pour afficher une page spécifique
 function renderPage(pageNum) {
