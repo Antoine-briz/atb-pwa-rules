@@ -2168,8 +2168,8 @@ document.getElementById("btnRein").addEventListener("click", () => {
 
 
   out.innerHTML = `<strong>${m}</strong><br>
-    💉 <em>Dose de charge :</em> ${charge}<br>
-    💉 <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}
+    <em>Dose de charge :</em> ${charge}<br>
+    <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}
     ${oraleMsg}`;
 });
 
