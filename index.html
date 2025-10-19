@@ -26,6 +26,27 @@
     Amicalement, Dr Antoine Brizard
   </small>
 </footer>
+
+  <!-- Debug temporaire : localiser l’erreur de syntaxe dans app.js -->
+<script src="https://cdn.jsdelivr.net/npm/esprima@4.0.1/dist/esprima.min.js"></script>
+<script>
+(async () => {
+  try {
+    const res = await fetch('./app.js?v=1.0.0', { cache: 'no-store' });
+    const src = await res.text();
+    esprima.parseScript(src, { loc: true }); // ou parseModule si tu utilises type="module"
+    console.log('✔ Syntaxe OK pour app.js');
+  } catch (e) {
+    const line = e.lineNumber || 0;
+    const col  = e.column || 0;
+    const msg  = e.description || e.message || 'Erreur de syntaxe';
+    alert(`app.js – ${msg}\nLigne ${line}, Colonne ${col}`);
+    console.error('⛔ ERREUR DE SYNTAXE:', msg, '→ ligne:', line, 'colonne:', col);
+  }
+})();
+</script>
+
+  
   <script type="module" src="./app.js?v=1.0.0"></script>
   <script>
     if ("serviceWorker" in navigator) {
