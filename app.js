@@ -2266,15 +2266,15 @@ function renderModalitesForm() {
 
     // ========= Autres =========
     autres: {
-      "Colistine":                   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Cotrimoxazole (pneumocystose)":{ dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Cotrimoxazole (autre)":       { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Doxycycline":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Fidaxomicine":                { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Métronidazole":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Rifampicine":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Spiramycine":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Tigécycline":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+      "Colistine":                   { dosages:"1 MUI ampoule", solvant:"Glucosé 5%", charge:{schema:"6 MUI dans 50mL IVL sur 60min"}, entretien:{rythme:"Perfusion intermittente", intervalle:"8h", doses:"3 MUI", volume:"50mL", perfusion:"60min", stabilite:"24h"} },
+      "Cotrimoxazole (pneumocystose)":{ dosages:"400+80mg ampoule, 400+80/800+160mg comprimé (Biodisponibilité 90%)", solvant:"Glucosé 5%", charge:{schema:"800-1200mg IVL (250-500mL sur 60min) ou PO"}, entretien:{rythme:"Perfusion intermittente ou PO", intervalle:"6 à 8h", doses:"800-1200mg", volume:"250-500mL", perfusion:"60min", stabilite:"6h"} },
+      "Cotrimoxazole (autre)":       { dosages:"400+80mg ampoule, 400+80/800+160mg comprimé (Biodisponibilité 90%)", solvant:"Glucosé 5%", charge:{schema:"800mg IVL (250mL sur 60min) ou PO"}, entretien:{rythme:"Perfusion intermittente ou PO", intervalle:"8h", doses:"800mg", volume:"250mL", perfusion:"60min", stabilite:"6h"} },
+      "Doxycycline":                 { dosages:"100mg ampoule ou comprimé (Biodisponibilité 100%)", solvant:"Glucosé 5%", charge:{schema:"200mg IVL (250mL sur 60min) ou PO"}, entretien:{rythme:"Perfusion intermittente", intervalle:"12h", doses:"200mg", volume:"250mL", perfusion:"60min", stabilite:"24h"} },
+      "Fidaxomicine":                { dosages:"200mg comprimé", solvant:"-", charge:{schema:"200mg PO"}, entretien:{rythme:"Per OS", intervalle:"12h", doses:"200mg", volume:"-", perfusion:"-", stabilite:"-"} },
+      "Métronidazole":               { dosages:"500mg ampoule ou comprimé (Biodisponibilité 100%)", solvant:"Préconditionné 100mL", charge:{schema:"500mg IVL (100mL sur 30min) ou PO"}, entretien:{rythme:"Perfusion intermittente", intervalle:"8h", doses:"500mg", volume:"100mL", perfusion:"30min", stabilite:"24h"} },
+      "Rifampicine":                 { dosages:"600mg ampoule ou 300mg comprimé (Biodisponibilité 90%)", solvant:"Glucosé 5%", charge:{schema:"10mg/kg IVL (250mL sur 60min) ou PO"}, entretien:{rythme:"Perfusion intermittente ou PO", intervalle:"8h à 12h (24h pour BK)", doses:"10mg/kg", volume:"250mL", perfusion:"60min", stabilite:"6h"} },
+      "Spiramycine":                 { dosages:"1,5 MUI ampoule, éviter la voie PO", solvant:"Glucosé 5%", charge:{schema:"3 MUI dans 100mL IVL sur 60min"}, entretien:{rythme:"Perfusion intermittente", intervalle:"8h", doses:"1,5 à 3 MUI", volume:"100mL", perfusion:"60mL", stabilite:"12h"} },
+      "Tigécycline":                 { dosages:"50mg ampoule", solvant:"Glucosé 5%", charge:{schema:"200mg dans 250mL IVL sur 60min"}, entretien:{rythme:"Perfusion intermittente", intervalle:"12h", doses:"100mg", volume:"100mL", perfusion:"60min", stabilite:"6h"} }
     }
   };
 
