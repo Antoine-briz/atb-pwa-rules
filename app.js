@@ -2819,15 +2819,15 @@ function renderAdapteeMenu() {
   linksContainer.classList.add("germs-links");
 
   const links = [
-    { href: "#/adaptee/sensibles", text: "Germes Sensibles", pdf: "sensibles" },
-    { href: "#/adaptee/SARM", text: "SARM", pdf: "SARM" },
-    { href: "#/adaptee/ampC", text: "Entérobactéries ampC", pdf: "ampC" },
-    { href: "#/adaptee/BLSE", text: "BLSE", pdf: "BLSE" },
-    { href: "#/adaptee/pyo", text: "Pseudomonas aeruginosas MDR/XDR", pdf: "pyo" },
-    { href: "#/adaptee/acineto", text: "Acinetobacter baumannii Imipénème-R", pdf: "acineto" },
-    { href: "#/adaptee/steno", text: "Stenotrophomonas maltophilia", pdf: "steno" },
-    { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases", pdf: "carba" },
-    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R", pdf: "erv" }
+    { href: "#/adaptee/sensibles", text: "Germes Sensibles" },
+    { href: "#/adaptee/SARM", text: "SARM" },
+    { href: "#/adaptee/ampC", text: "Entérobactéries ampC" },
+    { href: "#/adaptee/BLSE", text: "BLSE" },
+    { href: "#/adaptee/pyo", text: "Pseudomonas aeruginosas MDR/XDR" },
+    { href: "#/adaptee/acineto", text: "Acinetobacter baumannii Imipénème-R" },
+    { href: "#/adaptee/steno", text: "Stenotrophomonas maltophilia" },
+    { href: "#/adaptee/carba", text: "Entérobactéries carbapénémases" },
+    { href: "#/adaptee/erv", text: "E. faecium Vancomycine-R" }
   ];
 
   links.forEach(link => {
@@ -2836,7 +2836,7 @@ function renderAdapteeMenu() {
     anchor.textContent = link.text;
     anchor.addEventListener("click", (e) => {
       e.preventDefault(); // Empêche la navigation par défaut
-      openPDF(`./pdf/${link.pdf}.pdf`); // Ouvre le PDF correspondant
+      location.hash = link.href; // Change le hash pour afficher la bonne page
     });
     linksContainer.appendChild(anchor);
   });
@@ -2847,6 +2847,7 @@ function renderAdapteeMenu() {
   console.log("Inserting content into #app");  // Log pour vérifier l'insertion du contenu
   appContainer.appendChild(container); // Insère le contenu dans #app
 }
+
 
 function renderReinForm() {
   $app.innerHTML = `
