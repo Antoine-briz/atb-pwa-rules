@@ -190,7 +190,7 @@ function renderHome() {
 
 <!-- Nouveau bouton pour les Modalités d'administration des antibiotiques -->
 <button class="btn">
-  <img src="./img/modalite.png" alt="Icône Modalités d'administration des antibiotiques" class="icon-btn">
+  <img src="./img/modalites.png" alt="Icône Modalités d'administration des antibiotiques" class="icon-btn">
   Modalités d'administration des antibiotiques
 </button>
     </div>
