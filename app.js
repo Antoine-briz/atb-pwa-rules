@@ -13,7 +13,7 @@ const routes = {
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
-  "#/adaptee/sensibles": () => showImages("sensibles"),
+  "#/adaptee/sensibles": renderSensiblesPage,
   "#/adaptee/SARM": () => renderBacteriaPage("SARM", BACTERIA_DATA.SARM),
   "#/adaptee/ampC": () => renderBacteriaPage("ampC", BACTERIA_DATA.ampC),
   "#/adaptee/BLSE":   () => renderBacteriaPage("BLSE",   BACTERIA_DATA.BLSE),
@@ -62,6 +62,243 @@ function mount() {
 // Fonction utilitaire pour encapsuler du HTML
 function h(cls, html) {
   return `<div class="${cls}">${html}</div>`;
+}
+
+function renderSensiblesPage() {
+  const $app = document.getElementById("app");
+  $app.innerHTML = `
+    <div class="bact-page">
+      <span class="title-badge">Bactéries sensibles — tableau de référence</span>
+
+      <div class="info-card">
+        <div class="info-content">
+          <table class="simple">
+            <thead>
+              <tr>
+                <th rowspan="2">Bactéries pathogènes</th>
+                <th rowspan="2">Antibiotique de référence</th>
+                <th rowspan="2">Posologie</th>
+                <th colspan="2">Break-points cliniques (mg/L)</th>
+                <th rowspan="2">Alternatives (dont allergies)</th>
+                <th rowspan="2">Remarques</th>
+              </tr>
+              <tr>
+                <th>≤ S</th>
+                <th>&gt; R</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>Staphylococcus aureus</em></td>
+                <td>Cloxacilline</td>
+                <td>100-200mg/kg/j</td>
+                <td>2<br><small>(mecA-)</small></td>
+                <td>2<br><small>(mecA+)</small></td>
+                <td>Céfazoline<br>Cotrimoxazole<br>Fluoroquinolones</td>
+                <td>Sensibilité préservée à l’Amoxicilline dans 10% des cas (à privilégier dans ce cas)</td>
+              </tr>
+              <tr>
+                <td>Staphylocoques blancs</td>
+                <td>Vancomcyine</td>
+                <td>30-40mg/kg/24h<br><small>Obj.= 20-30mg/L</small></td>
+                <td>4</td>
+                <td>4</td>
+                <td>Linezolide<br>Daptomycine</td>
+                <td><em>S. epidermidis</em> résistant aux β-lactamines dans 70-90% des cas</td>
+              </tr>
+              <tr>
+                <td><em>Streptococcus pneumoniae</em></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/24h</td>
+                <td>0,5</td>
+                <td>2</td>
+                <td>Lévofloxacine<br>Spiramycine<br><small>C3G en probabiliste, à maintenir si S. diminuée à l’Amoxicilline</small></td>
+                <td>Si méningite : Dose méningées. BP clinique Amox. à 0,5mg/L</td>
+              </tr>
+              <tr>
+                <td>Autres streptocoques<br><small>(Groupes A, B, C &amp; G)</small></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/24h</td>
+                <td>0,25</td>
+                <td>0,25</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><em>Enterococcus faecalis</em></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/24h</td>
+                <td>4</td>
+                <td>8</td>
+                <td>Vancomycine<br>Linezolide<br>Daptomycine</td>
+                <td>Résistance à l’Amoxicilline dans 0,5% des cas.<br><br>Résistant céphalosporines</td>
+              </tr>
+              <tr>
+                <td><em>Enterococcus faecium</em></td>
+                <td>Vancomycine</td>
+                <td>30-40mg/kg/24h<br><small>Obj.= 20-30mg/L</small></td>
+                <td>4<br><small>(vanA-)</small></td>
+                <td>4<br><small>(vanA+)</small></td>
+                <td>Linezolide<br>Daptomycine<br>Tigécycline</td>
+                <td>Résistance à l’Amoxicilline dans 80% des cas.<br><br>Résistant céphalosporines</td>
+              </tr>
+              <tr>
+                <td><em>Neisseria meningitidis</em></td>
+                <td>Amoxicilline</td>
+                <td>150-200mg/kg/j si méningite</td>
+                <td>0,125</td>
+                <td>1</td>
+                <td>Macrolides<br>Fluoroquinolones<br>Cyclines<br>Rifampicine<br><small>C3G en probabiliste (dose méningée si méningite)</small></td>
+                <td>Résistance naturelle au Cotrimoxazole</td>
+              </tr>
+              <tr>
+                <td><em>Neisseria gonorrhoeae</em></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/j</td>
+                <td>0,06</td>
+                <td>1</td>
+                <td><small>C3G en probabiliste</small></td>
+                <td>Résistance naturelle au Cotrimoxazole</td>
+              </tr>
+              <tr>
+                <td><em>Moraxella catarrhalis</em></td>
+                <td>Amoxicilline-Clav.</td>
+                <td>1g/0,5g x3/24h</td>
+                <td>1</td>
+                <td>1</td>
+                <td></td>
+                <td>Pénicillinase dans 95% des cas (R. amox, S. augmentin)</td>
+              </tr>
+              <tr>
+                <td><em>Clostridium difficile</em></td>
+                <td>Fidaxomycine</td>
+                <td>200mg x2/j PO</td>
+                <td>0,5</td>
+                <td>0,5</td>
+                <td>Vancomycine<br>Métronidazole<br>Tigécycline</td>
+                <td>Privilégier Fidaxomycine car moins de récurrences (Fidaxo. &gt; Vancomycine. &gt; Métronidazole)</td>
+              </tr>
+              <tr>
+                <td><em>Listeria monocytogenes</em></td>
+                <td>Amoxicilline<br><small>+ Gentamicine 5-8mg/kg</small></td>
+                <td>50-100mg/kg/j</td>
+                <td>1</td>
+                <td></td>
+                <td>Cotrimoxazole<br>Macrolides<br>Moxifloxacine<br>Linezolide</td>
+                <td>Si inf. neuroméningées : Cotrimoxazole, Moxifloxacine et Linezolide possibles<br><br>Résistant céphalosporines</td>
+              </tr>
+              <tr>
+                <td><em>Nocardia</em> spp.<br><small>N. farcinica / N. abscessus / N. asteroides / N. nova</small></td>
+                <td>Cotrimoxazole IV<br><small>en bithérapie avec :</small><br>– Ou Imipénème<br>– Ou Linezolide<br>– Ou Amikacine</td>
+                <td>20+100mg/kg/j<br><small>Imipénème 3-4g/24g</small><br><small>Linezolide 600mg x2/j</small><br><small>Amikacine 25-30mg/kg</small></td>
+                <td>4<br>8<br>8<br>2/38</td>
+                <td>16<br>64<br>16<br>4/76</td>
+                <td></td>
+                <td>Pneumonies non graves : une monothérapie par cotrimoxazole ou linezolide est possible. Le choix de la bi-thérapie dépend de l’espèce identifiée (N. farcinica en majorité).<br><br>Activité quasi constante (&gt;95%) de cotrimoxazole, linezolide et amikacine.</td>
+              </tr>
+
+              <!-- ===== Partie 2 du tableau ===== -->
+
+              <tr>
+                <td>Entérobactéries Groupe 0<br><small><em>Proteus mirabilis</em>, <em>Salmonella</em> spp.</small></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/j</td>
+                <td>1</td>
+                <td>4</td>
+                <td>C3G<br>Aztréonam<br>Ciprofloxacine<br>Cotrimoxazole</td>
+                <td>Résistances C3G : BLSE (CTX-M) &gt; AmpC plasmidiques</td>
+              </tr>
+              <tr>
+                <td>Entérobactéries Groupe 1<br><small><em>Escherichia coli</em>, <em>Shigella</em></small></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/j</td>
+                <td>1</td>
+                <td>4</td>
+                <td>C3G<br>Aztréonam<br>Ciprofloxacine<br>Cotrimoxazole</td>
+                <td>Résistances C3G : BLSE (CTX-M) &gt; AmpC déréprimée &gt; AmpC plasmidique</td>
+              </tr>
+              <tr>
+                <td>Entérobactéries Groupe 2<br><small><em>K. pneumoniae</em>, <em>Citrobacter koserii</em></small></td>
+                <td>Amoxicilline-Clav.</td>
+                <td>1g/0,5g x3/24h</td>
+                <td>1</td>
+                <td>4</td>
+                <td>C3G<br>Aztréonam<br>Ciprofloxacine<br>Cotrimoxazole</td>
+                <td>Résistances C3G : BLSE (CTX-M) &gt; AmpC plasmidiques</td>
+              </tr>
+              <tr>
+                <td>Entérobactéries Groupe 3<br><small><em>E. cloacae</em>, <em>K. aerogenes</em>, <em>C. freundii</em>, <em>M. morganii</em>, <em>S. marcescens</em>, <em>H. alvei</em>, <em>Providencia</em></small></td>
+                <td>Céfépime</td>
+                <td>4-6g/24h</td>
+                <td>1</td>
+                <td>4</td>
+                <td>Ciprofloxacine<br>Cotrimoxazole<br>Tigécycline (sauf protéacées : <em>M. morganii</em>, <em>Providencia</em>)</td>
+                <td>Résistances C3G : AmpC induite &gt; BLSE &gt; AmpC déréprimée<br><br><em>E. cloacae</em>, <em>K. aerogenes</em>, <em>C. freundii</em> : pas de C3G ou Tazocilline (risque AmpC induite)<br><br><em>S. marcescens</em> résistant naturellement à l’Amikacine</td>
+              </tr>
+              <tr>
+                <td><em>Pseudomonas aeruginosa</em></td>
+                <td>Ceftazidime<br><small>ou Pipéracilline</small></td>
+                <td>4-6g/24h IVSE<br><small>Pipéracilline 4g x4/24h IVL</small></td>
+                <td>0,001<br>0,001</td>
+                <td>8<br>16</td>
+                <td>Céfépime<br>Aztréonam<br>Ciprofloxacine<br>Carbapénèmes<br>Amikacine</td>
+                <td>Résistances : Pase, Case AmpC, BLSE, PorineD2, carbapénèmases, efflux MexAB/XY-OprM<br><br>Résistance naturelle à la Tigécycline.</td>
+              </tr>
+              <tr>
+                <td><em>Acinetobacter baumannii</em></td>
+                <td>Imipénème<br><small>+ Amikacine 25-30mg/kg</small></td>
+                <td>3-4g/24h</td>
+                <td>2<br>4</td>
+                <td>8<br>8</td>
+                <td>Ciprofloxacine<br>Cotrimoxazole<br>Colistine<br>Tigécycline</td>
+                <td>Résistances : Pase, Case AmpC, BLSE, carbapénèmases (ABRI), efflux AdeABC, Acétylase AAC-6’</td>
+              </tr>
+              <tr>
+                <td><em>Stenotrophomonas maltophilia</em></td>
+                <td>Cotrimoxazole</td>
+                <td>20+100mg/kg/j (12amp/j max)</td>
+                <td>0,001</td>
+                <td>4</td>
+                <td>Ceftazidime<br>Lévofloxacine<br>Tigécycline</td>
+                <td>R. ceftazidime = 30% des cas<br>R. lévofloxacine = 20% des cas<br>R. cotrimoxazole = 4% des cas<br><br>Résistance naturelles à tous les aminosides.</td>
+              </tr>
+              <tr>
+                <td><em>Haemophilus influenza</em></td>
+                <td>Amoxicilline</td>
+                <td>50-100mg/kg/j</td>
+                <td>2</td>
+                <td>2</td>
+                <td>Oflo/Ciproflox.<br>Cotrimoxazole</td>
+                <td>Pénicillinase = 21% (R. Amox)<br>Mutation PLP3 = 7% (Résistance Augmentin +/- C3G)<br>C3G en probabiliste</td>
+              </tr>
+              <tr>
+                <td><em>Legionella pneumophila</em></td>
+                <td>Levofloxacine</td>
+                <td>500mg x2/j</td>
+                <td>–</td>
+                <td>–</td>
+                <td>Spiramycine<br>Rifampicine</td>
+                <td>Monothérapie ou bithérapie (Levoflo/Spiramycine) pendant 5j<br>Durée 14-21 jours au total<br>Attention à l’allongement du QTc<br>Résistances aux macrolides/FLQ exceptionnelles (envoi CNR)</td>
+              </tr>
+              <tr>
+                <td><em>Mycoplasma pneumoniae</em></td>
+                <td>Spiramycine</td>
+                <td>3 MUI x3/j IVL</td>
+                <td>–</td>
+                <td>–</td>
+                <td>Cipro/Lévoflox.<br>Doxycycline</td>
+                <td>R. macrolides &lt; 5% en France<br>Absence de résistance connue contre quinolones/cyclines.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" onclick="location.hash='#/adaptee'">← Retour : Antibiothérapie adaptée</button>
+      </div>
+    </div>
+  `;
 }
 
 // ===== Pages "Antibiothérapie adaptée" — Rendu générique bactérie =====
