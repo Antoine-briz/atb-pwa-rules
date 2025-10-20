@@ -123,7 +123,6 @@ const routes = {
   "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
-"#/antibiomoda": () => openPDF('./pdf/antibiomoda.pdf')
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
