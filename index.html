@@ -1,32 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Protocoles d’antibiothérapie</title>
-  <meta name="theme-color" content="#0f172a" />
-  <link rel="stylesheet" href="styles.css?v=1.0.0"> 
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2b5797" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./img/icons/icon-192x192.png" />
+  <link rel="apple-touch-icon" href="./img/icons/icon-192x192.png" />
+  <title>ATB PWA — Antibiothérapies</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
-  <header class="appbar">
-    <h1>AMIRA<br><small>Antibiothérapie en Médecine Intensive, Réanimation et Anesthésie</small></h1>
+  <header class="app-header">
+    <h1>ATB — Antibiothérapies</h1>
   </header>
 
-  <main id="app" class="container"><!-- rendu dynamique --></main>
+  <!-- Conteneur principal -->
+  <main id="app"></main>
 
-  <footer class="footer">
-  <small>
-    Amicalement, Dr Antoine Brizard
-  </small>
-</footer>
+  <footer class="app-footer">
+    <p>© 2025 ATB-PWA — Version éducative</p>
+  </footer>
 
+  <!-- Script principal de l'application -->
+  <script type="module" src="./app.js?v=1.0.0"></script>
+
+  <!-- Enregistrement du Service Worker -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js", { scope: "./" });
+        navigator.serviceWorker
+          .register("/atb-pwa-rules/sw.js", { scope: "/atb-pwa-rules/" })
+          .then(reg => console.log("✅ Service Worker enregistré :", reg.scope))
+          .catch(err => console.error("❌ Erreur SW :", err));
       });
     }
   </script>
