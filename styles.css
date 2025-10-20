@@ -309,3 +309,47 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
   background: #888;
 }
 
+/* ===== Antibiothérapie adaptée : Mise en page verticale des encadrés ===== */
+
+.info-grid {
+  display: flex;
+  flex-direction: column; /* Disposition verticale */
+  gap: 1rem; /* Espacement entre les encadrés */
+}
+
+.info-card {
+  display: block; /* chaque encadré prend toute la largeur disponible */
+  width: 100%;  /* Assure-toi que chaque encadré prend toute la largeur de son conteneur */
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #2b5797;
+}
+
+.info-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .info-card {
+    padding: 0.8rem;
+  }
+
+  .info-card h3 {
+    font-size: 1rem;
+  }
+
+  .info-content {
+    font-size: 0.9rem;
+  }
+}
+
