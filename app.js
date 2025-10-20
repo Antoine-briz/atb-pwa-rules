@@ -46,29 +46,13 @@ export function openPDF(pdfPath) {
   // Ajouter le bouton "Retour" en dessous des autres boutons
   appContainer.appendChild(backButton);
 
-if (/\/antibiorein\.pdf$/i.test(pdfPath)) {
-    // ↪ remplace l’ancien PDF par le nouveau formulaire
-    if (typeof renderReinForm === "function") {
-      renderReinForm();
-      return;
-    }
-    // à défaut, route
-    location.hash = "#/antibiorein";
-    return;
-  }
-
-  // … ton code existant d’ouverture PDF …
+  // Charger le PDF avec PDF.js
   pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
-    currentPage = 1;
     renderPage(currentPage);
-  }).catch(err => {
-    const viewer = document.getElementById("pdfViewer");
-    if (viewer) viewer.textContent = "PDF introuvable.";
-    console.error(err);
   });
 }
-window.openPDF = openPDF; /
+
 
 // Fonction pour afficher une page spécifique
 function renderPage(pageNum) {
