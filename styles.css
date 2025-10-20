@@ -257,4 +257,55 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 .title-badge { font-size:18px; }
 .actions { margin-top: 8px; }
 
+/* ===== TABLEAU RESPONSIVE — BACTÉRIES SENSIBLES ===== */
+
+.info-card {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 1rem; /* petit espace pour éviter le masquage du scroll */
+}
+
+/* garde les tableaux bien alignés */
+.info-card table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 800px; /* permet le scroll sur petits écrans */
+  background-color: white;
+}
+
+/* colonnes lisibles et bien délimitées */
+.info-card th,
+.info-card td {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+
+.info-card th {
+  background-color: #f5f7fa;
+  font-weight: 600;
+}
+
+/* sur mobile, ajuster la taille du texte */
+@media (max-width: 768px) {
+  .info-card th,
+  .info-card td {
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+}
+
+/* amélioration esthétique pour la barre de scroll */
+.info-card::-webkit-scrollbar {
+  height: 8px;
+}
+.info-card::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+.info-card::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
 
