@@ -9,21 +9,10 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Inclusion de pdf.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-<script>
-  // Définir le chemin du worker PDF.js (même version que le CDN)
-  if (window.pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
-  }
-</script>
 </head>
 <body>
   <header class="appbar">
-    <h1>Protocoles d’antibiothérapie<br><small>MIR – CHV André Mignot</small></h1>
+    <h1>AMIRA<br><small>Antibiothérapie en Médecine Intensive, Réanimation et Anestéhsie</small></h1>
   </header>
 
   <main id="app" class="container"><!-- rendu dynamique --></main>
@@ -34,7 +23,6 @@
   </small>
 </footer>
 
-  <script type="module" src="./app.js?v=1.0.0"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
