@@ -2164,7 +2164,7 @@ function renderReinForm() {
      out.innerHTML += `
     <div class="credits">
       <em>D'après le travail de : Dr Gilles TROCHE, Dr Marine PAUL et Dr Antoine BRIZARD<br>
-      (Et les bases de données ANSM, GPR et Dexther)</em>
+      (Bases de données ANSM, GPR et Dexther)</em>
     </div>`;
   });
 }
@@ -2329,7 +2329,7 @@ function renderModalitesForm() {
   out.innerHTML += `
     <div class="credits">
       <em>D'après le travail de : Dr Candice FONTAINE et Dr Antoine BRIZARD<br>
-      (Et les bases de données ANSM, RCP européennes et Dexther)</em>
+      (Bases de données ANSM, RCP européennes et Dexther)</em>
     </div>`;
 }); 
 } 
