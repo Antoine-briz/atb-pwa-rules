@@ -353,3 +353,32 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
   }
 }
 
+/* ===== Textes en noir sur mobile pour meilleure lisibilité ===== */
+.info-card {
+  color: black !important; /* Force le texte à être noir */
+}
+
+/* ===== Colorer "S", "I", "R" dans les tableaux phénotypes ===== */
+.pheno td {
+  color: black; /* assure la couleur noire du texte de base */
+}
+
+.pheno td span.s {
+  color: green; /* S en vert */
+}
+
+.pheno td span.i {
+  color: orange; /* I en orange */
+}
+
+.pheno td span.r {
+  color: red; /* R en rouge */
+}
+
+@media (max-width: 768px) {
+  /* Ajuster les couleurs si nécessaire */
+  .info-card {
+    color: black !important;
+  }
+}
+
