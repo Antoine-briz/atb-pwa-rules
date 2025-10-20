@@ -221,3 +221,15 @@ input[type="text"], input[type="number"], select, textarea {
 #resModa u { text-underline-offset: 3px; }
 #resModa .moda-suffix { color: var(--muted); font-size: 12px; margin-left: 6px; }
 
+.credits {
+  font-size: 0.8em;
+  color: #555;
+  font-style: italic;
+  margin-top: 8px;
+  border-top: 1px solid #ddd;
+  padding-top: 4px;
+  text-align: center;
+  opacity: 0.85;
+}
+
+
