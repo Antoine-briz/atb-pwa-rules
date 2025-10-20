@@ -13,6 +13,13 @@
 
   <!-- Inclusion de pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script>
+  // Définir le chemin du worker PDF.js (même version que le CDN)
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
+  }
+</script>
 </head>
 <body>
   <header class="appbar">
