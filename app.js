@@ -123,6 +123,7 @@ const routes = {
   "#/adaptee/erv": () => showImage("erv"),
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
+  "#/antibiomoda": renderModalitesForm,
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
@@ -198,7 +199,7 @@ function renderHome() {
   if (index === 3) {
     btn.addEventListener('click', () => { location.hash = '#/antibiorein'; });
   } else if (index === 4) {
-    btn.addEventListener('click', () => openPDF('./pdf/antibiomoda.pdf'));
+    btn.addEventListener('click', () => { location.hash = '#/antibiomoda'; });
   }
 });
 }
@@ -2170,6 +2171,157 @@ function humanizeEntretien(text) {
   return text;
 }
 
+function renderModalitesForm() {
+  $app.innerHTML = `
+    <div class="card"><strong>Modalités d’administration des antibiotiques</strong></div>
+
+    <div class="hero-pneu card">
+      <img src="./img/modalite.png" alt="Modalités d'administration" class="form-hero">
+    </div>
+
+    <form id="formModa" class="form">
+      <fieldset>
+        <legend>Classe d’antibiotique</legend>
+        <select id="classeModa">
+          <option value="">— Sélectionner —</option>
+          <option value="betalactamine">β-lactamines</option>
+          <option value="aminoside">Aminosides</option>
+          <option value="fluoroquinolone">Fluoroquinolones</option>
+          <option value="antigram">Anti-Gram+</option>
+          <option value="autres">Autres</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Molécule</legend>
+        <select id="moleculeModa">
+          <option value="">— Choisir une classe d’abord —</option>
+        </select>
+      </fieldset>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnModa">Afficher les modalités</button>
+        <button type="button" class="btn ghost" onclick="history.back()">← Retour</button>
+      </div>
+
+      <div id="resModa" class="result"></div>
+    </form>
+  `;
+
+  // ==========================
+  // 📋 Données MODALITÉS À COMPLÉTER
+  // ==========================
+  const MODALITES = {
+
+    // ========= β-lactamines =========
+    betalactamine: {
+      "Amoxicilline":             { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Cloxacilline":             { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Oxacilline":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Amoxicilline + Clavulanate":{ dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Pipéracilline":            { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Pipéracilline + Tazobactam":{ dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Céfazoline":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Céfotaxime":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftriaxone":              { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftazidime":              { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Céfépime":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftobiprole":             { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftaroline":              { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftazidime + Avibactam":  { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ceftolozane + Tazobactam": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Cefidérocol":              { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Imipénème":                { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Méropénème":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ertapénème":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Imipénème + Relebactam":   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Méropénème + Vaborbactam": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Aztréonam":                { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Témocilline":              { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+    },
+
+    // ========= Aminosides =========
+    aminoside: {
+      "Amikacine":   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Gentamicine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Tobramycine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+    },
+
+    // ========= Fluoroquinolones =========
+    fluoroquinolone: {
+      "Ofloxacine":     { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Ciprofloxacine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Lévofloxacine":  { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Moxifloxacine":  { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+    },
+
+    // ========= Anti-Gram+ =========
+    antigram: {
+      "Vancomycine":  { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Teicoplanine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Linézolide":   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Daptomycine":  { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Clindamycine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+    },
+
+    // ========= Autres =========
+    autres: {
+      "Colistine":                   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Cotrimoxazole (pneumocystose)":{ dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Cotrimoxazole (autre)":       { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Doxycycline":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Fidaxomicine":                { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Métronidazole":               { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Rifampicine":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Spiramycine":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
+      "Tigécycline":                 { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+    }
+  };
+
+  // ====== Dynamique du formulaire ======
+  const selClasse = document.getElementById("classeModa");
+  const selMolecule = document.getElementById("moleculeModa");
+
+  selClasse.addEventListener("change", () => {
+    const c = selClasse.value;
+    if (!c || !MODALITES[c] || Object.keys(MODALITES[c]).length === 0) {
+      selMolecule.innerHTML = `<option value="">— Choisir une classe d’abord —</option>`;
+      return;
+    }
+    const options = Object.keys(MODALITES[c]).map(m => `<option value="${m}">${m}</option>`).join("");
+    selMolecule.innerHTML = `<option value="">— Sélectionner —</option>` + options;
+  });
+
+  // ====== Affichage du résultat ======
+  document.getElementById("btnModa").addEventListener("click", () => {
+    const c = selClasse.value, m = selMolecule.value;
+    const out = document.getElementById("resModa");
+
+    if (!c || !m || !MODALITES[c] || !MODALITES[c][m]) {
+      out.textContent = "⚠️ Merci de sélectionner une classe et une molécule.";
+      return;
+    }
+
+    const F = MODALITES[c][m];
+    const solvantLegend = ' <span class="moda-suffix">(G5 = Glucosé 5 %, SSI = sérum salé isotonique, EEPI = Eau PPI)</span>';
+
+    out.innerHTML = [
+      `<strong>${m}</strong>`,
+      `<em>Dosages disponibles :</em> ${F.dosages || "—"}`,
+      `<em>Solvant préférentiel :</em> ${F.solvant || "—"}${solvantLegend}`,
+      `<em>Dose de charge :</em> ${F.charge?.schema || "—"}`,
+      `<em>Dose d’entretien :</em>`,
+      [
+        `- <u>Rythme d’administration</u> : ${F.entretien?.rythme || "—"}`,
+        `- <u>Intervalle après dose de charge</u> : ${F.entretien?.intervalle || "—"}`,
+        `- <u>Doses habituelles</u> : ${F.entretien?.doses || "—"}`,
+        `- <u>Volume de dilution</u> : ${F.entretien?.volume || "—"}`,
+        `- <u>Durée de perfusion</u> : ${F.entretien?.perfusion || "—"}`,
+        `- <u>Durée de stabilité</u> : ${F.entretien?.stabilite || "—"}`
+      ].join("<br>")
+    ].join("<br>");
+  });
+}
 
 
 function renderNotFound(){
