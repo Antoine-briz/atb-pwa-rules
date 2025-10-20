@@ -1,7 +1,7 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
 const CACHE_NAME = "atb-rules-v13";
 
-// Liste des fichiers à pré-cacher, incluant les fichiers PDF
+// Liste des fichiers à pré-cacher
 const PRECACHE = [
   "./", "./index.html", 
   "./styles.css", 
@@ -35,7 +35,7 @@ const PRECACHE = [
   '/img/fond.png',
   '/img/dialyse.png',
   '/img/modalite.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js', 
+  // Retrait de pdf.js CDN car CORS/Policy
 ];
 
 self.addEventListener("install", (event) => {
