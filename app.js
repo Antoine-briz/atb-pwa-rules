@@ -2307,7 +2307,7 @@ function renderModalitesForm() {
     out.innerHTML = [
       `<strong>${m}</strong>`,
       `<em>Dosages disponibles :</em> ${F.dosages || "—"}`,
-      `<em>Solvant préférentiel :</em> ${F.solvant || "—"}${solvantLegend}`,
+      `<em>Solvant préférentiel :</em> ${F.solvant || "—"}`,
       `<em>Dose de charge :</em> ${F.charge?.schema || "—"}`,
       `<em>Dose d’entretien :</em>`,
       [
