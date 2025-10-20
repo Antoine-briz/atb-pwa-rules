@@ -13,13 +13,13 @@ export function openPDF(pdfPath) {
   pdfViewer.id = "pdfViewer";
   appContainer.appendChild(pdfViewer);
 
-  // Modifier l'URL pour refléter l'ouverture du PDF
-  const pdfName = pdfPath.split("/").pop().split(".")[0]; // Exemple : "antibiorein" pour antibiotique rénal
-  history.pushState(null, '', `#/${pdfName}`);
+  // Extraire le nom sans extension pour la mise à jour de l'URL
+  const pdfName = pdfPath.split("/").pop().split(".")[0];
+  history.pushState(null, "", `#/${pdfName}`);
 
-   console.log('Current URL:', window.location.href);
+  console.log("Current URL:", window.location.href);
 
-  // Créer les boutons de navigation pour le PDF
+  // Créer les boutons de navigation
   const navContainer = document.createElement("div");
   navContainer.classList.add("pdf-nav");
 
@@ -38,21 +38,36 @@ export function openPDF(pdfPath) {
   // Créer un bouton "Retour" pour revenir au menu principal
   const backButton = document.createElement("button");
   backButton.textContent = "Retour";
-  backButton.classList.add("btn"); // Utilise la classe btn pour un bon style
+  backButton.classList.add("btn");
   backButton.addEventListener("click", () => {
-    window.location.hash = "#/"; // Redirige vers le menu principal
+    window.location.hash = "#/"; // Retour au menu principal
   });
-
-  // Ajouter le bouton "Retour" en dessous des autres boutons
   appContainer.appendChild(backButton);
 
-  // Charger le PDF avec PDF.js
-  pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc_ => {
-    pdfDoc = pdfDoc_;
-    renderPage(currentPage);
-  });
-}
+  // 🔧 Correction : normaliser l’URL PDF
+  const fileName = pdfPath.split("/").pop(); // extrait "SARM.pdf"
+  const pdfUrl = new URL(`pdf/${fileName}`, window.location.origin).href;
+  console.log("Chargement du PDF:", pdfUrl);
 
+  // 🔄 Ajouter un iframe fallback (affichage natif du PDF)
+  const iframe = document.createElement("iframe");
+  iframe.src = pdfUrl;
+  iframe.style.width = "100%";
+  iframe.style.height = "100vh";
+  iframe.style.border = "none";
+  pdfViewer.appendChild(iframe);
+
+  // 🧩 Charger le PDF via PDF.js (optionnel, pour navigation page par page)
+  pdfjsLib
+    .getDocument(pdfUrl)
+    .promise.then((pdfDoc_) => {
+      pdfDoc = pdfDoc_;
+      renderPage(currentPage);
+    })
+    .catch((err) => {
+      console.error("Erreur PDF.js :", err);
+    });
+}
 
 // Fonction pour afficher une page spécifique
 function renderPage(pageNum) {
@@ -113,14 +128,14 @@ const routes = {
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
   "#/adaptee/sensibles": () => showImages("sensibles"),
-  "#/adaptee/SARM": () => openPDF('./pdf/SARM.pdf'),
-  "#/adaptee/ampC": () => showImage("ampC"),
-  "#/adaptee/BLSE": () => showImage("BLSE"),
-  "#/adaptee/pyo": () => showImage("pyo"),
-  "#/adaptee/acineto": () => showImage("acineto"),
-  "#/adaptee/steno": () => showImage("steno"),
-  "#/adaptee/carba": () => showImage("carba"),
-  "#/adaptee/erv": () => showImage("erv"),
+  "#/adaptee/SARM": () => openPDF('SARM.pdf'),
+  "#/adaptee/ampC": () => openPDF('ampC.pdf'),
+  "#/adaptee/BLSE": () => openPDF('BLSE.pdf'),
+  "#/adaptee/pyo": () => openPDF('pyo.pdf'),
+  "#/adaptee/acineto": () => openPDF('acineto.pdf'),
+  "#/adaptee/steno": () => openPDF('steno.pdf'),
+  "#/adaptee/carba": () => openPDF('carba.pdf'),
+  "#/adaptee/erv": () => openPDF('erv.pdf'),
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
   "#/antibiomoda": renderModalitesForm,
