@@ -223,13 +223,13 @@ input[type="text"], input[type="number"], select, textarea {
 
 .credits {
   font-size: 0.8em;
-  color: #555;
+  color: #000;            /* texte noir */
   font-style: italic;
-  margin-top: 8px;
-  border-top: 1px solid #ddd;
+  margin-top: 6px;        /* petit espace au-dessus */
+  border-top: 1px solid #ccc;
   padding-top: 4px;
-  text-align: center;
-  opacity: 0.85;
+  text-align: left;       /* alignement à gauche */
+  line-height: 1.2;       /* lignes rapprochées */
 }
 
 
