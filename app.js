@@ -2161,6 +2161,11 @@ function renderReinForm() {
     out.innerHTML = `<strong>${m}</strong><br>
       <em>Dose de charge :</em> ${mol.charge}<br>
       <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}`;
+     out.innerHTML += `
+    <div class="credits">
+      <em>D'après le travail de : Dr Gilles TROCHE, Dr Marine PAUL et Dr Antoine BRIZARD<br>
+      (Et les bases de données ANSM, GPR et Dexther)</em>
+    </div>`;
   });
 }
 // Remplace les "/6h", "/8h", "/12 à 24h", "/8–12h", etc. par "toutes les …"
@@ -2304,24 +2309,30 @@ function renderModalitesForm() {
 
     const F = MODALITES[c][m];
 
-    out.innerHTML = [
-      `<strong>${m}</strong>`,
-      `<em>Dosages disponibles :</em> ${F.dosages || "—"}`,
-      `<em>Solvant préférentiel :</em> ${F.solvant || "—"}`,
-      `<em>Dose de charge :</em> ${F.charge?.schema || "—"}`,
-      `<em>Dose d’entretien :</em>`,
-      [
-        `- <u>Rythme d’administration</u> : ${F.entretien?.rythme || "—"}`,
-        `- <u>Intervalle après dose de charge</u> : ${F.entretien?.intervalle || "—"}`,
-        `- <u>Doses habituelles</u> : ${F.entretien?.doses || "—"}`,
-        `- <u>Volume de dilution</u> : ${F.entretien?.volume || "—"}`,
-        `- <u>Durée de perfusion</u> : ${F.entretien?.perfusion || "—"}`,
-        `- <u>Durée de stabilité</u> : ${F.entretien?.stabilite || "—"}`
-      ].join("<br>")
-    ].join("<br>");
-  });
-}
+  out.innerHTML = [
+    `<strong>${m}</strong>`,
+    `<em>Dosages disponibles :</em> ${F.dosages || "—"}`,
+    `<em>Solvant préférentiel :</em> ${F.solvant || "—"}`,
+    `<em>Dose de charge :</em> ${(F.charge && F.charge.schema) || "—"}`,
+    `<em>Dose d’entretien :</em>`,
+    [
+      `- <u>Rythme d’administration</u> : ${(F.entretien && F.entretien.rythme) || "—"}`,
+      `- <u>Intervalle après dose de charge</u> : ${(F.entretien && F.entretien.intervalle) || "—"}`,
+      `- <u>Doses habituelles</u> : ${(F.entretien && F.entretien.doses) || "—"}`,
+      `- <u>Volume de dilution</u> : ${(F.entretien && F.entretien.volume) || "—"}`,
+      `- <u>Durée de perfusion</u> : ${(F.entretien && F.entretien.perfusion) || "—"}`,
+      `- <u>Durée de stabilité</u> : ${(F.entretien && F.entretien.stabilite) || "—"}`
+    ].join("<br>")
+  ].join("<br>");
 
+  // ➕ crédits en bas de l’encadré
+  out.innerHTML += `
+    <div class="credits">
+      <em>D'après le travail de : Dr Candice FONTAINE et Dr Antoine BRIZARD<br>
+      (Et les bases de données ANSM, RCP européennes et Dexther)</em>
+    </div>`;
+}); 
+} 
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
