@@ -128,8 +128,8 @@ const routes = {
   "#/proba/sepsis": renderProbaSepsisForm,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
   "#/adaptee/sensibles": () => showImages("sensibles"),
-  "#/adaptee/SARM": () => openPDF('SARM.pdf'),
-  "#/adaptee/ampC": () => openPDF('ampC.pdf'),
+  "#/adaptee/SARM": () => renderBacteriaPage("SARM", BACTERIA_DATA.SARM),
+  "#/adaptee/ampC": () => renderBacteriaPage("ampC", BACTERIA_DATA.ampC),
   "#/adaptee/BLSE": () => openPDF('BLSE.pdf'),
   "#/adaptee/pyo": () => openPDF('pyo.pdf'),
   "#/adaptee/acineto": () => openPDF('acineto.pdf'),
@@ -177,6 +177,244 @@ function mount() {
 function h(cls, html) {
   return `<div class="${cls}">${html}</div>`;
 }
+
+// ===== Pages "Antibiothérapie adaptée" — Rendu générique bactérie =====
+function renderBacteriaPage(slug, data){
+  const $app = document.getElementById("app");
+  const title = data.title;
+  const img = `./img/${slug}.png`; // ex : ./img/SARM.png ou ./img/ampC.png
+
+  $app.innerHTML = `
+    <div class="bact-page">
+      <span class="title-badge">${title}</span>
+
+      <div class="card bact-hero">
+        <img src="${img}" alt="${title}" onerror="this.style.display='none'">
+      </div>
+
+      <div class="info-grid">
+        <section class="info-card">
+          <h3>Définition</h3>
+          <div class="info-content">${data.definition}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Mécanisme de résistance</h3>
+          <div class="info-content">${data.mecanisme}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Epidémiologie</h3>
+          <div class="info-content">${data.epidemio}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Phénotype habituel</h3>
+          <div class="info-content">${data.phenotype}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Antibiotique de référence</h3>
+          <div class="info-content">${data.refAtb}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Antibiotique selon le site infectieux</h3>
+          <div class="info-content">${data.siteAtb}</div>
+        </section>
+
+        <section class="info-card">
+          <h3>Ajout si choc septique</h3>
+          <div class="info-content">${data.choc}</div>
+        </section>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" onclick="history.back()">← Retour</button>
+        <button class="btn" onclick="location.hash='#/adaptee'">Menu « Antibiothérapie adaptée »</button>
+      </div>
+    </div>
+  `;
+}
+
+const BACTERIA_DATA = {
+  SARM: {
+    title: "Staphylococcus aureus résistant à la méticilline (SARM)",
+    definition: `
+      Souches de <em>S. aureus</em> résistantes aux pénicillines M (Cloxacilline et Oxacilline), 
+      qui constituent le traitement de référence des infections invasives à <em>Staphylocoque aureus</em>.`,
+    mecanisme: `
+      Le phénotype de résistance du SARM est expliqué par 2 mécanismes :<br>
+      • Synthèse d’une Pénicillinase (gène <em>blaZ</em>) chez 90% des souches de <em>S. aureus</em><br>
+      • Modification de la PLP (PLP2a) codée par le gène <em>mecA</em> (uniquement chez le SARM).`,
+    epidemio: `11% des souches de <em>S. aureus</em> invasives documentées sont des SARM (2023, France).`,
+    phenotype: `
+      <table class="pheno"><thead>
+        <tr><th>S. aureus</th><th>SAMS Sauvage</th><th>SAMS Pase</th><th>SARM</th><th>VRSA</th></tr>
+      </thead><tbody>
+        <tr><td>Amoxicilline</td><td>S</td><td>R</td><td>R</td><td>R</td></tr>
+        <tr><td>Oxa/Cloxacilline</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>Augmentin</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>C1G/C2G</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>C3G/C4G</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>C5G</td><td>S</td><td>S</td><td>S</td><td>R</td></tr>
+        <tr><td>Carbapénèmes</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>Lévofloxacine</td><td>S</td><td>S</td><td>I/R</td><td>R</td></tr>
+        <tr><td>Gentamicine</td><td>S/I/R</td><td>S/I/R</td><td>S/I/R</td><td>S/I/R</td></tr>
+        <tr><td>Vancomycine</td><td>S</td><td>S</td><td>S</td><td>R</td></tr>
+        <tr><td>Daptomycine/Linezolide</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+      </tbody></table>`,
+    refAtb: `
+      <table class="simple">
+        <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Vancomycine</td>
+            <td>15–30 mg/kg IVL + 30–40 mg/kg/24h — Objectif = 20–30 mg/L</td>
+            <td>S : CMI ≤ 2 mg/L<br>R : CMI &gt; 2 mg/L</td>
+            <td>Red-man syndrome, veinotoxicité, néphrotoxicité, ototoxicité, neutropénies</td>
+          </tr>
+        </tbody>
+      </table>`,
+    siteAtb: `
+      <table class="simple">
+        <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Pneumonie</td>
+            <td>Linézolide 600 mg x2/j PO/IV<br>+ Clindamycine 3–6 mg/kg x4/j PO/IV si infection sévère (tox. PVL)</td>
+            <td>Vancomycine ou CTX 20+100 mg/kg/j<br>+ Clindamycine si infection sévère<br><em>(Daptomycine inactivée)</em></td>
+          </tr>
+          <tr>
+            <td>Bactériémie</td>
+            <td>Vancomycine ou Daptomycine 10 mg/kg/j IVL (à privilégier si EI)</td>
+            <td>–</td>
+          </tr>
+          <tr>
+            <td>Inf. abdominale</td>
+            <td>Vancomycine</td>
+            <td>Linézolide ou Cotrimoxazole ou Tigécycline 100 mg puis 50 mg x2/j IV si infection sévère</td>
+          </tr>
+          <tr>
+            <td>Infection urinaire</td>
+            <td>Vancomycine</td>
+            <td>Linézolide ou Cotrimoxazole</td>
+          </tr>
+          <tr>
+            <td>Dermo-hypodermite</td>
+            <td>Vancomycine<br>+ Clindamycine si infection sévère</td>
+            <td>Linézolide ou Cotrimoxazole ou Tigécycline 100 mg puis 50 mg x2/j IV si infection sévère<br>+ Clindamycine si infection sévère</td>
+          </tr>
+        </tbody>
+      </table>`,
+    choc: `
+      <table class="simple">
+        <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Gentamicine (sensibilité = 94%)</td>
+            <td>8 mg/kg IVL sur 30 min<br>Objectif pic 30 min : CMI x8–10<br>Objectif résiduelle : &lt; 0,5 mg/L</td>
+            <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+          </tr>
+        </tbody>
+      </table>`
+  },
+
+    ampC: {
+    title: "Entérobactéries sécrétrices de céphalosporinase AmpC",
+    definition: `
+      Entérobactéries sécrétrices d’une enzyme responsable de l’hydrolyse des C1G/C2G, 
+      C3G dans certaines conditions (« Case de haut niveau »), sans hydrolyse du céfépime.`,
+    mecanisme: `
+      Les entérobactéries de groupes 1 et 3 sont porteuses de Case <em>ampC</em> chromosomiques. 
+      Leur production peut être amplifiée dans 2 conditions (Case hyperproduite) :<br>
+      • <strong>Induction (Groupe 3)</strong> : Surproduction de AmpC à la suite d’une antibiothérapie inductrice<br>
+      • <strong>Dérépression (Groupe 1 &amp; 3)</strong> : Mutation d’un gène régulateur de AmpC<br><br>
+      <em>Attention :</em> En cas de transmission plasmidique, les entérobactéries des groupes 0 et 2 
+      peuvent également exprimer des Case <em>ampC</em> (<em>K. pneumoniae</em> en particulier).`,
+    epidemio: `
+      La résistance aux C3G chez les entérobactéries est expliquée dans 76% par une BLSE, 
+      et dans 25% par une Case <em>ampC</em> (2023, France).`,
+    phenotype: `
+      <div class="muted">Phénotype habituel selon le groupe d’entérobact.</div>
+      <table class="pheno"><thead>
+        <tr>
+          <th>Entérobactéries</th>
+          <th>Groupes 0 &amp; 1</th>
+          <th>Groupe 2 — Pase</th>
+          <th>Groupe 3 — AmpC naturelle</th>
+          <th>Groupe 3 (&amp; 1) — AmpC hyperproduite</th>
+        </tr>
+      </thead><tbody>
+        <tr><td>Amoxicilline</td><td>S</td><td>R</td><td>R</td><td>R</td></tr>
+        <tr><td>Amox./Clav.</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>Pipéracilline</td><td>S</td><td>S/I</td><td>S</td><td>R</td></tr>
+        <tr><td>Pipé./Tazo.</td><td>S</td><td>S</td><td>S</td><td>I/R</td></tr>
+        <tr><td>C1G/C2G</td><td>S</td><td>S</td><td>I/R</td><td>R</td></tr>
+        <tr><td>C3G</td><td>S</td><td>S</td><td>S</td><td>R</td></tr>
+        <tr><td>Céfépime</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+        <tr><td>Carbapénèmes</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+        <tr><td>Aztréonam</td><td>S</td><td>S</td><td>S/I/R</td><td>R</td></tr>
+        <tr><td>Ciprofloxacine</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+        <tr><td>Amikacine</td><td>S</td><td>S</td><td>S (sauf <em>Serratia</em>)</td><td>S (sauf <em>Serratia</em>)</td></tr>
+      </tbody></table>`,
+    refAtb: `
+      <table class="simple">
+        <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Céfépime</td>
+            <td>Charge 2 g IVL + 4–6 g/24h IVSE</td>
+            <td>S : CMI ≤ 1<br>R : CMI &gt; 4</td>
+            <td>Allergies (croisée pénicilline &lt; 5%), neurotoxicité, néphrotoxicité, effets digestifs</td>
+          </tr>
+        </tbody>
+      </table>`,
+    siteAtb: `
+      <table class="simple">
+        <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (Dont allergies β-lactamines)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Pneumonie</td>
+            <td>Céfépime IV</td>
+            <td>Ciprofloxacine 400 mg x2/j IV ou 750 mg x2/j PO<br>
+                Cotrimoxazole 20+100 mg/kg/j PO/IV (dose max)</td>
+          </tr>
+          <tr>
+            <td>Bactériémie</td>
+            <td>Céfépime IV</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO</td>
+          </tr>
+          <tr>
+            <td>Inf. intra-abdominale</td>
+            <td>Céfépime IV + Métronidazole 500 mg x3/j IV/PO</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO ou Tigécycline 100 mg puis 50 mg x2/j IV si inf. sévère</td>
+          </tr>
+          <tr>
+            <td>Infection urinaire</td>
+            <td>Céfépime IV puis FLQ/Cotrimoxazole</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO</td>
+          </tr>
+          <tr>
+            <td>Dermo-hypodermite</td>
+            <td>Céfépime IV</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO ou Tigécycline IV si inf. sévère</td>
+          </tr>
+        </tbody>
+      </table>`,
+    choc: `
+      <table class="simple">
+        <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Amikacine <br><small>(Gentamicine pour <em>Serratia marcescens</em>)</small></td>
+            <td>30 mg/kg IVL 30’<br>Obj pic 30’ &gt; CMI×8<br>Obj. résid. &lt; 5 mg/L</td>
+            <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+          </tr>
+        </tbody>
+      </table>`
+  }
+};
 
 // ---------- Pages ----------
 function renderHome() {
