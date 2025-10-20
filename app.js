@@ -1,119 +1,5 @@
 // app.js — structure en 3 pages + sous-pages, routes hash
-let currentPage = 1;  // Page actuelle
-let pdfDoc = null; // Référence au document PDF
 
-export function openPDF(pdfPath) {
-  const appContainer = document.getElementById("app");
-
-  // Effacer le contenu existant
-  appContainer.innerHTML = "";
-
-  // Créer un div pour le PDF avec une barre de défilement
-  const pdfViewer = document.createElement("div");
-  pdfViewer.id = "pdfViewer";
-  appContainer.appendChild(pdfViewer);
-
-  // Extraire le nom sans extension pour la mise à jour de l'URL
-  const pdfName = pdfPath.split("/").pop().split(".")[0];
-  history.pushState(null, "", `#/${pdfName}`);
-
-  console.log("Current URL:", window.location.href);
-
-  // Créer les boutons de navigation
-  const navContainer = document.createElement("div");
-  navContainer.classList.add("pdf-nav");
-
-  const prevButton = document.createElement("button");
-  prevButton.textContent = "Précédent";
-  prevButton.addEventListener("click", () => goToPage(currentPage - 1));
-
-  const nextButton = document.createElement("button");
-  nextButton.textContent = "Suivant";
-  nextButton.addEventListener("click", () => goToPage(currentPage + 1));
-
-  navContainer.appendChild(prevButton);
-  navContainer.appendChild(nextButton);
-  appContainer.appendChild(navContainer);
-
-  // Créer un bouton "Retour" pour revenir au menu principal
-  const backButton = document.createElement("button");
-  backButton.textContent = "Retour";
-  backButton.classList.add("btn");
-  backButton.addEventListener("click", () => {
-    window.location.hash = "#/"; // Retour au menu principal
-  });
-  appContainer.appendChild(backButton);
-
-  // 🔧 Correction : normaliser l’URL PDF
-  const fileName = pdfPath.split("/").pop(); // extrait "SARM.pdf"
-  const pdfUrl = new URL(`pdf/${fileName}`, window.location.origin).href;
-  console.log("Chargement du PDF:", pdfUrl);
-
-  // 🔄 Ajouter un iframe fallback (affichage natif du PDF)
-  const iframe = document.createElement("iframe");
-  iframe.src = pdfUrl;
-  iframe.style.width = "100%";
-  iframe.style.height = "100vh";
-  iframe.style.border = "none";
-  pdfViewer.appendChild(iframe);
-
-  // 🧩 Charger le PDF via PDF.js (optionnel, pour navigation page par page)
-  pdfjsLib
-    .getDocument(pdfUrl)
-    .promise.then((pdfDoc_) => {
-      pdfDoc = pdfDoc_;
-      renderPage(currentPage);
-    })
-    .catch((err) => {
-      console.error("Erreur PDF.js :", err);
-    });
-}
-
-// Fonction pour afficher une page spécifique
-function renderPage(pageNum) {
-  const viewer = document.getElementById('pdfViewer');
-
-  // Vérifier les limites des pages
-  if (pageNum < 1 || pageNum > pdfDoc.numPages) return;
-
-  pdfDoc.getPage(pageNum).then(page => {
-    const canvas = document.createElement('canvas');
-    viewer.innerHTML = ''; // Réinitialiser la vue avant d'ajouter une nouvelle page
-    viewer.appendChild(canvas);
-
-    const context = canvas.getContext('2d');
-        if (!context) {
-            console.error("Impossible de récupérer le contexte du canvas.");
-            return;
-        }
-
-        // === PARAMÈTRES DE HAUTE RÉSOLUTION ===
-        const scale = 0.75;                     // Zoom inchangé
-        const dpi = window.devicePixelRatio || 2; // Densité de pixels élevée (2 ou plus pour Retina/4K)
-
-        // Récupérer le viewport
-        const viewport = page.getViewport({ scale: scale });
-
-        // Redimensionner le canvas pour la densité de pixels
-        canvas.width = viewport.width * dpi;
-        canvas.height = viewport.height * dpi;
-
-        // Ajuster le contexte pour la densité de pixels
-        context.setTransform(dpi, 0, 0, dpi, 0, 0);
-
-    // Rendu de la page sur le canvas
-    page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
-      // Mettre à jour la page actuelle
-      currentPage = pageNum;
-    });
-  });
-}
-
-// Fonction pour aller à une page spécifique
-function goToPage(pageNum) {
-  renderPage(pageNum);
-}
-  
 const $app = document.getElementById("app");
 
 const routes = {
@@ -130,12 +16,12 @@ const routes = {
   "#/adaptee/sensibles": () => showImages("sensibles"),
   "#/adaptee/SARM": () => renderBacteriaPage("SARM", BACTERIA_DATA.SARM),
   "#/adaptee/ampC": () => renderBacteriaPage("ampC", BACTERIA_DATA.ampC),
-  "#/adaptee/BLSE": () => openPDF('BLSE.pdf'),
-  "#/adaptee/pyo": () => openPDF('pyo.pdf'),
-  "#/adaptee/acineto": () => openPDF('acineto.pdf'),
-  "#/adaptee/steno": () => openPDF('steno.pdf'),
-  "#/adaptee/carba": () => openPDF('carba.pdf'),
-  "#/adaptee/erv": () => openPDF('erv.pdf'),
+  "#/adaptee/BLSE":   () => renderBacteriaPage("BLSE",   BACTERIA_DATA.BLSE),
+  "#/adaptee/pyo":    () => renderBacteriaPage("pyo",    BACTERIA_DATA.pyo),
+  "#/adaptee/acineto":() => renderBacteriaPage("acineto",BACTERIA_DATA.acineto),
+  "#/adaptee/steno":  () => renderBacteriaPage("steno",  BACTERIA_DATA.steno),
+  "#/adaptee/carba":  () => renderBacteriaPage("carba",  BACTERIA_DATA.carba),
+  "#/adaptee/erv":    () => renderBacteriaPage("erv",    BACTERIA_DATA.erv),
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
   "#/antibiomoda": renderModalitesForm,
@@ -415,6 +301,448 @@ const BACTERIA_DATA = {
       </table>`
   }
 };
+
+BACTERIA_DATA.BLSE = {
+  title: "Entérobactéries sécrétrices de BLSE",
+  definition: `
+    Sécrétion de β-lactamases d’origine plasmidique (résistance acquise) responsables d’une hydrolyse des pénicillines,
+    céphalosporines (dont C4G) et aztréonam. Les céphamycines (Céfoxitine) et carbapénèmes ne sont pas hydrolysées.`,
+  mecanisme: `
+    β-lactamases transmises sur plasmides au sein des population d’entérobactéries et BGN non fermentants. Les principales enzymes impliquées sont :<br>
+    • Depuis 1990 : Enzymes dérivées des pénicillinases TEM et SHV (minoritaires)<br>
+    • Depuis 2000 : Nouvelles BLSE : CTX-M (nettement majoritaires).`,
+  epidemio: `
+    La résistance aux C3G chez les entérobactéries est expliquée dans 76% par une BLSE, et dans 25% par une Case ampC.
+    Des BLSE étaient sécrétées par 8% des souches cliniques de <em>E. coli</em> et 25% des souches cliniques de <em>K. pneumoniae</em> (Europe, 2023).`,
+  phenotype: `
+    <div class="muted">Phénotype habituel selon le groupe d’entérobact.</div>
+    <table class="pheno"><thead>
+      <tr>
+        <th>Entérobactéries</th><th>Groupes 0 &amp; 1</th><th>Groupe 2 — Pase</th>
+        <th>Groupe 3 — AmpC</th><th>Case AmpC hyperproduite</th><th>BLSE</th>
+      </tr>
+    </thead><tbody>
+      <tr><td>Amoxicilline</td><td>S</td><td>R</td><td>R</td><td>R</td><td>R</td></tr>
+      <tr><td>Amox./Clav.</td><td>S</td><td>S</td><td>R</td><td>R</td><td>I/R</td></tr>
+      <tr><td>Pipéracilline</td><td>S</td><td>S/I</td><td>S</td><td>R</td><td>R</td></tr>
+      <tr><td>Pipé./Tazo.</td><td>S</td><td>S</td><td>S</td><td>I/R</td><td>I/R</td></tr>
+      <tr><td>C1G/C2G</td><td>S</td><td>S</td><td>I/R</td><td>R</td><td>R</td></tr>
+      <tr><td>C3G</td><td>S</td><td>S</td><td>S</td><td>R</td><td>R</td></tr>
+      <tr><td>Céfépime</td><td>S</td><td>S</td><td>S</td><td>S</td><td>R</td></tr>
+      <tr><td>Carbapénèmes</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+      <tr><td>Aztréonam</td><td>S</td><td>S</td><td>S/I/R</td><td>R</td><td>R</td></tr>
+      <tr><td>Ciprofloxacine</td><td>S</td><td>S</td><td>S</td><td>S</td><td>I/R</td></tr>
+      <tr><td>Amikacine</td><td>S</td><td>S</td><td>S (sauf <em>Serratia</em>)</td><td>S (sauf <em>Serratia</em>)</td><td>S (sauf <em>Serratia</em>)</td></tr>
+    </tbody></table>`,
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécules</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Méropénème</td><td>4–6 g/24h IV</td>
+          <td>S : CMI ≤ …<br>R : CMI &gt; 8</td>
+          <td>Allergies, néphrotox., troubles digestifs</td>
+        </tr>
+        <tr>
+          <td>Imipénème</td><td>3–4 g/24h IV</td>
+          <td>S : CMI ≤ 2<br>R : CMI &gt; 4</td>
+          <td>Allergies, <em>neurotox (Imip.)</em>, néphrotox., troubles digestifs</td>
+        </tr>
+      </tbody>
+    </table>`,
+  siteAtb: `
+    <table class="simple">
+      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>B-lact. alternative (inf. non grave)</th><th>Si allergie β-lactamines</th></tr></thead>
+      <tbody>
+        <tr><td>Pneumonie</td><td>Méropénème</td><td>Témocilline 2–4 g/j IV</td><td>Colimycine 9–12 MUI x3/j IV</td></tr>
+        <tr><td>Bactériémie</td><td>Méropénème</td><td>Témocilline</td><td>–</td></tr>
+        <tr><td>Péritonite</td><td>Imipénème</td><td>–</td><td>Tigécycline 100 mg puis 50 mg x2/j IV (infection sévère)</td></tr>
+        <tr><td>Infection biliaire</td><td>Imipénème ou Méropénème</td><td>Pipé./Tazo</td>
+            <td>Ciprofloxacine 400 mg x2/j IV / CTX 20+100 mg/kg/j IV/PO / Tigécycline (infection sévère)</td></tr>
+        <tr><td>Infection urinaire</td><td>Imipénème ou Méropénème</td><td>Pipé./Tazo, Témocilline</td>
+            <td>Ciprofloxacine 400 mg x2/j IV / CTX 20+100 mg/kg/j IV/PO</td></tr>
+        <tr><td>Dermo-hypodermite</td><td>Méropénème</td><td>Témocilline</td><td>Tigécycline (infection sévère)</td></tr>
+      </tbody>
+    </table>`,
+  choc: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Amikacine<br><small>(Gentamicine pour <em>Serratia marcescens</em>)</small></td>
+          <td>30 mg/kg IVL 30 min<br>Objectif pic 30 min : CMI ×8–10 (60–80 mg/L)<br>Objectif résiduelle : &lt; 5 mg/L</td>
+          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+        </tr>
+      </tbody>
+    </table>`
+};
+
+BACTERIA_DATA.pyo = {
+  title: "Pseudomonas aeruginosa MDR et XDR",
+  definition: `
+    Les souches de <em>P. aeruginosa</em> sont définies comme multi-résistantes (MDR) ou ultra-résistantes (XDR) devant 3 ou 5 résistances respectivement parmi :<br>
+    • Les pénicillines (Pipéracilline-Tazobactam)<br>
+    • Les céphalosporines (Ceftazidime)<br>
+    • Les carbapénèmes (Imipénème ou méropénème)<br>
+    • Les fluoroquinolones (Ciprofloxacine)<br>
+    • Les aminosides (Gentamicine, amikacine et/ou tobramycine).`,
+  mecanisme: `
+    <em>P. aeruginosa</em> peut exprimer un grand nombre de gènes de résistance naturels (chromosomiques) et acquis (plasmidiques) :<br>
+    • <strong>β-lactamines</strong> : Case (AmpC), BLSE (CTX-M), carbapénèmases (KPC, OXA198), mutation <em>oprD</em> (porine D2 mutée), pompes à efflux (MexAB-OprM, MexXY-OprM)<br>
+    • <strong>Aminosides</strong> : Acétylases AAC-6’, méthylase ArmA, pompe à efflux MexXY-OprM<br>
+    • <strong>Fluoroquinolones</strong> : Mutations <em>gyrA</em> et <em>parC</em>, efflux MexAB-OprM et MexXY-OprM.`,
+  epidemio: `Parmi les souches invasives de <em>P. aeruginosa</em> documentées : 12% sont résistantes aux carbapénèmes, 6% sont MDR, et 4,4% sont XDR (2021, France).`,
+  phenotype: `
+    <table class="pheno">
+      <thead>
+        <tr>
+          <th><em>P. aeruginosa</em></th>
+          <th>WT</th>
+          <th>Case (AmpC)</th>
+          <th>BLSE (PER, VEB)</th>
+          <th>Carbapé-nèmase</th>
+          <th>Perte OprD2</th>
+          <th>MexAB-OprM</th>
+          <th>MexXY-OprM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Pipéracilline</td><td>S</td><td>I/R</td><td>R</td><td>R</td><td>I</td><td>I</td><td>I</td></tr>
+        <tr><td>Pipé/Tazo.</td><td>S</td><td>I/R</td><td>I</td><td>R</td><td>I</td><td>I</td><td>I</td></tr>
+        <tr><td>Ceftazidime</td><td>S</td><td>I/R</td><td>R</td><td>R</td><td>I</td><td>I</td><td>I</td></tr>
+        <tr><td>Céfépime</td><td>S</td><td>I/R</td><td>R</td><td>R</td><td>I</td><td>I</td><td>I/R</td></tr>
+        <tr><td>Aztréonam</td><td>S</td><td>I/R</td><td>R</td><td>I/R</td><td>I</td><td>I/R</td><td>I</td></tr>
+        <tr><td>Cefto/Tazo.</td><td>S</td><td>S</td><td>S</td><td>R</td><td>S</td><td>–</td><td>–</td></tr>
+        <tr><td>Méropénème</td><td>S</td><td>S</td><td>S</td><td>R</td><td>I/R</td><td>S/I</td><td>S</td></tr>
+        <tr><td>Ciprofloxacine</td><td>S</td><td>S</td><td>I/R</td><td>R</td><td>S</td><td>R</td><td>R</td></tr>
+        <tr><td>Amikacine</td><td>S</td><td>S</td><td>S/I</td><td>S/I/R</td><td>S</td><td>S</td><td>R</td></tr>
+      </tbody>
+    </table>`,
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Ceftolozane–Tazobactam</td>
+          <td>2 g/1 g x3/j IVL</td>
+          <td>S : CMI ≤ 4 mg/L<br>R : CMI &gt; 4 mg/L</td>
+          <td>Allergies (croisée pénicilline &lt; 5%), neurotoxicité, néphrotoxicité, troubles digestifs</td>
+        </tr>
+      </tbody>
+    </table>`,
+  siteAtb: `
+    <table class="simple">
+      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Pneumonie</td>
+          <td>Ceftolozane–Tazobactam</td>
+          <td>
+            Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+            Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+            Céfidérocol 2 g x3/j IVL<br>
+            Colimycine 9–12 MUI x3/j IV (Pneumonies)<br>
+            Fosfomycine 200 mg/kg x3/j IV
+          </td>
+        </tr>
+        <tr><td>Bactériémie</td><td></td><td></td></tr>
+        <tr><td>Inf. intra-abdominale</td><td></td><td></td></tr>
+        <tr><td>Infection urinaire</td><td></td><td></td></tr>
+        <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
+      </tbody>
+    </table>`,
+  choc: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Amikacine</td>
+          <td>30 mg/kg IVL<br>Objectif pic &gt; CMI×8<br>Objectif résiduelle &lt; 5 mg/L</td>
+          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+        </tr>
+      </tbody>
+    </table>`
+};
+
+
+BACTERIA_DATA.acineto = {
+  title: "Acinetobacter baumannii résistant aux carbapénèmes",
+  definition: `
+    <em>Acinetobacter baumannii</em> est également susceptible d’évoluer vers des souches multirésistantes en milieu nosocomial,
+    et notamment vers la résistance aux carbapénèmes (ABRI = <em>A. baumannii</em> résistant à l’Imipénème).`,
+  mecanisme: `
+    <em>A. baumannii</em> peut exprimer de nombreux gènes de résistance naturels (chromosomiques) et acquis (plasmidiques) :<br>
+    • β-lactamines : Pase (SCO-1), Case (AmpC), carbapénèmases (KPC, NDM, OXA23), pompe à efflux AdeABC<br>
+    • Aminosides : Acétylase AAC-6’, méthylase ArmA, pompes à efflux AdeABC et AbeM<br>
+    • Fluoroquinolones : Mutations <em>gyrA</em>, pompes à efflux AdeABC et AbeM.`,
+  epidemio: `Parmi les souches invasives de <em>A. baumannii</em> documentées : 15% sont résistantes à l’Imipénème (2021, France).`,
+  phenotype: `
+    <table class="pheno"><thead>
+      <tr>
+        <th><em>A. baumannii</em></th><th>WT</th><th>Pase</th><th>Case</th><th>Pase + Case</th><th>BLSE</th><th>ABRI</th>
+      </tr>
+    </thead><tbody>
+      <tr><td>Pipéracilline</td><td>S</td><td>R</td><td>I/R</td><td>R</td><td>R</td><td>S/I/R</td></tr>
+      <tr><td>Pipé/Tazo.</td><td>S</td><td>I</td><td>I/R</td><td>R</td><td>R</td><td>S/I/R</td></tr>
+      <tr><td>Ceftazidime</td><td>S</td><td>S</td><td>I/R</td><td>I/R</td><td>R</td><td>S/I/R</td></tr>
+      <tr><td>Céfépime</td><td>S</td><td>S</td><td>S/I/R</td><td>S/I/R</td><td>R</td><td>S/I/R</td></tr>
+      <tr><td>Aztréonam</td><td>I</td><td>I</td><td>R</td><td>R</td><td>R</td><td>S/I/R</td></tr>
+      <tr><td>Imipénème</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>R</td></tr>
+      <tr><td>Ciprofloxacine</td><td>S</td><td>S</td><td>S</td><td>S</td><td>I/R</td><td>S/I/R</td></tr>
+      <tr><td>Amikacine</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S/I</td><td>S/I</td></tr>
+    </tbody></table>`,
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>+ 1 antibiotique parmi…</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Ampicilline-sulbactam</td>
+          <td>2 g/1 g x3/j IV</td>
+          <td>Données insuffisantes</td>
+          <td>Colimycine, amikacine, tigécycline, méropénème (si CMI &lt; 8 mg/L)</td>
+        </tr>
+      </tbody>
+    </table>`,
+  siteAtb: `
+    <table class="simple">
+      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Pneumonie</td>
+          <td>Ampicilline-sulbactam + autre antibiotique (cf supra)</td>
+          <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie) / Colistine 9–12 MUI x3/j IV /
+              Tigécycline 100 mg puis 50 mg x2/j IV pour inf. sévère abdo ou tissus mous / Amikacine 25–30 mg/kg IV</td>
+        </tr>
+        <tr><td>Bactériémie</td><td>–</td><td>–</td></tr>
+        <tr><td>Inf. intra-abdominale</td><td>–</td><td>–</td></tr>
+        <tr><td>Infection urinaire</td><td>–</td><td>–</td></tr>
+        <tr><td>Dermo-hypodermite</td><td>–</td><td>–</td></tr>
+      </tbody>
+    </table>`,
+  choc: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Amikacine <small>(Sauf si employé dans la bithérapie)</small></td>
+          <td>30 mg/kg IVL<br>Obj. pic &gt; CMI×8<br>Obj. résiduelle &lt; 5 mg/L</td>
+          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+        </tr>
+      </tbody>
+    </table>`
+};
+
+BACTERIA_DATA.steno = {
+  title: "Stenotrophomonas maltophilia",
+  definition: `
+    <em>Stenotrophomonas maltophilia</em> est un BGN non fermentant de l’environnement et de la flore intestinale de l’homme,
+    ayant un pouvoir pathogène en milieu nosocomial, et caractérisé par de nombreuses résistances naturelles
+    induites par la pression de sélection antibiotique.`, // :contentReference[oaicite:2]{index=2}
+
+  mecanisme: `
+    <p><em>S. maltophilia</em> présente des résistances naturelles contre :</p>
+    <p><strong>Les béta-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
+    β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
+    β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
+    <p><strong>Les aminosides</strong> : Modification des aminosides par les enzymes : APH-3’, ANT-2’, AAC-6’</p>
+    <p><strong>Autres</strong> : La colistine et la fosfomycine</p>`, // :contentReference[oaicite:3]{index=3}
+
+  epidemio: `
+    Les souches invasives de <em>S. maltophilia</em> sont toujours résistantes aux béta-lactamines
+    (sauf Ceftazidime : résistance dans 30% des cas), toujours résistantes aux aminosides,
+    et résistantes à la Lévofloxacine dans 20% des cas. Elles sont sensibles au Cotrimoxazole dans 96% des cas
+    (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
+
+  phenotype: `
+    <table class="pheno">
+      <thead>
+        <tr><th><em>S. maltophilia</em></th><th>Sauvage</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pipéracilline</td><td>R</td></tr>
+        <tr><td>Pipé/Tazo.</td><td>R</td></tr>
+        <tr><td>Ceftazidime</td><td>S/I</td></tr>
+        <tr><td>Céfépime</td><td>R</td></tr>
+        <tr><td>Aztréonam</td><td>R</td></tr>
+        <tr><td>Imi/méropénème</td><td>R</td></tr>
+        <tr><td>Lévofloxacine</td><td>S (80% des cas)</td></tr>
+        <tr><td>Aminosides</td><td>R</td></tr>
+        <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td></tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:5]{index=5}
+
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets secondaires</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Cotrimoxazole</td>
+          <td>20+100 mg/kg/j PO/IV (dose max)</td>
+          <td>S : CMI ≤ 0,001 mg/L<br>R : CMI &gt; 4 mg/L</td>
+          <td>Neutropénies, néphrotox., neurotox., hépatotox., sd Lyell &amp; SJ</td>
+        </tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:6]{index=6}
+
+  siteAtb: `
+    <table class="simple">
+      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives ou bithérapie (si grave ou immunodép.)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Pneumonie</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4–6 g/24h IVSE<br>
+            Lévofloxacine 500 mg ×2/j IV/PO<br>
+            Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
+            (Ticar/Clav. : arrêt de commercialisation 2014)
+          </td>
+        </tr>
+        <tr><td>Bactériémie</td><td></td><td></td></tr>
+        <tr><td>Inf. intra-abdominale</td><td></td><td></td></tr>
+        <tr><td>Infection urinaire</td><td></td><td></td></tr>
+        <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:7]{index=7}
+
+  choc: `
+    <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
+    <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
+    <em>Cotrimoxazole + Lévofloxacine</em>.</p>` // :contentReference[oaicite:8]{index=8}
+};
+
+
+BACTERIA_DATA.carba = {
+  title: "Entérobactéries sécrétrices de carbapénèmases",
+  definition: `
+    Sécrétion de carbapénèmases d’origine plasmidique (résistance acquise) responsables d’une hydrolyse de l’ensemble des β-lactamines par des entérobactéries originaires du tube digestif.`,
+  mecanisme: `
+    Carbapénèmases transmises sur plasmides au sein des population d’entérobactéries. Les principales enzymes impliquées dans le monde sont :<br>
+    • KPC (Classe A)<br>
+    • NDM, VIM, IMP (Classe B)<br>
+    • OXA48 (Classe D).`,
+  epidemio: `
+    Les genres bactériens concernés sont par ordre décroissant : <em>Klebsiella</em> spp., <em>Enterobacter</em> spp., <em>Escherichia coli</em>, <em>Citrobacter</em> spp.<br>
+    Les mécanismes impliqués étaient : 63% de OXA48 (Classe D), 20% de NDM (Classe B), 9% de VIM (Classe B), et 2,9% de KPC (Classe A). (CNR Kremlin Bicêtre 2021)`,
+  phenotype: `
+    <table class="pheno">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>KPC (classe A)</th>
+          <th>NDM / VIM (classe B)</th>
+          <th>OXA-48 (classe D)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Amoxicilline</td><td>R</td><td>R</td><td>R</td></tr>
+        <tr><td>Amoxicilline–Ac. Clav.</td><td>I/R</td><td>R</td><td>R</td></tr>
+        <tr><td>Ticarcilline</td><td>R</td><td>R</td><td>R</td></tr>
+        <tr><td>Pipéracilline</td><td>R</td><td>R</td><td>R</td></tr>
+        <tr><td>Pipéracilline–Tazobact.</td><td>I/R</td><td>R</td><td>R</td></tr>
+        <tr><td>C1G/C2G</td><td>I/R</td><td>R</td><td>S</td></tr>
+        <tr><td>Céphamycines (Cefoxitine)</td><td>I/R</td><td>R</td><td>S</td></tr>
+        <tr><td>C3G</td><td>I/R</td><td>R</td><td>S</td></tr>
+        <tr><td>Céfépime</td><td>I/R</td><td>R</td><td>S</td></tr>
+        <tr><td>Aztréonam</td><td>I/R</td><td>S</td><td>S</td></tr>
+        <tr><td>Carbapénèmes</td><td>I/R</td><td>R</td><td>S/I/R</td></tr>
+        <tr><td>Témocilline</td><td>S</td><td>–</td><td>S</td></tr>
+        <tr><td>Ceftazidime–Avibactam</td><td>S</td><td>I/R</td><td>S</td></tr>
+        <tr><td>Ceftolozane–Tazobactam</td><td>S</td><td>I/R</td><td>S</td></tr>
+        <tr><td>Imipénème–Relebactam</td><td>S</td><td>I/R</td><td>S/I/R</td></tr>
+        <tr><td>Céfidérocol</td><td>S</td><td>S</td><td>S</td></tr>
+        <tr><td>Tigécycline</td><td>S</td><td>S</td><td>S</td></tr>
+      </tbody>
+    </table>`,
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécules</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Ceftazidime–avibactam</td>
+          <td>2 g/0,5 g x3/j IVSE sur 4 h</td>
+          <td>S : CMI ≤ 8<br>R : CMI &gt; 8</td>
+          <td>Allergies, encéphalopathie, convulsions, coma</td>
+        </tr>
+        <tr>
+          <td>Aztréonam <small>(+ Ceftazidime–avibactam pour classe B, NDM…)</small></td>
+          <td>4 g x2/j IVSE sur 12 h</td>
+          <td>S : CMI ≤ 1<br>R : CMI &gt; 4</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>`,
+  siteAtb: ``,
+  choc: ``
+};
+
+BACTERIA_DATA.erv = {
+  title: "Entérocoques résistants à la vancomycine (ERV)",
+  definition: `
+    Souches de <em>E. faecium</em> résistantes aux glycopeptides. Plus rarement, les souches de <em>E. faecalis</em> peuvent être concernées. 
+    Les souches de <em>S. aureus</em>, sont exceptionnellement résistantes aux glycopeptides.`,
+  mecanisme: `
+    La résistance aux glycopeptides chez <em>Enterococcus faecium</em> est liée à la transmission plasmidique des îlots de résistance VanA (largement majoritaire) et VanB. 
+    Ces îlots sont porteurs de plusieurs gènes à l’origine de la synthèse d’un peptidoglycane alternatif, non reconnu par les glycopeptides.<br>
+    Ce mécanisme concerne également les rares résistances aux glycopeptides chez <em>E. faecalis</em> et <em>S. aureus</em>.`,
+  epidemio: `
+    La résistance à la vancomycine reste rare en France : 0,1 % des souches cliniques de <em>E. faecium</em> et 0,1% des souches cliniques de <em>E. faecalis</em> en 2021. 
+    La résistance aux glycopeptides est exceptionnelle chez <em>S. aureus</em>.`,
+  phenotype: `
+    <table class="pheno">
+      <thead><tr><th>Type</th><th>ERV</th></tr></thead>
+      <tbody>
+        <tr><td>Amoxicilline</td><td>R</td></tr>
+        <tr><td>Oxacilline / Cloxacilline</td><td>R</td></tr>
+        <tr><td>Amoxicilline – Ac. Clav.</td><td>R</td></tr>
+        <tr><td>Pipéracilline</td><td>R</td></tr>
+        <tr><td>Pipéracilline – Tazobact.</td><td>R</td></tr>
+        <tr><td>C1G/C2G</td><td>R</td></tr>
+        <tr><td>Céphamycines (Cefoxitine)</td><td>R</td></tr>
+        <tr><td>C3G/C4G</td><td>R</td></tr>
+        <tr><td>C5G</td><td>R</td></tr>
+        <tr><td>Carbapénèmes</td><td>R</td></tr>
+        <tr><td>Glycopeptides</td><td>R</td></tr>
+        <tr><td>Daptomycine</td><td>S/I</td></tr>
+        <tr><td>Linézolide</td><td>S</td></tr>
+        <tr><td>Ofloxacine</td><td>R</td></tr>
+        <tr><td>Lévofloxacine</td><td>R</td></tr>
+        <tr><td>Amikacine</td><td>S/I/R</td></tr>
+        <tr><td>Tobramycine</td><td>S/I/R</td></tr>
+        <tr><td>Gentamicine</td><td>S/I/R</td></tr>
+        <tr><td>Cotrimoxazole</td><td>R</td></tr>
+        <tr><td>Rifampicine</td><td>I/R</td></tr>
+        <tr><td>Tigécycline</td><td>S</td></tr>
+      </tbody>
+    </table>`,
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécules</th><th>Posologie</th><th>BP EUCAST</th><th>Effets indésirables</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Référence :</strong> Linézolide <small>(sauf bactériémies et endocardites)</small></td>
+          <td>600 mg 2×/jour</td>
+          <td>4</td>
+          <td>Cytopénie, hyperlactatémie, syndrome sérotoninergique, neuropathies</td>
+        </tr>
+        <tr>
+          <td>Tigécycline <small>(infections abdominales et des tissus mous)</small></td>
+          <td>50 mg ×2/jour</td>
+          <td>Données insuffisantes</td>
+          <td>Troubles digestifs, photosensibilisation, hépatotoxicité, allergies</td>
+        </tr>
+        <tr>
+          <td>Daptomycine <small>(bactériémies et endocardites, efficacité modérée sur <em>E. faecium</em>)</small></td>
+          <td>12 mg/kg/jour</td>
+          <td>Données insuffisantes</td>
+          <td>Rhabdomyolyse, hépatotoxicité, céphalées, infections fongiques</td>
+        </tr>
+      </tbody>
+    </table>`,
+  siteAtb: ``,
+  choc: ``
+};
+
 
 // ---------- Pages ----------
 function renderHome() {
