@@ -2242,9 +2242,9 @@ function renderModalitesForm() {
 
     // ========= Aminosides =========
     aminoside: {
-      "Amikacine":   { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Gentamicine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} },
-      "Tobramycine": { dosages:"", solvant:"", charge:{schema:""}, entretien:{rythme:"", intervalle:"", doses:"", volume:"", perfusion:"", stabilite:""} }
+      "Amikacine":   { dosages:"500mg", solvant:"Glucosé 5%", charge:{schema:"25-30mg/kg dans 250mL IVL 30min"}, entretien:{rythme:"Perfusion intermittente (si entretien indiqué)", intervalle:"Lorsque C. résiduelle < 2,5 mg/L", doses:"Adapter selon C. pic", volume:"250mL", perfusion:"IVL 30min", stabilite:"10-14h"} },
+      "Gentamicine": { dosages:"80mg", solvant:"Glucosé 5%", charge:{schema:"8-10mg/kg dans 100mL IVL 30min"}, entretien:{rythme:"Perfusion intermittente (si entretien indiqué)", intervalle:"Lorsque C. résiduelle < 0,5 mg/L", doses:"Adapter selon C. pic", volume:"100mL", perfusion:"IVL 30min", stabilite:"10-14h"} },
+      "Tobramycine": { dosages:"75mg", solvant:"Glucosé 5%", charge:{schema:"8-10mg/kg dans 100mL IVL 30min"}, entretien:{rythme:"Perfusion intermittente (si entretien indiqué)", intervalle:"Lorsque C. résiduelle < 0,5 mg/L", doses:"Adapter selon C. pic", volume:"100mL", perfusion:"IVL 30min", stabilite:"10-14h"} }
     },
 
     // ========= Fluoroquinolones =========
