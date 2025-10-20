@@ -232,4 +232,29 @@ input[type="text"], input[type="number"], select, textarea {
   line-height: 1.2;       /* lignes rapprochées */
 }
 
+/* ===== Pages "bactérie" ===== */
+.bact-page { display: grid; gap: 16px; }
+.bact-hero img { display:block; width:100%; height:auto; border-radius:12px; border:1px solid var(--border); object-fit:cover; }
+.info-grid { display:grid; gap:12px; grid-template-columns: 1fr; }
+@media (min-width: 900px){
+  .info-grid { grid-template-columns: 1fr 1fr; }
+}
+.info-card { background: var(--card); border:1px solid var(--border); border-radius:16px; padding:14px; }
+.info-card h3 { margin:0 0 8px; font-size:16px; }
+.info-content { font-size:14px; line-height:1.45; }
+.info-content p { margin: 6px 0; }
+.muted { color: var(--muted); margin-bottom: 6px; }
+
+/* Tables "phénotype" et "simple" */
+table.pheno, table.simple { width:100%; border-collapse: collapse; font-size:14px; }
+table.pheno th, table.pheno td, table.simple th, table.simple td {
+  border:1px solid var(--border); padding:8px; vertical-align: top;
+}
+table.pheno thead th, table.simple thead th { background: rgba(0,0,0,.05); }
+table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
+
+/* Badges / Boutons */
+.title-badge { font-size:18px; }
+.actions { margin-top: 8px; }
+
 
