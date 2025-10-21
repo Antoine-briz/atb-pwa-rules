@@ -796,19 +796,18 @@ BACTERIA_DATA.steno = {
       <tr>
         <th><em>S. maltophilia</em></th>
         <th>Sauvage</th>
-        <th>AMPc</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>Pipéracilline</td><td>R</td><td>–</td></tr>
-      <tr><td>Pipé/Tazo.</td><td>R</td><td>–</td></tr>
-      <tr><td>Ceftazidime</td><td>S/I</td><td>–</td></tr>
-      <tr><td>Céfépime</td><td>R</td><td>–</td></tr>
-      <tr><td>Aztréonam</td><td>R</td><td>–</td></tr>
-      <tr><td>Imi/méropénème</td><td>R</td><td>–</td></tr>
-      <tr><td>Lévofloxacine</td><td>S (80% des cas)</td><td>–</td></tr>
-      <tr><td>Aminosides</td><td>R</td><td>–</td></tr>
-      <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td><td>–</td></tr>
+      <tr><td>Pipéracilline</td><td>R</td></tr>
+      <tr><td>Pipé/Tazo.</td><td>R</td></tr>
+      <tr><td>Ceftazidime</td><td>S/I</td></tr>
+      <tr><td>Céfépime</td><td>R</td></tr>
+      <tr><td>Aztréonam</td><td>R</td></tr>
+      <tr><td>Imi/méropénème</td><td>R</td></tr>
+      <tr><td>Lévofloxacine</td><td>S (80% des cas)</td></tr>
+      <tr><td>Aminosides</td><td>R</td></tr>
+      <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td></tr>
     </tbody>
   </table>`
 
