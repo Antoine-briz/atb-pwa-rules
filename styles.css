@@ -383,130 +383,137 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 }
 
 /* =========================================================
-   ✅ Antibiothérapie adaptée — Correctifs mobiles (v4)
+   ✅ Antibiothérapie adaptée — Correctifs mobiles (FINAL)
    ========================================================= */
 
-/* 0) Base safe pour éviter toute rogne */
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100vw !important;
-  overflow-x: hidden !important;   /* pas de scroll horizontal global */
-  box-sizing: border-box;
-}
-*, *::before, *::after { box-sizing: inherit; }
-
-/* 1) Header non collant sur mobile */
+/* 1) Header non collant sur mobile (ton header = .appbar) */
 @media (max-width: 768px) {
-  .app-header {
+  .appbar {
     position: static !important;
     top: auto !important;
   }
   body { padding-top: 0 !important; }
 }
 
-/* 2) Conteneur de page bactérie : largeur écran, centré */
-.bact-page {
-  width: 100% !important;
-  max-width: 100vw !important;
-  margin: 0 auto !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
+/* 2) Conteneurs pleine largeur SANS dépasser l’écran */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;           /* pas de 100vw pour éviter les débordements iOS */
+  max-width: 100%;
 }
 
-/* 3) Titre et image bien centrés, sans débordement */
+/* Le main utilisé dans index est: <main id="app" class="container"> */
+@media (max-width: 768px) {
+  /* sur mobile, la grille "container" ne doit pas limiter la largeur */
+  #app.container, .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+}
+
+/* 3) Page bactérie, titre et image bien centrés */
+.bact-page {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 .title-badge {
   display: block;
-  text-align: center !important;
-  margin: 12px auto 8px auto !important;
-  max-width: 90vw !important;
+  text-align: center;
+  margin: 12px auto 8px;
+  max-width: 92%;
 }
+
 .bact-hero {
-  width: 100% !important;
-  max-width: 100% !important;
-  text-align: center !important;
+  width: 100%;
+  text-align: center;
 }
 .bact-hero img {
-  display: block !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  height: auto !important;
-  margin: 0 auto !important;
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
   border-radius: 12px;
 }
 
-/* 4) Encadrés en pile verticale, pleine largeur cadrée */
+/* 4) Encadrés en pile, pleine largeur, sans dépasser */
 .info-grid {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .info-card {
-  width: 100% !important;
-  max-width: 100% !important;
-  color: #000 !important;
+  width: 100%;
+  max-width: 100%;
+  color: #000;               /* texte bien lisible */
   background: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding: 12px !important;
-  overflow-x: visible !important;              /* pas de scroll au niveau de l’encadré */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  padding: 12px;
 }
+
+/* Titres & contenu des encadrés */
 .info-card h3 {
-  margin: 0 0 8px 0 !important;
-  font-size: 16px !important;
+  margin: 0 0 8px 0;
+  font-size: 16px;
   color: #2b5797;
 }
 
-/* 5) Le scroll horizontal est AUTORISÉ DANS LE CONTENU des encadrés
-      (utile uniquement quand il y a un tableau trop large) */
+/* 5) Scroll HORIZONTAL UNIQUEMENT dans le contenu des encadrés (tables trop larges) */
 .info-card .info-content {
-  overflow-x: auto !important;                 /* scroll horizontal local */
+  overflow-x: auto;            /* autorise le scroll horizontal local */
   -webkit-overflow-scrolling: touch;
 }
 
-/* 6) Tables : ne forcent pas la largeur de la page, mais peuvent dépasser L’ENCADRÉ
-      => l’utilisateur scrolle à l’intérieur de l’encadré pour les voir en entier */
+/* Les tableaux ne forcent pas la largeur de la page : ils peuvent dépasser l’encadré,
+   et l’utilisateur défile DANS l’encadré pour les voir en entier */
 .info-card .info-content table {
-  display: table !important;
-  width: auto !important;                      /* PAS 100%, pour autoriser le dépassement contrôlé */
-  min-width: 720px;                            /* lisible; ajuste à 600–800 si besoin */
+  width: auto !important;      /* important: pas 100%, pour permettre le dépassement contrôlé */
+  min-width: 720px;            /* ajuste à 600–800 selon tes tableaux */
   border-collapse: collapse;
   background: #fff;
-  margin: 0;                                   /* pas de marge qui pousserait hors écran */
+  margin: 0;
 }
 
-/* Cellules lisibles, compactes */
 .info-card .info-content th,
 .info-card .info-content td {
   border: 1px solid #ddd;
   padding: 6px 8px;
   text-align: left;
   vertical-align: top;
-  color: #000 !important;
-  font-size: 13px;                             /* plus petit */
+  color: #000;
+  font-size: 13px;             /* plus petit par défaut */
   line-height: 1.35;
   white-space: normal;
   word-break: break-word;
   hyphens: auto;
 }
+
 .info-card .info-content th {
   background: #f5f7fa;
   font-weight: 600;
 }
 
-/* 7) Mobile : texte un peu plus petit encore + marges équilibrées */
+/* 6) Ajustements supplémentaires sur mobile */
 @media (max-width: 768px) {
-  .info-card { padding: 10px !important; }
-  .info-card h3 { font-size: 15px !important; }
-  .info-card .info-content { font-size: 12px !important; }
-  .bact-page { padding-left: 14px !important; padding-right: 14px !important; }
+  .info-card { padding: 10px; }
+  .info-card h3 { font-size: 15px; }
+  .info-card .info-content { font-size: 12px; }
 }
 
-/* 8) Optionnel: petite barre de scroll douce dans les encadrés */
+/* 7) (optionnel) Barre de scroll douce dans les encadrés */
 .info-card .info-content::-webkit-scrollbar { height: 8px; }
 .info-card .info-content::-webkit-scrollbar-thumb {
   background: #bbb; border-radius: 4px;
 }
 .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
+
+
+
