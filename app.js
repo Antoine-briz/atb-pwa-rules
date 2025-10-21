@@ -301,16 +301,6 @@ function renderSensiblesPage() {
   `;
 }
 
-function colorizePhenotypeTables() {
-  const phenos = document.querySelectorAll('.pheno td'); // Sélectionner toutes les cellules des tableaux
-
-  phenos.forEach(td => {
-    td.innerHTML = td.innerHTML.replace(/S/g, '<span class="s">S</span>');
-    td.innerHTML = td.innerHTML.replace(/I/g, '<span class="i">I</span>');
-    td.innerHTML = td.innerHTML.replace(/R/g, '<span class="r">R</span>');
-  });
-}
-
 // ===== Pages "Antibiothérapie adaptée" — Rendu générique bactérie =====
 function renderBacteriaPage(slug, data){
   const $app = document.getElementById("app");
