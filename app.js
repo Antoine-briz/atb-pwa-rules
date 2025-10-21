@@ -877,7 +877,17 @@ siteAtb: `
           </td>
         </tr>
       </tbody>
-    </table>`, // :contentReference[oaicite:7]{index=7}
+    </table>`, 
+  
+  choc: `
+  <div class="info-card">
+    <h3>Ajout si choc septique</h3>
+    <div class="info-content">
+      <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
+      <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
+      <em>Cotrimoxazole + Lévofloxacine</em>.</p>
+    </div>
+  </div>
 };
 
 BACTERIA_DATA.carba = {
