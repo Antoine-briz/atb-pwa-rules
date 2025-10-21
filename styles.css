@@ -515,5 +515,30 @@ html, body {
 }
 .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
 
+/* Étape 1 — Encadrés = largeur écran, bord à bord (mobile) */
+@media (max-width: 768px) {
+  /* on enlève le padding latéral du conteneur de page */
+  .bact-page {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* chaque encadré occupe 100% de l’écran, sans marge */
+  .info-card {
+    display: block;
+    width: 100% !important;      /* prend toute la largeur disponible */
+    max-width: 100% !important;
+    margin: 0 !important;        /* pas de marge qui réduirait la largeur */
+    border-radius: 0.0001px;     /* visuellement “bord à bord” sans bug iOS */
+    box-sizing: border-box;      /* padding/border inclus dans la largeur */
+  }
+
+  /* si .info-grid impose des marges internes, on les neutralise */
+  .info-grid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    gap: 12px;                   /* espace vertical entre encadrés */
+  }
+}
 
 
