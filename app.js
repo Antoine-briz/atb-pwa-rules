@@ -770,7 +770,7 @@ BACTERIA_DATA.acineto = {
 };
 
 BACTERIA_DATA.steno = {
-  title: "St",
+  title: "Stenotrophomonas maltophilia",
   definition: `
     <em>Stenotrophomonas maltophilia</em> est un BGN non fermentant de l’environnement et de la flore intestinale de l’homme,
     ayant un pouvoir pathogène en milieu nosocomial, et caractérisé par de nombreuses résistances naturelles
