@@ -821,32 +821,32 @@ BACTERIA_DATA.steno = {
       </tbody>
     </table>`, // :contentReference[oaicite:6]{index=6}
 
- siteAtb: `
+siteAtb: `
   <table class="simple">
-  <thead>
-    <tr>
-      <th>Site infectieux</th>
-      <th>1ère intention</th>
-      <th>Alternatives ou bithérapie (si grave ou immunodép.)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="5">Pneumonie, Bactériémie, Inf. intra-abdominale, Infection urinaire, Dermo-hypodermite</td>
-      <td>Cotrimoxazole</td>
-      <td rowspan="5">
-        Ceftazidime 4–6 g/24h IVSE<br>
-        Lévofloxacine 500 mg ×2/j IV/PO<br>
-        Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
-        (Ticar/Clav. : arrêt de commercialisation 2014)
-      </td>
-    </tr>
-    <tr><td>Bactériémie</td></tr>
-    <tr><td>Inf. intra-abdominale</td></tr>
-    <tr><td>Infection urinaire</td></tr>
-    <tr><td>Dermo-hypodermite</td></tr>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th>Site infectieux</th>
+        <th>1ère intention</th>
+        <th>Alternatives ou bithérapie (si grave ou immunodépressé)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pneumonie</td>
+        <td rowspan="5">Cotrimoxazole</td> <!-- 1ère intention commune pour tous -->
+        <td rowspan="5">
+          Ceftazidime 4-6g/24h IVSE<br>
+          Lévofloxacine 500mg x2/j IV/PO<br>
+          Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous<br>
+          (Ticar/Clav. : arrêt de commercialisation 2014)
+        </td>
+      </tr>
+      <tr><td>Bactériémie</td></tr>
+      <tr><td>Inf. intra-abdominale</td></tr>
+      <tr><td>Infection urinaire</td></tr>
+      <tr><td>Dermo-hypodermite</td></tr>
+    </tbody>
+  </table>`
 
 
   choc: `
