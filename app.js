@@ -823,10 +823,16 @@ BACTERIA_DATA.steno = {
 
  siteAtb: `
     <table class="simple">
-      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives ou bithérapie (si grave ou immunodép.)</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Site infectieux</th>
+          <th>1ère intention</th>
+          <th>Alternatives ou bithérapie (si grave ou immunodépressé)</th>
+        </tr>
+      </thead>
       <tbody>
         <tr>
-          <td>Pneumonie</td>
+          <td rowspan="5">Pneumonie, Bactériémie, Inf. intra-abdominale, Infection urinaire, Dermo-hypodermite</td>
           <td>Cotrimoxazole</td>
           <td>
             Ceftazidime 4–6 g/24h IVSE<br>
@@ -835,12 +841,9 @@ BACTERIA_DATA.steno = {
             (Ticar/Clav. : arrêt de commercialisation 2014)
           </td>
         </tr>
-        <tr><td>Bactériémie</td><td></td><td></td></tr>
-        <tr><td>Inf. intra-abdominale</td><td></td><td></td></tr>
-        <tr><td>Infection urinaire</td><td></td><td></td></tr>
-        <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
       </tbody>
     </table>`, // :contentReference[oaicite:7]{index=7}
+
 
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
