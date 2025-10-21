@@ -350,7 +350,6 @@ function renderBacteriaPage(slug, data){
 
       <div class="actions">
         <button class="btn ghost" onclick="history.back()">← Retour</button>
-        <button class="btn" onclick="location.hash='#/adaptee'">Menu « Antibiothérapie adaptée »</button>
       </div>
     </div>
   `;
