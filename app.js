@@ -840,7 +840,7 @@ BACTERIA_DATA.steno = {
         <tr><td>Infection urinaire</td><td></td><td></td></tr>
         <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
       </tbody>
-    </table>`,
+    </table>`, // :contentReference[oaicite:7]{index=7}
 
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
