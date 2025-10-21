@@ -613,3 +613,29 @@ table.simple th, table.simple td,
 table.pheno th, table.pheno td {
   white-space: nowrap; /* Eviter les retours à la ligne dans les cellules */
 }
+
+/* Appliquer le défilement horizontal à l'intérieur de l'encadré pour les tableaux */
+.info-card .info-content {
+  overflow-x: auto !important;  /* Permet le défilement horizontal à l'intérieur des encadrés */
+  -webkit-overflow-scrolling: touch; /* Pour un défilement fluide sur mobile */
+  white-space: nowrap;  /* Empêche le retour à la ligne à l'intérieur des tableaux */
+}
+
+/* Appliquer les styles pour que le tableau prenne toute la largeur sans être limité */
+.info-card table {
+  width: 100% !important;    /* Le tableau prend toute la largeur de l'encadré */
+  min-width: 800px !important; /* Si nécessaire, définir une largeur minimale pour éviter que les colonnes soient trop petites */
+  table-layout: auto;         /* Permet aux colonnes de s'ajuster automatiquement */
+  border-collapse: collapse;  /* S'assurer que les bordures se fusionnent proprement */
+}
+
+/* Réduire la taille de la police dans les tableaux pour les appareils mobiles */
+@media (max-width: 768px) {
+  .info-card table {
+    font-size: 12px !important;  /* Police plus petite pour les tableaux */
+  }
+  .info-card .info-content {
+    font-size: 12px !important;  /* Réduit la taille de la police dans les contenus des encadrés */
+  }
+}
+
