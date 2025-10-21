@@ -493,3 +493,34 @@ table.pheno th, table.pheno td {
   }
   .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
 }
+
+/* =========================================================
+   ✅ Optimisation mobile pour encadrés avec tableaux
+   ========================================================= */
+
+/* Défilement horizontal dans les tableaux dans les 4 derniers encadrés */
+@media (max-width: 768px) {
+  .info-card:nth-child(4),  /* Phénotype habituel */
+  .info-card:nth-child(5),  /* Antibiotique de référence */
+  .info-card:nth-child(6),  /* Antibiotique selon le site infectieux */
+  .info-card:nth-child(7) { /* Ajout si choc septique */
+    overflow-x: auto !important; /* Permet le défilement horizontal des tableaux uniquement */
+    -webkit-overflow-scrolling: touch;  /* Défilement fluide */
+    white-space: nowrap;               /* Evite les retours à la ligne dans les tableaux */
+  }
+
+  /* Ajustement des tailles des tableaux pour qu'ils prennent toute la largeur possible sans rognage */
+  .info-card table {
+    width: 100% !important;   /* Les tableaux prennent toute la largeur de l'encadré */
+    table-layout: fixed;      /* Les colonnes seront réparties automatiquement */
+    min-width: 720px;         /* Si les colonnes sont trop étroites, on garde une taille minimale */
+  }
+
+  /* Ajustement de la taille de la police dans les tableaux */
+  table.simple th, table.simple td,
+  table.pheno th, table.pheno td {
+    font-size: 13px !important;     /* Taille de police plus petite sur mobile */
+    padding: 4px 6px;
+  }
+}
+
