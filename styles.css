@@ -591,3 +591,26 @@ html, body {
   .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
 }
 
+/* Forcer les tableaux à être responsives */
+table.simple, table.pheno {
+  width: 100% !important; /* Assurez-vous que le tableau prend toute la largeur */
+  table-layout: fixed; /* Pour ajuster la taille des colonnes automatiquement */
+  border-collapse: collapse;
+}
+
+/* Appliquer un défilement horizontal à l'intérieur des tableaux */
+.info-card .info-content {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch; /* Défilement fluide sur mobile */
+}
+
+.info-card .info-content table {
+  width: 100% !important; /* S'assurer que le tableau prend la largeur de l'encadré */
+  min-width: 720px; /* Si nécessaire, ajuster la largeur minimale */
+}
+
+table.simple th, table.simple td,
+table.pheno th, table.pheno td {
+  white-space: nowrap; /* Eviter les retours à la ligne dans les cellules */
+}
+
