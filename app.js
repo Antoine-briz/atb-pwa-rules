@@ -771,11 +771,113 @@ BACTERIA_DATA.acineto = {
 
 BACTERIA_DATA.steno = {
   title: "Stenotrophomonas maltophilia",
+  definition: `
+    <em>Stenotrophomonas maltophilia</em> est un BGN non fermentant de l’environnement et de la flore intestinale de l’homme,
+    ayant un pouvoir pathogène en milieu nosocomial, et caractérisé par de nombreuses résistances naturelles
+    induites par la pression de sélection antibiotique.`, // :contentReference[oaicite:2]{index=2}
 
-  choc: `
-    <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
-    <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
-    <em>Cotrimoxazole + Lévofloxacine</em>.</p>`
+  mecanisme: `
+    <p><em>S. maltophilia</em> présente des résistances naturelles contre :</p>
+    <p><strong>Les béta-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
+    β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
+    β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
+    <p><strong>Les aminosides</strong> : Modification des aminosides par les enzymes : APH-3’, ANT-2’, AAC-6’</p>
+    <p><strong>Autres</strong> : La colistine et la fosfomycine</p>`, // :contentReference[oaicite:3]{index=3}
+
+  epidemio: `
+    Les souches invasives de <em>S. maltophilia</em> sont toujours résistantes aux béta-lactamines
+    (sauf Ceftazidime : résistance dans 30% des cas), toujours résistantes aux aminosides,
+    et résistantes à la Lévofloxacine dans 20% des cas. Elles sont sensibles au Cotrimoxazole dans 96% des cas
+    (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
+
+  phenotype: `
+  <table class="simple">
+    <thead>
+      <tr>
+        <th><em>S. maltophilia</em></th>
+        <th>Sauvage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Pipéracilline</td><td>R</td></tr>
+      <tr><td>Pipé/Tazo.</td><td>R</td></tr>
+      <tr><td>Ceftazidime</td><td>S/I</td></tr>
+      <tr><td>Céfépime</td><td>R</td></tr>
+      <tr><td>Aztréonam</td><td>R</td></tr>
+      <tr><td>Imi/méropénème</td><td>R</td></tr>
+      <tr><td>Lévofloxacine</td><td>S (80% des cas)</td></tr>
+      <tr><td>Aminosides</td><td>R</td></tr>
+      <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td></tr>
+    </tbody>
+  </table>`,
+
+  refAtb: `
+    <table class="simple">
+      <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets secondaires</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Cotrimoxazole</td>
+          <td>20+100 mg/kg/j PO/IV (dose max)</td>
+          <td>S : CMI ≤ 0,001 mg/L<br>R : CMI &gt; 4 mg/L</td>
+          <td>Neutropénies, néphrotox., neurotox., hépatotox., sd Lyell &amp; SJ</td>
+        </tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:6]{index=6}
+
+siteAtb: `
+    <table class="simple">
+      <thead>
+        <tr>
+          <th>Site infectieux</th>
+          <th>1ère intention</th>
+          <th>Alternatives ou bithérapie (si grave ou immunodépressé)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pneumonie</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Bactériémie</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Inf. intra-abdominale</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO<br>
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
+          </td>
+        </tr>
+        <tr>
+          <td>Infection urinaire</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Dermo-hypodermite</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO<br>
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
+          </td>
+        </tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:7]{index=7}
 };
 
 BACTERIA_DATA.carba = {
