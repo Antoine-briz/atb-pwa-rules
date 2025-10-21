@@ -791,25 +791,26 @@ BACTERIA_DATA.steno = {
     (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
 
   phenotype: `
-      <table class="simple">
-        <thead>
-          <tr>
-            <th><em>S. maltophilia</em></th><th>Sauvage</th>
-            <th>AMPc</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Amoxicilline</td><td>R</td><td>S</td></tr>
-          <tr><td>Pipéracilline</td><td>S</td><td>I</td></tr>
-          <tr><td>Ceftazidime</td><td>R</td><td>S</td></tr>
-          <tr><td>Céfépime</td><td>R</td><td>S</td></tr>
-          <tr><td>Aztréonam</td><td>R</td><td>S</td></tr>
-          <tr><td>Imi/méropénème</td><td>R</td><td>S</td></tr>
-          <tr><td>Lévofloxacine</td><td>S (80% des cas)</td><td>–</td></tr>
-          <tr><td>Aminosides</td><td>R</td><td>–</td></tr>
-          <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td><td>–</td></tr>
-        </tbody>
-      </table>`,
+  <table class="simple">
+    <thead>
+      <tr>
+        <th><em>S. maltophilia</em></th>
+        <th>Sauvage</th>
+        <th>AMPc</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Pipéracilline</td><td>R</td><td>–</td></tr>
+      <tr><td>Pipé/Tazo.</td><td>R</td><td>–</td></tr>
+      <tr><td>Ceftazidime</td><td>S/I</td><td>–</td></tr>
+      <tr><td>Céfépime</td><td>R</td><td>–</td></tr>
+      <tr><td>Aztréonam</td><td>R</td><td>–</td></tr>
+      <tr><td>Imi/méropénème</td><td>R</td><td>–</td></tr>
+      <tr><td>Lévofloxacine</td><td>S (80% des cas)</td><td>–</td></tr>
+      <tr><td>Aminosides</td><td>R</td><td>–</td></tr>
+      <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td><td>–</td></tr>
+    </tbody>
+  </table>`
 
   refAtb: `
     <table class="simple">
