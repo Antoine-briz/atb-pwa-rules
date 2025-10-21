@@ -383,125 +383,130 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 }
 
 /* =========================================================
-   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée (v3)
+   ✅ Antibiothérapie adaptée — Correctifs mobiles (v4)
    ========================================================= */
 
-/* 1️⃣  Header non collant sur mobile */
+/* 0) Base safe pour éviter toute rogne */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;   /* pas de scroll horizontal global */
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+/* 1) Header non collant sur mobile */
 @media (max-width: 768px) {
   .app-header {
     position: static !important;
     top: auto !important;
   }
-  body {
-    padding-top: 0 !important;
-  }
+  body { padding-top: 0 !important; }
 }
 
-/* 2️⃣  Encadrés pleine largeur + images adaptatives */
-.info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* 2) Conteneur de page bactérie : largeur écran, centré */
+.bact-page {
+  width: 100% !important;
+  max-width: 100vw !important;
+  margin: 0 auto !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
 }
 
-.info-card,
-.bact-hero,
-.bact-hero img {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.bact-hero img {
+/* 3) Titre et image bien centrés, sans débordement */
+.title-badge {
   display: block;
-  width: 100%;
-  height: auto;
+  text-align: center !important;
+  margin: 12px auto 8px auto !important;
+  max-width: 90vw !important;
+}
+.bact-hero {
+  width: 100% !important;
+  max-width: 100% !important;
+  text-align: center !important;
+}
+.bact-hero img {
+  display: block !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 auto !important;
   border-radius: 12px;
 }
 
-/* Style général des encadrés */
+/* 4) Encadrés en pile verticale, pleine largeur cadrée */
+.info-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
 .info-card {
-  color: black !important;
-  background-color: #f9f9f9;
+  width: 100% !important;
+  max-width: 100% !important;
+  color: #000 !important;
+  background: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  overflow-x: auto; /* autorise le défilement horizontal des tableaux */
-  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 12px !important;
+  overflow-x: visible !important;              /* pas de scroll au niveau de l’encadré */
 }
-
-/* En-têtes et contenus d'encadrés */
 .info-card h3 {
-  margin-top: 0;
-  font-size: 1.1rem;
+  margin: 0 0 8px 0 !important;
+  font-size: 16px !important;
   color: #2b5797;
 }
 
-.info-content {
-  font-size: 0.95rem;
-  line-height: 1.45;
-  margin-top: 0.5rem;
+/* 5) Le scroll horizontal est AUTORISÉ DANS LE CONTENU des encadrés
+      (utile uniquement quand il y a un tableau trop large) */
+.info-card .info-content {
+  overflow-x: auto !important;                 /* scroll horizontal local */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* 3️⃣  Police et espacement adaptés sur mobile + marges équilibrées */
-@media (max-width: 768px) {
-  .info-card { padding: 10px; }
-  .info-card h3 { font-size: 15px; }
-  .info-content { font-size: 12.5px; line-height: 1.4; }
-
-  /* marges latérales équilibrées et suffisantes */
-  .bact-page {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-}
-
-/* 4️⃣  Tables : scroll horizontal à l’intérieur des encadrés */
-.info-card table {
-  width: 100%;
-  min-width: 600px; /* garantit lisibilité, scroll si trop large */
+/* 6) Tables : ne forcent pas la largeur de la page, mais peuvent dépasser L’ENCADRÉ
+      => l’utilisateur scrolle à l’intérieur de l’encadré pour les voir en entier */
+.info-card .info-content table {
+  display: table !important;
+  width: auto !important;                      /* PAS 100%, pour autoriser le dépassement contrôlé */
+  min-width: 720px;                            /* lisible; ajuste à 600–800 si besoin */
   border-collapse: collapse;
-  background-color: white;
+  background: #fff;
+  margin: 0;                                   /* pas de marge qui pousserait hors écran */
 }
 
-.info-card th,
-.info-card td {
+/* Cellules lisibles, compactes */
+.info-card .info-content th,
+.info-card .info-content td {
   border: 1px solid #ddd;
   padding: 6px 8px;
   text-align: left;
   vertical-align: top;
-  font-size: 0.9rem;
-  color: black;
+  color: #000 !important;
+  font-size: 13px;                             /* plus petit */
+  line-height: 1.35;
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
 }
-
-.info-card th {
-  background-color: #f5f7fa;
+.info-card .info-content th {
+  background: #f5f7fa;
   font-weight: 600;
 }
 
+/* 7) Mobile : texte un peu plus petit encore + marges équilibrées */
 @media (max-width: 768px) {
-  .info-card th,
-  .info-card td {
-    font-size: 11.5px;
-    padding: 4px 6px;
-  }
+  .info-card { padding: 10px !important; }
+  .info-card h3 { font-size: 15px !important; }
+  .info-card .info-content { font-size: 12px !important; }
+  .bact-page { padding-left: 14px !important; padding-right: 14px !important; }
 }
 
-/* 5️⃣  Supprime le scroll horizontal global (mais autorisé dans encadrés) */
-html, body, .bact-page {
-  max-width: 100%;
-  overflow-x: hidden;
+/* 8) Optionnel: petite barre de scroll douce dans les encadrés */
+.info-card .info-content::-webkit-scrollbar { height: 8px; }
+.info-card .info-content::-webkit-scrollbar-thumb {
+  background: #bbb; border-radius: 4px;
 }
-
-/* 6️⃣  Barre de défilement douce dans les encadrés */
-.info-card::-webkit-scrollbar {
-  height: 8px;
-}
-.info-card::-webkit-scrollbar-thumb {
-  background: #bbb;
-  border-radius: 4px;
-}
-.info-card::-webkit-scrollbar-thumb:hover {
-  background: #888;
-}
+.info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
