@@ -614,28 +614,46 @@ table.pheno th, table.pheno td {
   white-space: nowrap; /* Eviter les retours à la ligne dans les cellules */
 }
 
-/* Appliquer le défilement horizontal à l'intérieur de l'encadré pour les tableaux */
+/* Appliquer une barre de défilement horizontal à l'intérieur de l'encadré */
 .info-card .info-content {
-  overflow-x: auto !important;  /* Permet le défilement horizontal à l'intérieur des encadrés */
-  -webkit-overflow-scrolling: touch; /* Pour un défilement fluide sur mobile */
-  white-space: nowrap;  /* Empêche le retour à la ligne à l'intérieur des tableaux */
+  overflow-x: auto !important; /* Permet le défilement horizontal à l'intérieur du tableau */
+  -webkit-overflow-scrolling: touch; /* Pour le défilement fluide sur mobile */
 }
 
-/* Appliquer les styles pour que le tableau prenne toute la largeur sans être limité */
+/* Appliquer une largeur maximale à l'encadré pour s'assurer qu'il ne dépasse pas de l'écran */
+.info-card {
+  width: 100%;               /* L'encadré occupe toute la largeur de l'écran */
+  max-width: 100%;           /* Assurer qu'il ne dépasse pas la largeur de l'écran */
+  box-sizing: border-box;    /* Inclure la bordure et le padding dans la largeur totale */
+  overflow: hidden;          /* Empêcher tout débordement de l'encadré */
+}
+
+/* Appliquer un défilement horizontal pour le tableau, et permettre le dépassement */
 .info-card table {
-  width: 100% !important;    /* Le tableau prend toute la largeur de l'encadré */
-  min-width: 800px !important; /* Si nécessaire, définir une largeur minimale pour éviter que les colonnes soient trop petites */
-  table-layout: auto;         /* Permet aux colonnes de s'ajuster automatiquement */
-  border-collapse: collapse;  /* S'assurer que les bordures se fusionnent proprement */
+  width: 100%;              /* Le tableau prend toute la largeur de l'encadré */
+  table-layout: auto;       /* Les colonnes s'ajustent automatiquement */
+  min-width: 800px;         /* Minimum pour éviter des colonnes trop étroites */
+  border-collapse: collapse;/* Fusionne les bordures du tableau */
 }
 
-/* Réduire la taille de la police dans les tableaux pour les appareils mobiles */
+/* Limiter le contenu à la largeur des cellules (éviter les dépassements dans les cellules) */
+.info-card table td,
+.info-card table th {
+  white-space: nowrap;      /* Empêche le texte de passer à la ligne dans les cellules */
+  overflow: hidden;         /* Cache les parties du contenu qui dépassent la cellule */
+  text-overflow: ellipsis;  /* Affiche "..." si le texte dépasse */
+  padding: 6px 8px;         /* Espacement autour du texte */
+}
+
+/* Pour les petits écrans, réduire la taille de la police dans les tableaux */
 @media (max-width: 768px) {
   .info-card table {
-    font-size: 12px !important;  /* Police plus petite pour les tableaux */
+    font-size: 12px !important; /* Réduit la taille de la police pour mobile */
   }
+
+  /* Réduit la taille de la police du contenu des encadrés */
   .info-card .info-content {
-    font-size: 12px !important;  /* Réduit la taille de la police dans les contenus des encadrés */
+    font-size: 12px !important;
   }
 }
 
