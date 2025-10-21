@@ -790,27 +790,6 @@ BACTERIA_DATA.steno = {
     et résistantes à la Lévofloxacine dans 20% des cas. Elles sont sensibles au Cotrimoxazole dans 96% des cas
     (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
 
-  phenotype: `
-  <table class="simple">
-    <thead>
-      <tr>
-        <th><em>S. maltophilia</em></th>
-        <th>Sauvage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Pipéracilline</td><td>R</td></tr>
-      <tr><td>Pipé/Tazo.</td><td>R</td></tr>
-      <tr><td>Ceftazidime</td><td>S/I</td></tr>
-      <tr><td>Céfépime</td><td>R</td></tr>
-      <tr><td>Aztréonam</td><td>R</td></tr>
-      <tr><td>Imi/méropénème</td><td>R</td></tr>
-      <tr><td>Lévofloxacine</td><td>S (80% des cas)</td></tr>
-      <tr><td>Aminosides</td><td>R</td></tr>
-      <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td></tr>
-    </tbody>
-  </table>`,
-
   refAtb: `
     <table class="simple">
       <thead><tr><th>Molécule</th><th>Posologie</th><th>BP EUCAST</th><th>Effets secondaires</th></tr></thead>
