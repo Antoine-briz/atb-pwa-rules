@@ -776,43 +776,42 @@ BACTERIA_DATA.acineto = {
       </tbody>
     </table>`,
   siteAtb: `
-    <table class="simple">
-      <thead>
-        <tr>
-          <th>Site infectieux</th>
-          <th>1ère intention</th>
-          <th>Alternatives (dont allergies β-lactamines)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Pneumonie</td>
-          <td>Ampicilline-sulbactam + autre antibiotique</td>
-          <td>Bithérapie associant : Méropénème (sauf allergie), Colistine ou Amikacine</td>
-        </tr>
-        <tr>
-          <td>Bactériémie</td>
-          <td>Ampicilline-sulbactam + autre antibiotique</td>
-          <td>Bithérapie associant : Méropénème (sauf allergie), Amikacine</td>
-        </tr>
-        <tr>
-          <td>Inf. intra-abdominale</td>
-          <td>Ampicilline-sulbactam + autre antibiotique</td>
-          <td>Bithérapie associant : Méropénème (sauf allergie), Tigécycline, ou Amikacine</td>
-        </tr>
-        <tr>
-          <td>Infection urinaire</td>
-          <td>Ampicilline-sulbactam + autre antibiotique</td>
-          <td>Bithérapie associant : Méropénème (sauf allergie), Amikacine</td>
-        </tr>
-        <tr>
-          <td>Dermo-hypodermite</td>
-          <td>Ampicilline-sulbactam + autre antibiotique</td>
-          <td>Bithérapie associant : Méropénème (sauf allergie), Tigécycline, ou Amikacine</td>
-        </tr>
-      </tbody>
-    </table>
-`, // :contentReference[oaicite:9]{index=9}
+  <table class="simple">
+    <thead>
+      <tr>
+        <th>Site infectieux</th>
+        <th>1ère intention</th>
+        <th>Alternatives (dont allergies β-lactamines)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pneumonie</td>
+        <td>Ampicilline-sulbactam + autre antibiotique</td>
+        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Colistine 9–12 MUI x3/j IV / Amikacine 25–30 mg/kg IV</td>
+      </tr>
+      <tr>
+        <td>Bactériémie</td>
+        <td>Ampicilline-sulbactam + autre antibiotique</td>
+        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Amikacine 25–30 mg/kg IV</td>
+      </tr>
+      <tr>
+        <td>Inf. intra-abdominale</td>
+        <td>Ampicilline-sulbactam + autre antibiotique</td>
+        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Tigécycline 100 mg puis 50 mg x2/j IV, Amikacine 25–30 mg/kg IV</td>
+      </tr>
+      <tr>
+        <td>Infection urinaire</td>
+        <td>Ampicilline-sulbactam + autre antibiotique</td>
+        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Amikacine 25–30 mg/kg IV</td>
+      </tr>
+      <tr>
+        <td>Dermo-hypodermite</td>
+        <td>Ampicilline-sulbactam + autre antibiotique</td>
+        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Tigécycline 100 mg puis 50 mg x2/j IV, Amikacine 25–30 mg/kg IV</td>
+      </tr>
+    </tbody>
+  </table>`,
 
   choc: `
     <table class="simple">
