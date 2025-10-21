@@ -580,3 +580,61 @@ table.simple, table.pheno {
   }
 }
 
+/* Titres des encadrés - Mise en valeur avec une taille plus grande et couleur bleue */
+.info-card h3 {
+  color: #2b5797;  /* Bleu pour le titre */
+  font-size: 18px;  /* Taille de police plus grande */
+  font-weight: 700;  /* Plus gras pour un meilleur contraste */
+  margin-bottom: 12px;  /* Un peu d'espace en dessous */
+  border-bottom: 2px solid #2b5797; /* Une ligne sous le titre pour mieux le séparer du contenu */
+  padding-bottom: 8px;  /* Espace entre le titre et la ligne sous le titre */
+}
+
+/* Mise en valeur des points et tirets dans le contenu des encadrés */
+.info-card .info-content {
+  font-size: 14px;         /* Un peu plus grand pour le contenu des encadrés */
+  line-height: 1.6;        /* Espacement entre les lignes pour améliorer la lisibilité */
+}
+
+.info-card .info-content li {
+  font-size: 14px;         /* Taille de texte pour les éléments de liste */
+  color: #333;             /* Couleur du texte */
+  margin-bottom: 8px;      /* Espacement entre les items de la liste */
+  list-style-type: disc;   /* Un style de puce classique pour les listes */
+}
+
+.info-card .info-content ul {
+  padding-left: 20px;      /* Espacement à gauche pour les listes */
+}
+
+/* Rétablir les bordures des tableaux */
+table.simple, table.pheno {
+  width: 100%;
+  border-collapse: collapse; /* Fusionner les bordures des cellules */
+  font-size: 14px;
+  background-color: white;
+}
+
+/* Rétablir les bordures de toutes les cellules du tableau */
+table.simple th, table.simple td,
+table.pheno th, table.pheno td {
+  border: 1px solid #ddd;  /* Bordure légère pour les cellules */
+  padding: 6px 8px;         /* Un peu d'espace dans les cellules */
+  vertical-align: top;
+  color: black;             /* Texte en noir pour les cellules */
+}
+
+table.simple th, table.pheno th {
+  background: #f5f7fa;      /* Fond clair pour les entêtes */
+  font-weight: 600;          /* Police en gras pour les entêtes */
+}
+
+/* Assurez-vous que les lignes de tableau soient visibles sur mobile aussi */
+@media (max-width: 768px) {
+  table.simple th, table.simple td,
+  table.pheno th, table.pheno td {
+    font-size: 12px !important;  /* Réduire la taille de la police pour une meilleure lisibilité sur mobile */
+    padding: 4px 6px;
+  }
+}
+
