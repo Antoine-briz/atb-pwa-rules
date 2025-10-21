@@ -382,3 +382,92 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
   }
 }
 
+/* =========================================================
+   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée
+   ========================================================= */
+
+/* 1️⃣  Header non collant sur mobile */
+@media (max-width: 768px) {
+  .app-header {
+    position: static !important;   /* ne reste plus visible au scroll */
+    top: auto !important;
+  }
+  body {
+    padding-top: 0 !important;     /* supprime le décalage éventuel du header */
+  }
+}
+
+/* 2️⃣  Encadrés pleine largeur + images ajustées + police réduite */
+.info-grid {
+  display: flex;
+  flex-direction: column; /* disposition verticale */
+  gap: 12px;
+}
+
+.info-card,
+.bact-hero,
+.bact-hero img {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.bact-hero img {
+  display: block;
+  height: auto;
+  border-radius: 12px;
+}
+
+.info-card {
+  color: black !important;  /* texte toujours lisible */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+/* Police et espacement adaptés sur mobile */
+@media (max-width: 768px) {
+  .info-card { padding: 10px; }
+  .info-card h3 { font-size: 16px; }
+  .info-content { font-size: 14px; line-height: 1.45; }
+  .bact-page { padding-left: 10px; padding-right: 10px; }
+}
+
+/* 3️⃣  Tables : suppression du défilement horizontal et mise en page fluide */
+html, body, .bact-page {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+table.simple, table.pheno {
+  width: 100%;
+  table-layout: fixed;          /* répartit les colonnes automatiquement */
+  border-collapse: collapse;
+}
+
+table.simple th, table.simple td,
+table.pheno th, table.pheno td {
+  white-space: normal;          /* permet le retour à la ligne */
+  word-break: break-word;
+  hyphens: auto;
+  padding: 6px 8px;
+  vertical-align: top;
+  font-size: 14px;
+  color: black;                 /* texte toujours bien lisible */
+}
+
+.info-card table { min-width: 0 !important; }
+
+/* Réduction supplémentaire sur petit écran */
+@media (max-width: 768px) {
+  table.simple th, table.simple td,
+  table.pheno th, table.pheno td {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+}
+
+
+
