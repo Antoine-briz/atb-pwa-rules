@@ -821,7 +821,7 @@ BACTERIA_DATA.steno = {
       </tbody>
     </table>`, // :contentReference[oaicite:6]{index=6}
 
- siteAtb: `
+siteAtb: `
     <table class="simple">
       <thead>
         <tr>
@@ -832,18 +832,49 @@ BACTERIA_DATA.steno = {
       </thead>
       <tbody>
         <tr>
-          <td rowspan="5">Pneumonie, Bactériémie, Inf. intra-abdominale, Infection urinaire, Dermo-hypodermite</td>
+          <td>Pneumonie</td>
           <td>Cotrimoxazole</td>
           <td>
-            Ceftazidime 4–6 g/24h IVSE<br>
-            Lévofloxacine 500 mg ×2/j IV/PO<br>
-            Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
-            (Ticar/Clav. : arrêt de commercialisation 2014)
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Bactériémie</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Inf. intra-abdominale</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO<br>
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
+          </td>
+        </tr>
+        <tr>
+          <td>Infection urinaire</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO
+          </td>
+        </tr>
+        <tr>
+          <td>Dermo-hypodermite</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4-6g/24h IVSE<br>
+            Lévofloxacine 500mg x2/j IV/PO<br>
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
           </td>
         </tr>
       </tbody>
     </table>`, // :contentReference[oaicite:7]{index=7}
-
 
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
