@@ -821,13 +821,13 @@ BACTERIA_DATA.steno = {
       </tbody>
     </table>`, // :contentReference[oaicite:6]{index=6}
 
-  siteAtb: `
+ siteAtb: `
   <table class="simple">
     <thead>
       <tr>
         <th>Site infectieux</th>
-        <th colspan="2">1ère intention</th>
-        <th colspan="2">Alternatives ou bithérapie (si grave ou immunodépressé)</th>
+        <th>1ère intention</th>
+        <th>Alternatives ou bithérapie (si grave ou immunodépressé)</th>
       </tr>
     </thead>
     <tbody>
@@ -847,7 +847,7 @@ BACTERIA_DATA.steno = {
       <tr><td>Dermo-hypodermite</td></tr>
     </tbody>
   </table>`, // :contentReference[oaicite:7]{index=7}
-
+/ :contentReference[oaicite:7]{index=7}
 
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
