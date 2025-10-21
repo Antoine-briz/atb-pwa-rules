@@ -880,10 +880,8 @@ siteAtb: `
     </table>`, 
 
   choc: `
-  <div class="info-card">
       <p><strong>Aminosides :</strong> S. maltophilia est résistante aux aminosides</p>
       <p><strong>Bithérapie :</strong> Bithérapie à envisager dans les formes sévères et immunodépression</p>
-  </div>
 `,
 };
 
