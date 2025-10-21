@@ -383,24 +383,24 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 }
 
 /* =========================================================
-   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée
+   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée (v3)
    ========================================================= */
 
 /* 1️⃣  Header non collant sur mobile */
 @media (max-width: 768px) {
   .app-header {
-    position: static !important;   /* ne reste plus visible au scroll */
+    position: static !important;
     top: auto !important;
   }
   body {
-    padding-top: 0 !important;     /* supprime le décalage éventuel du header */
+    padding-top: 0 !important;
   }
 }
 
-/* 2️⃣  Encadrés pleine largeur + images ajustées + police réduite */
+/* 2️⃣  Encadrés pleine largeur + images adaptatives */
 .info-grid {
   display: flex;
-  flex-direction: column; /* disposition verticale */
+  flex-direction: column;
   gap: 12px;
 }
 
@@ -414,60 +414,94 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 
 .bact-hero img {
   display: block;
+  width: 100%;
   height: auto;
   border-radius: 12px;
 }
 
+/* Style général des encadrés */
 .info-card {
-  color: black !important;  /* texte toujours lisible */
+  color: black !important;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  overflow-x: auto; /* autorise le défilement horizontal des tableaux */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Police et espacement adaptés sur mobile */
+/* En-têtes et contenus d'encadrés */
+.info-card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #2b5797;
+}
+
+.info-content {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin-top: 0.5rem;
+}
+
+/* 3️⃣  Police et espacement adaptés sur mobile + marges équilibrées */
 @media (max-width: 768px) {
   .info-card { padding: 10px; }
-  .info-card h3 { font-size: 16px; }
-  .info-content { font-size: 14px; line-height: 1.45; }
-  .bact-page { padding-left: 10px; padding-right: 10px; }
+  .info-card h3 { font-size: 15px; }
+  .info-content { font-size: 12.5px; line-height: 1.4; }
+
+  /* marges latérales équilibrées et suffisantes */
+  .bact-page {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 }
 
-/* 3️⃣  Tables : suppression du défilement horizontal et mise en page fluide */
+/* 4️⃣  Tables : scroll horizontal à l’intérieur des encadrés */
+.info-card table {
+  width: 100%;
+  min-width: 600px; /* garantit lisibilité, scroll si trop large */
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.info-card th,
+.info-card td {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.9rem;
+  color: black;
+}
+
+.info-card th {
+  background-color: #f5f7fa;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .info-card th,
+  .info-card td {
+    font-size: 11.5px;
+    padding: 4px 6px;
+  }
+}
+
+/* 5️⃣  Supprime le scroll horizontal global (mais autorisé dans encadrés) */
 html, body, .bact-page {
   max-width: 100%;
   overflow-x: hidden;
 }
 
-table.simple, table.pheno {
-  width: 100%;
-  table-layout: fixed;          /* répartit les colonnes automatiquement */
-  border-collapse: collapse;
+/* 6️⃣  Barre de défilement douce dans les encadrés */
+.info-card::-webkit-scrollbar {
+  height: 8px;
 }
-
-table.simple th, table.simple td,
-table.pheno th, table.pheno td {
-  white-space: normal;          /* permet le retour à la ligne */
-  word-break: break-word;
-  hyphens: auto;
-  padding: 6px 8px;
-  vertical-align: top;
-  font-size: 14px;
-  color: black;                 /* texte toujours bien lisible */
+.info-card::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
 }
-
-.info-card table { min-width: 0 !important; }
-
-/* Réduction supplémentaire sur petit écran */
-@media (max-width: 768px) {
-  table.simple th, table.simple td,
-  table.pheno th, table.pheno td {
-    font-size: 13px;
-    padding: 4px 6px;
-  }
+.info-card::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
-
-
-
