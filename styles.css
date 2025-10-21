@@ -437,11 +437,9 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
   .bact-page { padding-left: 10px; padding-right: 10px; width: 100%; } /* Assure que la page bactérie prend toute la largeur */
 }
 
-/* 3️⃣  Tables : suppression du défilement horizontal global et mise en page fluide */
-html, body, .bact-page {
-  max-width: 100%;
-  overflow-x: hidden; /* pas de défilement horizontal global */
-}
+/* =========================================================
+   ✅ Optimisation mobile pour occuper toute la largeur
+   ========================================================= */
 
 table.simple, table.pheno {
   width: 100%;
@@ -492,6 +490,35 @@ table.pheno th, table.pheno td {
   table.pheno th, table.pheno td {
     font-size: 12px !important;     /* Taille de police plus petite sur mobile */
     padding: 4px 6px;
+  }
+}
+
+/* S'assurer que la largeur du body et de la page est correcte */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;             /* empêche les débordements */
+  max-width: 100%;         /* empêche les débordements */
+  overflow-x: hidden;      /* évite le défilement horizontal */
+}
+
+.bact-page {
+  width: 100%;             /* occupe toute la largeur de l'écran */
+  max-width: 100%;         /* empêche la largeur de dépasser l'écran */
+  box-sizing: border-box;  /* inclut padding et bordures dans la largeur */
+}
+
+/* Pour les encadrés, il faut s'assurer qu'ils prennent toute la largeur */
+.info-card {
+  width: 100%;             /* occupe toute la largeur disponible */
+  max-width: 100%;         /* empêche le dépassement */
+  box-sizing: border-box;  /* empêche les bordures/paddings de dépasser */
+}
+
+/* On peut également réduire le padding des encadrés sur mobile pour plus de confort */
+@media (max-width: 768px) {
+  .info-card {
+    padding: 10px;         /* padding plus réduit pour optimiser l'espace */
   }
 }
 
