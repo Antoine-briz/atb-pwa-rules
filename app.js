@@ -881,10 +881,9 @@ siteAtb: `
 
   choc: `
   <div class="info-card">
-    <h3>Si choc septique</h3>
     <div class="info-content">
-      <p><strong>Aminosides :</strong> <S. maltophilia est résistante aux aminosides></p>
-      <p><strong>Bithérapie :</strong> <Bithérapie à envisager dans les formes sévères et immunodépression></p>
+      <p><strong>Aminosides :</strong> S. maltophilia est résistante aux aminosides></p>
+      <p><strong>Bithérapie :</strong> Bithérapie à envisager dans les formes sévères et immunodépression></p>
     </div>
   </div>
 `,
