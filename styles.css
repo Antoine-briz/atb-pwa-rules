@@ -522,5 +522,29 @@ html, body {
   }
 }
 
+/* =========================================================
+   ✅ Titre sur 2 lignes sur mobile
+   ========================================================= */
+
+/* Appliquer un maximum de largeur au titre */
+.title-badge {
+  width: 100%;               /* Le titre prend toute la largeur disponible */
+  max-width: 100%;           /* Il ne dépasse jamais la largeur de l'écran */
+  word-wrap: break-word;     /* Permet au texte de passer à la ligne suivante si nécessaire */
+  text-align: center;        /* Centrer le titre */
+  white-space: normal;       /* Permet au texte de se casser en plusieurs lignes */
+  font-size: 18px;           /* Taille de police ajustée (peut être réduite si besoin) */
+  line-height: 1.3;          /* Espacement entre les lignes pour lisibilité */
+  margin: 0 auto;            /* Centrer le titre */
+}
+
+@media (max-width: 768px) {
+  /* Sur mobile, on peut réduire la taille du titre */
+  .title-badge {
+    font-size: 16px;         /* Réduire la taille du titre sur mobile pour plus de confort */
+    padding-left: 10px;      /* Ajouter un peu de padding à gauche et à droite */
+    padding-right: 10px;
+  }
+}
 
 
