@@ -771,29 +771,6 @@ BACTERIA_DATA.acineto = {
 
 BACTERIA_DATA.steno = {
   title: "Stenotrophomonas maltophilia",
-  definition: `
-    <em>Stenotrophomonas maltophilia</em> est un BGN non fermentant de l’environnement et de la flore intestinale de l’homme,
-    ayant un pouvoir pathogène en milieu nosocomial, et caractérisé par de nombreuses résistances naturelles
-    induites par la pression de sélection antibiotique.`, // :contentReference[oaicite:2]{index=2}
-
-  mecanisme: `
-    <p><em>S. maltophilia</em> présente des résistances naturelles contre :</p>
-    <p><strong>Les béta-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
-    β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
-    β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
-    <p><strong>Les aminosides</strong> : Modification des aminosides par les enzymes : APH-3’, ANT-2’, AAC-6’</p>
-    <p><strong>Autres</strong> : La colistine et la fosfomycine</p>`, // :contentReference[oaicite:3]{index=3}
-
-  epidemio: `
-    Les souches invasives de <em>S. maltophilia</em> sont toujours résistantes aux béta-lactamines
-    (sauf Ceftazidime : résistance dans 30% des cas), toujours résistantes aux aminosides,
-    et résistantes à la Lévofloxacine dans 20% des cas. Elles sont sensibles au Cotrimoxazole dans 96% des cas
-    (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
-
-  choc: `
-    <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
-    <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
-    <em>Cotrimoxazole + Lévofloxacine</em>.</p>` 
 };
 
 BACTERIA_DATA.carba = {
