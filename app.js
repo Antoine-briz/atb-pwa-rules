@@ -878,7 +878,6 @@ siteAtb: `
         </tr>
       </tbody>
     </table>`, 
-  
   choc: `
   <div class="info-card">
     <h3>Ajout si choc septique</h3>
@@ -888,6 +887,7 @@ siteAtb: `
       <em>Cotrimoxazole + Lévofloxacine</em>.</p>
     </div>
   </div>
+`
 };
 
 BACTERIA_DATA.carba = {
