@@ -383,7 +383,7 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 }
 
 /* =========================================================
-   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée
+   ✅ Optimisation mobile pour encadrés avec tableaux
    ========================================================= */
 
 /* 1️⃣  Header non collant sur mobile */
@@ -425,17 +425,19 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  width: 100%;               /* Forces les encadrés à occuper 100% de la largeur */
+  box-sizing: border-box;    /* Inclut les bordures et le padding dans la largeur */
 }
 
 /* Police et espacement adaptés sur mobile */
 @media (max-width: 768px) {
   .info-card { padding: 10px; }
-  .info-card h3 { font-size: 16px; }
-  .info-content { font-size: 14px; line-height: 1.45; }
-  .bact-page { padding-left: 10px; padding-right: 10px; }
+  .info-card h3 { font-size: 14px; }  /* Réduction de la police des titres */
+  .info-content { font-size: 12px; line-height: 1.4; }  /* Réduction de la police du contenu */
+  .bact-page { padding-left: 10px; padding-right: 10px; width: 100%; } /* Assure que la page bactérie prend toute la largeur */
 }
 
-/* 3️⃣  Tables : suppression du défilement horizontal et mise en page fluide */
+/* 3️⃣  Tables : suppression du défilement horizontal global et mise en page fluide */
 html, body, .bact-page {
   max-width: 100%;
   overflow-x: hidden; /* pas de défilement horizontal global */
@@ -452,9 +454,9 @@ table.pheno th, table.pheno td {
   white-space: normal;          /* permet le retour à la ligne */
   word-break: break-word;
   hyphens: auto;
-  padding: 6px 8px;
+  padding: 4px 6px;             /* Réduction du padding pour mieux s'adapter sur mobile */
   vertical-align: top;
-  font-size: 14px;
+  font-size: 12px;              /* Taille de police réduite pour les tableaux sur mobile */
   color: black;                 /* texte toujours bien lisible */
 }
 
@@ -469,13 +471,6 @@ table.pheno th, table.pheno td {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Réduction de la taille de police sur mobile */
-  table.simple th, table.simple td,
-  table.pheno th, table.pheno td {
-    font-size: 13px;             /* Réduction de la police pour mobile */
-    padding: 4px 6px;
-  }
-  
   /* Applique un défilement horizontal sur ces 4 encadrés */
   .info-card:nth-child(4),   /* Phénotype habituel */
   .info-card:nth-child(5),   /* Antibiotique de référence */
@@ -485,42 +480,20 @@ table.pheno th, table.pheno td {
     white-space: nowrap;        /* Evite les retours à la ligne des tableaux */
   }
 
-  /* Optionnel : visuel de la barre de défilement */
-  .info-card .info-content::-webkit-scrollbar { height: 8px; }
-  .info-card .info-content::-webkit-scrollbar-thumb {
-    background: #bbb;
-    border-radius: 4px;
-  }
-  .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
-}
-
-/* =========================================================
-   ✅ Optimisation mobile pour encadrés avec tableaux
-   ========================================================= */
-
-/* Défilement horizontal dans les tableaux dans les 4 derniers encadrés */
-@media (max-width: 768px) {
-  .info-card:nth-child(4),  /* Phénotype habituel */
-  .info-card:nth-child(5),  /* Antibiotique de référence */
-  .info-card:nth-child(6),  /* Antibiotique selon le site infectieux */
-  .info-card:nth-child(7) { /* Ajout si choc septique */
-    overflow-x: auto !important; /* Permet le défilement horizontal des tableaux uniquement */
-    -webkit-overflow-scrolling: touch;  /* Défilement fluide */
-    white-space: nowrap;               /* Evite les retours à la ligne dans les tableaux */
-  }
-
   /* Ajustement des tailles des tableaux pour qu'ils prennent toute la largeur possible sans rognage */
   .info-card table {
     width: 100% !important;   /* Les tableaux prennent toute la largeur de l'encadré */
     table-layout: fixed;      /* Les colonnes seront réparties automatiquement */
-    min-width: 720px;         /* Si les colonnes sont trop étroites, on garde une taille minimale */
+    min-width: 600px;         /* Réduit à 600px pour éviter les débordements */
   }
 
-  /* Ajustement de la taille de la police dans les tableaux */
+  /* Réduction de la taille de police dans les tableaux */
   table.simple th, table.simple td,
   table.pheno th, table.pheno td {
-    font-size: 13px !important;     /* Taille de police plus petite sur mobile */
+    font-size: 12px !important;     /* Taille de police plus petite sur mobile */
     padding: 4px 6px;
   }
 }
+
+
 
