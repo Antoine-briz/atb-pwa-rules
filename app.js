@@ -880,8 +880,8 @@ siteAtb: `
     </table>`, 
 
   choc: `
-      <p><strong>Aminosides :</strong> S. maltophilia est résistante aux aminosides</p>
-      <p><strong>Bithérapie :</strong> Bithérapie à envisager dans les formes sévères et immunodépression</p>
+      <p><strong>Aminosides :</strong> S. maltophilia résiste aux aminosides</p>
+      <p><strong>Bithérapie :</strong> Bithérapie Bactrim/Levofloxacine indiquée</p>
 `,
 };
 
