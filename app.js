@@ -293,10 +293,6 @@ function renderSensiblesPage() {
           </table>
         </div>
       </div>
-
-      <div class="actions">
-        <button class="btn" onclick="location.hash='#/adaptee'">← Retour : Antibiothérapie adaptée</button>
-      </div>
     </div>
   `;
 }
