@@ -547,4 +547,47 @@ html, body {
   }
 }
 
+/* =========================================================
+   ✅ Tables : défilement horizontal dans les 4 derniers encadrés
+   ========================================================= */
+
+/* Permettre le défilement horizontal dans les tableaux des encadrés */
+@media (max-width: 768px) {
+  .info-card .info-content {
+    overflow-x: auto !important;   /* Permet le défilement horizontal dans les tableaux */
+    -webkit-overflow-scrolling: touch; /* Défilement fluide */
+  }
+
+  /* Ajustement de la largeur des tableaux pour qu'ils occupent toute la largeur de l'encadré */
+  table.simple, table.pheno {
+    width: 100% !important;       /* Tableaux prennent toute la largeur de l'encadré */
+    table-layout: auto;           /* Les colonnes s'ajustent automatiquement */
+    min-width: 600px;             /* Largeur minimale pour éviter une compression excessive */
+    border-collapse: collapse;   /* Fusionne les bordures des cellules */
+  }
+
+  /* S'assurer que le texte dans les tableaux soit lisible et adapté */
+  table.simple th, table.simple td,
+  table.pheno th, table.pheno td {
+    font-size: 13px !important;   /* Réduire la taille de la police dans les tableaux sur mobile */
+    padding: 4px 6px;
+  }
+
+  /* Assure que les 4 derniers encadrés (Phénotype, Antibiotique de référence, Antibiotique selon le site infectieux, Ajout si choc septique) ont un défilement horizontal */
+  .info-card:nth-child(4),  /* Phénotype habituel */
+  .info-card:nth-child(5),  /* Antibiotique de référence */
+  .info-card:nth-child(6),  /* Antibiotique selon le site infectieux */
+  .info-card:nth-child(7) { /* Ajout si choc septique */
+    overflow-x: auto !important;  /* Permet le défilement horizontal des tableaux uniquement */
+    white-space: nowrap;           /* Évite que le texte dans les cellules du tableau se brise sur plusieurs lignes */
+  }
+  
+  /* Optionnel : visuel de la barre de défilement */
+  .info-card .info-content::-webkit-scrollbar { height: 8px; }
+  .info-card .info-content::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+  }
+  .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
+}
 
