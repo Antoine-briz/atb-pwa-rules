@@ -667,62 +667,65 @@ BACTERIA_DATA.pyo = {
         </tr>
       </tbody>
     </table>`,
-  siteAtb: `
+ siteAtb: `
   <table class="simple">
     <thead>
-      <tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr>
+      <tr>
+        <th>Site infectieux</th>
+        <th>1ère intention</th>
+        <th>Alternatives (dont allergies β-lactamines)</th>
+      </tr>
     </thead>
     <tbody>
       <tr>
         <td>Pneumonie</td>
         <td>Ceftolozane-Tazobactam</td>
         <td>
-          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-          Céfidérocol 2 g x3/j IVL<br>
-          Colimycine 9–12 MUI x3/j IV (Pneumonies)<br>
-          Fosfomycine 200 mg/kg x3/j IV
+          Ceftazidime/Avibactam 2g/0,5g x3/j IVL<br>
+          Imipénème/Relebactam 500mg/250mg x4/j IV<br>
+          Céfidérocol 2g x3/j IVL<br>
+          Colimycine 9–12 MUI x3/j IV (Pneumonies)
         </td>
       </tr>
       <tr>
         <td>Bactériémie</td>
         <td>Ceftolozane-Tazobactam</td>
         <td>
-          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-          Céfidérocol 2 g x3/j IVL
+          Ceftazidime/Avibactam 2g/0,5g x3/j IVL<br>
+          Imipénème/Relebactam 500mg/250mg x4/j IV<br>
+          Céfidérocol 2g x3/j IVL
         </td>
       </tr>
       <tr>
         <td>Inf. intra-abdominale</td>
         <td>Ceftolozane-Tazobactam</td>
         <td>
-          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-          Céfidérocol 2 g x3/j IVL
+          Ceftazidime/Avibactam 2g/0,5g x3/j IVL<br>
+          Imipénème/Relebactam 500mg/250mg x4/j IV<br>
+          Céfidérocol 2g x3/j IVL
         </td>
       </tr>
       <tr>
         <td>Infection urinaire</td>
         <td>Ceftolozane-Tazobactam</td>
         <td>
-          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-          Céfidérocol 2 g x3/j IVL
+          Ceftazidime/Avibactam 2g/0,5g x3/j IVL<br>
+          Imipénème/Relebactam 500mg/250mg x4/j IV<br>
+          Céfidérocol 2g x3/j IVL
         </td>
       </tr>
       <tr>
         <td>Dermo-hypodermite</td>
         <td>Ceftolozane-Tazobactam</td>
         <td>
-          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-          Céfidérocol 2 g x3/j IVL
+          Ceftazidime/Avibactam 2g/0,5g x3/j IVL<br>
+          Imipénème/Relebactam 500mg/250mg x4/j IV<br>
+          Céfidérocol 2g x3/j IVL
         </td>
       </tr>
     </tbody>
-  </table>
-`, // :contentReference[oaicite:7]{index=7}
+  </table>`, // :contentReference[oaicite:9]{index=9}
+
   choc: `
     <table class="simple">
       <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
