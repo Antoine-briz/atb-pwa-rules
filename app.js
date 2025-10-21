@@ -809,7 +809,7 @@ BACTERIA_DATA.steno = {
       <tr><td>Aminosides</td><td>R</td></tr>
       <tr><td>Cotrimoxazole</td><td>S (96% des cas)</td></tr>
     </tbody>
-  </table>`
+  </table>`,
 
   refAtb: `
     <table class="simple">
