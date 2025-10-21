@@ -668,26 +668,61 @@ BACTERIA_DATA.pyo = {
       </tbody>
     </table>`,
   siteAtb: `
-    <table class="simple">
-      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Pneumonie</td>
-          <td>Ceftolozane–Tazobactam</td>
-          <td>
-            Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
-            Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
-            Céfidérocol 2 g x3/j IVL<br>
-            Colimycine 9–12 MUI x3/j IV (Pneumonies)<br>
-            Fosfomycine 200 mg/kg x3/j IV
-          </td>
-        </tr>
-        <tr><td>Bactériémie</td><td></td><td></td></tr>
-        <tr><td>Inf. intra-abdominale</td><td></td><td></td></tr>
-        <tr><td>Infection urinaire</td><td></td><td></td></tr>
-        <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
-      </tbody>
-    </table>`,
+  <table class="simple">
+    <thead>
+      <tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pneumonie</td>
+        <td>Ceftolozane-Tazobactam</td>
+        <td>
+          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+          Céfidérocol 2 g x3/j IVL<br>
+          Colimycine 9–12 MUI x3/j IV (Pneumonies)<br>
+          Fosfomycine 200 mg/kg x3/j IV
+        </td>
+      </tr>
+      <tr>
+        <td>Bactériémie</td>
+        <td>Ceftolozane-Tazobactam</td>
+        <td>
+          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+          Céfidérocol 2 g x3/j IVL
+        </td>
+      </tr>
+      <tr>
+        <td>Inf. intra-abdominale</td>
+        <td>Ceftolozane-Tazobactam</td>
+        <td>
+          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+          Céfidérocol 2 g x3/j IVL
+        </td>
+      </tr>
+      <tr>
+        <td>Infection urinaire</td>
+        <td>Ceftolozane-Tazobactam</td>
+        <td>
+          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+          Céfidérocol 2 g x3/j IVL
+        </td>
+      </tr>
+      <tr>
+        <td>Dermo-hypodermite</td>
+        <td>Ceftolozane-Tazobactam</td>
+        <td>
+          Ceftazidime/Avibactam 2 g/0,5 g x3/j IVL<br>
+          Imipénème/Relebactam 500 mg/250 mg x4/j IV<br>
+          Céfidérocol 2 g x3/j IVL
+        </td>
+      </tr>
+    </tbody>
+  </table>
+`, // :contentReference[oaicite:7]{index=7}
   choc: `
     <table class="simple">
       <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
@@ -742,20 +777,43 @@ BACTERIA_DATA.acineto = {
     </table>`,
   siteAtb: `
     <table class="simple">
-      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives (dont allergies β-lactamines)</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Site infectieux</th>
+          <th>1ère intention</th>
+          <th>Alternatives (dont allergies β-lactamines)</th>
+        </tr>
+      </thead>
       <tbody>
         <tr>
           <td>Pneumonie</td>
-          <td>Ampicilline-sulbactam + autre antibiotique (cf supra)</td>
-          <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie) / Colistine 9–12 MUI x3/j IV /
-              Tigécycline 100 mg puis 50 mg x2/j IV pour inf. sévère abdo ou tissus mous / Amikacine 25–30 mg/kg IV</td>
+          <td>Ampicilline-sulbactam + autre antibiotique</td>
+          <td>Bithérapie associant : Méropénème (sauf allergie), Colistine ou Amikacine</td>
         </tr>
-        <tr><td>Bactériémie</td><td>–</td><td>–</td></tr>
-        <tr><td>Inf. intra-abdominale</td><td>–</td><td>–</td></tr>
-        <tr><td>Infection urinaire</td><td>–</td><td>–</td></tr>
-        <tr><td>Dermo-hypodermite</td><td>–</td><td>–</td></tr>
+        <tr>
+          <td>Bactériémie</td>
+          <td>Ampicilline-sulbactam + autre antibiotique</td>
+          <td>Bithérapie associant : Méropénème (sauf allergie), Amikacine</td>
+        </tr>
+        <tr>
+          <td>Inf. intra-abdominale</td>
+          <td>Ampicilline-sulbactam + autre antibiotique</td>
+          <td>Bithérapie associant : Méropénème (sauf allergie), Tigécycline, ou Amikacine</td>
+        </tr>
+        <tr>
+          <td>Infection urinaire</td>
+          <td>Ampicilline-sulbactam + autre antibiotique</td>
+          <td>Bithérapie associant : Méropénème (sauf allergie), Amikacine</td>
+        </tr>
+        <tr>
+          <td>Dermo-hypodermite</td>
+          <td>Ampicilline-sulbactam + autre antibiotique</td>
+          <td>Bithérapie associant : Méropénème (sauf allergie), Tigécycline, ou Amikacine</td>
+        </tr>
       </tbody>
-    </table>`,
+    </table>
+`, // :contentReference[oaicite:9]{index=9}
+
   choc: `
     <table class="simple">
       <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
