@@ -845,7 +845,7 @@ BACTERIA_DATA.steno = {
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
     <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
-    <em>Cotrimoxazole + Lévofloxacine</em>.</p>` // :contentReference[oaicite:8]{index=8}
+    <em>Cotrimoxazole + Lévofloxacine</em>.</p>` 
 };
 
 BACTERIA_DATA.carba = {
