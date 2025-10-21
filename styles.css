@@ -438,7 +438,7 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 /* 3️⃣  Tables : suppression du défilement horizontal et mise en page fluide */
 html, body, .bact-page {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden; /* pas de défilement horizontal global */
 }
 
 table.simple, table.pheno {
@@ -458,13 +458,38 @@ table.pheno th, table.pheno td {
   color: black;                 /* texte toujours bien lisible */
 }
 
-.info-card table { min-width: 0 !important; }
+.info-card table { 
+  min-width: 0 !important; 
+}
 
-/* Réduction supplémentaire sur petit écran */
+/* 4️⃣ Défilement horizontal à l’intérieur des 4 derniers encadrés */
 @media (max-width: 768px) {
+  .info-card .info-content {
+    overflow-x: auto !important;   /* défilement horizontal uniquement dans les tableaux */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Réduction de la taille de police sur mobile */
   table.simple th, table.simple td,
   table.pheno th, table.pheno td {
-    font-size: 13px;
+    font-size: 13px;             /* Réduction de la police pour mobile */
     padding: 4px 6px;
   }
+  
+  /* Applique un défilement horizontal sur ces 4 encadrés */
+  .info-card:nth-child(4),   /* Phénotype habituel */
+  .info-card:nth-child(5),   /* Antibiotique de référence */
+  .info-card:nth-child(6),   /* Antibiotique selon le site infectieux */
+  .info-card:nth-child(7) {  /* Ajout si choc septique */
+    overflow-x: auto !important; /* Ajout du scroll horizontal */
+    white-space: nowrap;        /* Evite les retours à la ligne des tableaux */
+  }
+
+  /* Optionnel : visuel de la barre de défilement */
+  .info-card .info-content::-webkit-scrollbar { height: 8px; }
+  .info-card .info-content::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+  }
+  .info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
 }
