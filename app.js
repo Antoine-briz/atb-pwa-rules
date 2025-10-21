@@ -822,52 +822,31 @@ BACTERIA_DATA.steno = {
     </table>`, // :contentReference[oaicite:6]{index=6}
 
   siteAtb: `
-  <table class="simple">
-    <thead>
-      <tr>
-        <th>Site infectieux</th>
-        <th>1ère intention</th>
-        <th>Alternatives ou bithérapie (si grave ou immunodépressé)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td rowspan="5">Pneumonie, Bactériémie, Inf. intra-abdominale, Infection urinaire, Dermo-hypodermite</td>
-        <td>Cotrimoxazole</td>
-        <td>
-          Ceftazidime 4–6 g/24h IVSE<br>
-          Lévofloxacine 500 mg ×2/j IV/PO<br>
-          Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
-          (Ticar/Clav. : arrêt de commercialisation 2014)
-        </td>
-      </tr>
-    </tbody>
-  </table>`, // Site infectieux
+    <table class="simple">
+      <thead><tr><th>Site infectieux</th><th>1ère intention</th><th>Alternatives ou bithérapie (si grave ou immunodép.)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Pneumonie</td>
+          <td>Cotrimoxazole</td>
+          <td>
+            Ceftazidime 4–6 g/24h IVSE<br>
+            Lévofloxacine 500 mg ×2/j IV/PO<br>
+            Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
+            (Ticar/Clav. : arrêt de commercialisation 2014)
+          </td>
+        </tr>
+        <tr><td>Bactériémie</td><td></td><td></td></tr>
+        <tr><td>Inf. intra-abdominale</td><td></td><td></td></tr>
+        <tr><td>Infection urinaire</td><td></td><td></td></tr>
+        <tr><td>Dermo-hypodermite</td><td></td><td></td></tr>
+      </tbody>
+    </table>`, // :contentReference[oaicite:7]{index=7}
 
-choc: `
-  <table class="simple">
-    <thead>
-      <tr>
-        <th>Molécule</th>
-        <th>Posologie</th>
-        <th>Effets indésirables</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Aminosides</td>
-        <td>Résistante à l’ensemble des aminosides</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Bithérapie</td>
-        <td>À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier Cotrimoxazole + Lévofloxacine</td>
-        <td>-</td>
-      </tr>
-    </tbody>
-  </table>` // Choc pour Stenotrophomonas
+  choc: `
+    <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
+    <p><strong>Bithérapie :</strong> À envisager en cas d’infection sévère/choc septique ou immunodépression — privilégier
+    <em>Cotrimoxazole + Lévofloxacine</em>.</p>` // :contentReference[oaicite:8]{index=8}
 };
-
 
 BACTERIA_DATA.carba = {
   title: "Entérobactéries sécrétrices de carbapénèmases",
