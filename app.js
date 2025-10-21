@@ -833,11 +833,11 @@ siteAtb: `
     <tbody>
       <tr>
         <td>Pneumonie</td>
-        <td rowspan="5">Cotrimoxazole</td> <!-- 1ère intention commune pour tous -->
+        <td rowspan="5">Cotrimoxazole</td>
         <td rowspan="5">
-          Ceftazidime 4-6g/24h IVSE<br>
-          Lévofloxacine 500mg x2/j IV/PO<br>
-          Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous<br>
+          Ceftazidime 4–6 g/24h IVSE<br>
+          Lévofloxacine 500 mg ×2/j IV/PO<br>
+          Tigécycline 100 mg puis 50 mg ×2/j IV pour inf. sévère abdominales ou tissus mous<br>
           (Ticar/Clav. : arrêt de commercialisation 2014)
         </td>
       </tr>
@@ -846,8 +846,7 @@ siteAtb: `
       <tr><td>Infection urinaire</td></tr>
       <tr><td>Dermo-hypodermite</td></tr>
     </tbody>
-  </table>`
-
+  </table>`, // :contentReference[oaicite:7]{index=7}
 
   choc: `
     <p><strong>Aminosides :</strong> <em>S. maltophilia</em> est résistante à l’ensemble des aminosides.</p>
