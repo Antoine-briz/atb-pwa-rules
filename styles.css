@@ -614,3 +614,32 @@ table.pheno th, table.pheno td {
   white-space: nowrap; /* Eviter les retours à la ligne dans les cellules */
 }
 
+/* Assurer que tous les tableaux dans les encadrés ont une largeur de 100% */
+.info-card .info-content table {
+  width: 100% !important;   /* Le tableau prend toute la largeur de l'encadré */
+  table-layout: auto;       /* Ajuste la largeur des colonnes automatiquement */
+}
+
+/* Ajouter un défilement horizontal pour les tableaux qui débordent */
+.info-card .info-content {
+  overflow-x: auto !important;   /* Permet le défilement horizontal à l'intérieur de l'encadré */
+  -webkit-overflow-scrolling: touch; /* Défilement fluide sur mobile */
+  white-space: nowrap;            /* Evite les retours à la ligne des tableaux */
+}
+
+/* Appliquer des règles spécifiques pour le tableau "Phénotype habituel" de Stenotrophomonas */
+#site-infectieux-stenotrophomonas .info-card .info-content {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+#site-infectieux-stenotrophomonas table {
+  width: 100%;
+  min-width: 720px;  /* Ajuster la largeur minimum pour éviter le rognage */
+  table-layout: fixed;
+}
+
+table.simple th, table.simple td,
+table.pheno th, table.pheno td {
+  white-space: nowrap; /* Eviter les retours à la ligne dans les cellules */
+}
