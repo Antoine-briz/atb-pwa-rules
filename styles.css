@@ -657,3 +657,47 @@ table.pheno th, table.pheno td {
   }
 }
 
+/* Encadré et tableau avec défilement horizontal à l'intérieur */
+.info-card {
+  width: 100%;                 /* L'encadré occupe toute la largeur de l'écran */
+  max-width: 100%;             /* Évite qu'il dépasse de l'écran */
+  box-sizing: border-box;      /* Inclut les bordures et padding dans la largeur totale */
+  overflow: hidden;            /* Empêche l'encadré de déborder */
+}
+
+/* Appliquer un défilement horizontal uniquement à l'intérieur du tableau */
+.info-card .info-content {
+  overflow-x: auto !important; /* Défilement horizontal dans l'encadré */
+  -webkit-overflow-scrolling: touch; /* Défilement fluide sur mobile */
+  padding: 0 5px;              /* Un peu d'espace sur les côtés */
+}
+
+/* Les tableaux doivent pouvoir déborder à droite à l'intérieur de l'encadré */
+.info-card table {
+  width: auto !important;      /* Permet au tableau de dépasser si nécessaire */
+  min-width: 720px;            /* Largeur minimale, ajustez selon le contenu */
+  table-layout: auto;          /* Colonne s'ajuste automatiquement */
+  border-collapse: collapse;   /* Fusionne les bordures du tableau */
+}
+
+/* Empêcher le texte des cellules de déborder */
+.info-card table td,
+.info-card table th {
+  white-space: nowrap;         /* Empêche le texte de s'étendre à la ligne */
+  overflow: hidden;            /* Masque le contenu qui dépasse de la cellule */
+  text-overflow: ellipsis;     /* Affiche "..." si le texte est trop long */
+  padding: 6px 8px;            /* Un peu d'espace autour du texte */
+}
+
+/* Réduction de la taille de la police sur mobile */
+@media (max-width: 768px) {
+  .info-card table {
+    font-size: 12px !important;  /* Réduit la taille de la police sur mobile */
+  }
+
+  /* Réduction du contenu dans les encadrés */
+  .info-card .info-content {
+    font-size: 12px !important;  /* Réduit la taille de la police du contenu des encadrés */
+  }
+}
+
