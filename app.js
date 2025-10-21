@@ -868,6 +868,7 @@ choc: `
   </table>` // Choc pour Stenotrophomonas
 };
 
+
 BACTERIA_DATA.carba = {
   title: "Entérobactéries sécrétrices de carbapénèmases",
   definition: `
