@@ -383,165 +383,95 @@ table.pheno td:first-child, table.simple td:first-child { font-weight:600; }
 }
 
 /* =========================================================
-   ✅ Antibiothérapie adaptée — Correctifs mobiles (FINAL)
+   ✅ OPTIMISATION MOBILE — Antibiothérapie adaptée (modifiée)
    ========================================================= */
 
-/* 1) Header non collant sur mobile (ton header = .appbar) */
+/* 1️⃣  Header non collant sur mobile */
 @media (max-width: 768px) {
-  .appbar {
-    position: static !important;
+  .app-header {
+    position: static !important;   /* ne reste plus visible au scroll */
     top: auto !important;
   }
-  body { padding-top: 0 !important; }
-}
-
-/* 2) Conteneurs pleine largeur SANS dépasser l’écran */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;           /* pas de 100vw pour éviter les débordements iOS */
-  max-width: 100%;
-}
-
-/* Le main utilisé dans index est: <main id="app" class="container"> */
-@media (max-width: 768px) {
-  /* sur mobile, la grille "container" ne doit pas limiter la largeur */
-  #app.container, .container {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
+  body {
+    padding-top: 0 !important;     /* supprime le décalage éventuel du header */
   }
 }
 
-/* 3) Page bactérie, titre et image bien centrés */
-.bact-page {
+/* 2️⃣  Encadrés pleine largeur, marge réduite (sans rogner) + images ajustées */
+.info-grid {
+  display: flex;
+  flex-direction: column; /* disposition verticale */
+  gap: 12px;
+}
+
+.info-card,
+.bact-hero,
+.bact-hero img {
   width: 100%;
   max-width: 100%;
-  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.title-badge {
-  display: block;
-  text-align: center;
-  margin: 12px auto 8px;
-  max-width: 92%;
-}
-
-.bact-hero {
-  width: 100%;
-  text-align: center;
-}
 .bact-hero img {
   display: block;
-  max-width: 100%;
-  width: 100%;
   height: auto;
-  margin: 0 auto;
   border-radius: 12px;
 }
 
-/* 4) Encadrés en pile, pleine largeur, sans dépasser */
-.info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 .info-card {
-  width: 100%;
-  max-width: 100%;
-  color: #000;               /* texte bien lisible */
-  background: #f9f9f9;
+  color: black !important;  /* texte toujours lisible */
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-  padding: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 100%;               /* Prendre toute la largeur de l'écran */
+  margin-left: 8px !important; /* réduire la marge gauche */
+  margin-right: 8px !important; /* réduire la marge droite */
 }
 
-/* Titres & contenu des encadrés */
-.info-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  color: #2b5797;
+/* Police et espacement adaptés sur mobile */
+@media (max-width: 768px) {
+  .info-card { padding: 10px; }
+  .info-card h3 { font-size: 16px; }
+  .info-content { font-size: 13px; line-height: 1.45; }
+  .bact-page { padding-left: 8px; padding-right: 8px; }
 }
 
-/* 5) Scroll HORIZONTAL UNIQUEMENT dans le contenu des encadrés (tables trop larges) */
-.info-card .info-content {
-  overflow-x: auto;            /* autorise le scroll horizontal local */
+/* 3️⃣  Tables : défilement horizontal DANS les encadrés (uniquement pour les tableaux) */
+html, body, .bact-page {
+  max-width: 100%;
+  overflow-x: hidden;           /* Empêche le scroll horizontal global */
+}
+
+table.simple, table.pheno {
+  width: 100%;
+  table-layout: fixed;          /* Répartit les colonnes automatiquement */
+  border-collapse: collapse;
+}
+
+table.simple th, table.simple td,
+table.pheno th, table.pheno td {
+  white-space: normal;          /* Permet le retour à la ligne */
+  word-break: break-word;
+  hyphens: auto;
+  padding: 6px 8px;
+  vertical-align: top;
+  font-size: 13px;              /* Réduit la police des tableaux */
+  color: black;                 /* Texte toujours bien lisi*
+}
+
+.info-card table { 
+  min-width: 0 !important; 
+  overflow-x: auto !important; /* Scroll horizontal seulement dans les tableaux */
   -webkit-overflow-scrolling: touch;
 }
 
-/* Les tableaux ne forcent pas la largeur de la page : ils peuvent dépasser l’encadré,
-   et l’utilisateur défile DANS l’encadré pour les voir en entier */
-.info-card .info-content table {
-  width: auto !important;      /* important: pas 100%, pour permettre le dépassement contrôlé */
-  min-width: 720px;            /* ajuste à 600–800 selon tes tableaux */
-  border-collapse: collapse;
-  background: #fff;
-  margin: 0;
-}
-
-.info-card .info-content th,
-.info-card .info-content td {
-  border: 1px solid #ddd;
-  padding: 6px 8px;
-  text-align: left;
-  vertical-align: top;
-  color: #000;
-  font-size: 13px;             /* plus petit par défaut */
-  line-height: 1.35;
-  white-space: normal;
-  word-break: break-word;
-  hyphens: auto;
-}
-
-.info-card .info-content th {
-  background: #f5f7fa;
-  font-weight: 600;
-}
-
-/* 6) Ajustements supplémentaires sur mobile */
+/* Réduction supplémentaire sur petit écran */
 @media (max-width: 768px) {
-  .info-card { padding: 10px; }
-  .info-card h3 { font-size: 15px; }
-  .info-card .info-content { font-size: 12px; }
-}
-
-/* 7) (optionnel) Barre de scroll douce dans les encadrés */
-.info-card .info-content::-webkit-scrollbar { height: 8px; }
-.info-card .info-content::-webkit-scrollbar-thumb {
-  background: #bbb; border-radius: 4px;
-}
-.info-card .info-content::-webkit-scrollbar-thumb:hover { background: #888; }
-
-/* Étape 1 — Encadrés = largeur écran, bord à bord (mobile) */
-/* Encadrés plein écran (mobile) */
-@media (max-width: 768px) {
-  /* le conteneur principal ne doit pas limiter la largeur */
-  #app, #app.container, .container {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* la page bactérie n'ajoute pas de marges latérales parasites */
-  .bact-page {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* chaque encadré occupe bien toute la largeur écran */
-  .info-card {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    border-radius: 0 !important; /* bord à bord, optionnel */
-    box-sizing: border-box;
+  table.simple th, table.simple td,
+  table.pheno th, table.pheno td {
+    font-size: 12px;            /* Encore plus petit sur mobile */
+    padding: 4px 6px;
   }
 }
