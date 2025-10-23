@@ -638,3 +638,31 @@ table.simple th, table.pheno th {
   }
 }
 
+/* 4) Nouveau style des titres de bactéries (bandeau bleu marine) */
+.title-badge {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto 8px;
+  padding: 14px 18px;
+  background: #1e3a8a;    /* bleu marine profond */
+  color: #ffffff !important; /* texte blanc dans le bandeau */
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system, Arial, sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.35;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: 1px solid #163172; /* léger liseré */
+}
+@media (max-width: 768px) {
+  .title-badge {
+    font-size: 18px;
+    padding: 12px 10px;
+    white-space: normal;
+    word-break: break-word; /* passe sur 2 lignes si nécessaire */
+  }
+}
+
