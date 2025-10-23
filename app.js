@@ -1104,9 +1104,9 @@ function renderHome() {
   Modalités d'administration des antibiotiques
 </button>
 <!-- Nouveau bouton pour les Antibioprophylaxies per-opératoire -->
-<button class="btn" onclick="navigateTo('#/antibiopro')">
+<button class="btn" onclick="location.hash='#/antibiopro'">
   <img src="./img/antibioprophylaxie.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
-  Antibioprophylaxies per-opératoire
+  Antibioprophylaxies per-opératoires
 </button>
     </div>
   `;
