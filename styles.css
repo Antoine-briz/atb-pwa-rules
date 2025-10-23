@@ -638,3 +638,33 @@ table.simple th, table.pheno th {
   }
 }
 
+body {
+  background-color: #ffffff !important; /* Fond blanc général */
+  color: #000000; /* Texte par défaut en noir */
+}
+
+:root {
+  --bg: #ffffff;        /* Fond principal */
+  --fg: #000000;        /* Couleur du texte standard */
+  --card: #ffffff;      /* Fond des encadrés */
+  --border: #dcdcdc;    /* Lignes douces */
+  --accent: #2b5797;    /* Bleu principal déjà utilisé pour les titres */
+}
+
+/* Correction du contraste des textes sur fond blanc */
+.info-card,
+.info-content,
+.appbar,
+.footer,
+.title-badge {
+  color: #000000 !important; /* Texte noir par défaut */
+}
+
+/* On conserve les titres déjà bleus */
+.info-card h3 {
+  color: #2b5797 !important; /* Bleu des titres conservé */
+}
+
+.bact-page {
+  background-color: #ffffff; /* Fond clair pour toutes les pages bactéries */
+}
