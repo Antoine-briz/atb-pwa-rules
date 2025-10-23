@@ -25,6 +25,7 @@ const routes = {
   "#/proba/dureeATB": renderDureesForm,
   "#/antibiorein": renderReinForm,
   "#/antibiomoda": renderModalitesForm,
+  "#/antibiopro": renderAntibioproForm,
 };
 
 // Fonction pour monter le contenu en fonction du hash dans l'URL
