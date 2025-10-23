@@ -1103,6 +1103,11 @@ function renderHome() {
   <img src="./img/modalites.png" alt="Icône Modalités d'administration des antibiotiques" class="icon-btn">
   Modalités d'administration des antibiotiques
 </button>
+<!-- Nouveau bouton pour les Antibioprophylaxies per-opératoire -->
+<button class="btn" onclick="navigateTo('#/antibiopro')">
+  <img src="./img/antibioprophylaxie.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
+  Antibioprophylaxies per-opératoire
+</button>
     </div>
   `;
   document.querySelectorAll('.btn').forEach((btn, index) => {
