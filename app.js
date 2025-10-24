@@ -4851,7 +4851,7 @@ function renderAntibioproForm() {
 
   // HTML
   $app.innerHTML = `
-    <div class="page">
+    <div class="page page-antibiopro">
       <span class="title-badge">Antibioprophylaxies per-opératoire</span>
 
       <div class="card hero">
