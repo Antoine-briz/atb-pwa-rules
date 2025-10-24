@@ -3409,21 +3409,13 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Céfazoline 2 g IVL — dose unique.",
           allergy:   "Vancomycine 20 mg/kg IVL."
         },
-        "Ponction sous écho-endoscopie — lésion tissulaire": {
-          noAllergy: "Pas d’antibioprophylaxie.",
-          allergy:   "Pas d’antibioprophylaxie."
+        "Ponction sous écho-endoscopie": {
+          noAllergy: "Uniquement si lésion kystique: Céfoxitine 2 g IVL — dose unique.",
+          allergy:   "Uniquement si lésion kystique: Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
         },
-        "Ponction sous écho-endoscopie — lésion kystique": {
-          noAllergy: "Céfoxitine 2 g IVL — dose unique.",
-          allergy:   "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
-        },
-        "CPRE — drainage satisfaisant": {
-          noAllergy: "Pas d’antibioprophylaxie.",
-          allergy:   "Pas d’antibioprophylaxie."
-        },
-        "CPRE — drainage incomplet": {
-          noAllergy: "Céfoxitine 2 g IVL — dose unique.",
-          allergy:   "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
+        "CPRE": {
+          noAllergy: "Uniquement si drainage incomplet: Céfoxitine 2 g IVL — dose unique.",
+          allergy:   "Uniquement si drainage incomplet: Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
         }
       }
     },
