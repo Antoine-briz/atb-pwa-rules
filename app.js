@@ -2536,9 +2536,20 @@ function renderProbaMediastinite() {
 
   $btnRun.addEventListener('click', () => {
     // 1) Base selon allergie
-    const gramNeg = $chkAllerg.checked
-      ? "Anti-Gram- : Aztréonam 1 g x4/j"
-      : "Anti-Gram- : Céfépime 1 g x4/j IVL ou Pipéracilline-tazobactam 4 g x4/j IVL";
+let gramNeg;
+
+if ($chkAllerg.checked) {
+  gramNeg = "Anti-Gram- : Aztréonam 1 g x4/j";
+} else {
+  // Si pas d’allergie
+  gramNeg = "Anti-Gram- : Céfépime 1 g x4/j IVL ou Pipéracilline-tazobactam 4 g x4/j IVL";
+
+  // ...et s’il y a un choc septique, on ajoute la mention carbapénème
+  if ($chkChoc.checked) {
+    gramNeg += " (Envisager carbapénème)";
+  }
+}
+
 
     // 2) Couverture Gram+
     const gramPos = "Anti-Gram+ : Vancomycine 30 mg/kg/j IVSE ou Daptomycine 10 mg/kg/j IVL";
