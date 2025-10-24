@@ -3507,13 +3507,9 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Arthroscopie — sans matériel": {
-          noAllergy: "Pas d’antibioprophylaxie.",
-          allergy: "Pas d’antibioprophylaxie."
-        },
-        "Arthroscopie — avec matériel": {
-          noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "1ère intention : Clindamycine 900 mg IVL. 2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL."
+        "Arthroscopie": {
+          nnoAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+          allergy: "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
         },
         "Chirurgie des parties molles": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3557,17 +3553,9 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
           allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
         },
-        "Plaie des parties molles — non contaminée": {
-          noAllergy: "Pas d’antibioprophylaxie.",
-          allergy: "Pas d’antibioprophylaxie."
-        },
-        "Plaie des parties molles — contamination tellurique": {
-          noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
-          allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
-        },
-        "Plaie des parties molles — morsure": {
-          noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
-          allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
+        "Plaie des parties molles": {
+          noAllergy: "Uniquement si contamination tellurique ou morsure: Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
+          allergy: "Uniquement si contamination tellurique ou morsure: Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL"
         },
         "Plaie articulaire": {
           noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
