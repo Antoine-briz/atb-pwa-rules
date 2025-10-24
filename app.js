@@ -1106,7 +1106,7 @@ function renderHome() {
 <!-- Nouveau bouton pour les Antibioprophylaxies per-opératoire -->
 <button class="btn" onclick="location.hash='#/antibiopro'">
   <img src="./img/antibioprophylaxies.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
-  Antibioprophylaxies chirugicales
+  Antibioprophylaxies per-opératoires
 </button>
     </div>
   `;
@@ -3409,13 +3409,21 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Céfazoline 2 g IVL — dose unique.",
           allergy:   "Vancomycine 20 mg/kg IVL."
         },
-        "Ponction sous écho-endoscopie": {
-          noAllergy: "Uniquement si lésion kystique: Céfoxitine 2 g IVL — dose unique.",
-          allergy:   "Uniquement si lésion kystique: Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
+        "Ponction sous écho-endoscopie — lésion tissulaire": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy:   "Pas d’antibioprophylaxie."
         },
-        "CPRE": {
-          noAllergy: "Uniquement si drainage incomplet: Céfoxitine 2 g IVL — dose unique.",
-          allergy:   "Uniquement si drainage incomplet: Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
+        "Ponction sous écho-endoscopie — lésion kystique": {
+          noAllergy: "Céfoxitine 2 g IVL — dose unique.",
+          allergy:   "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
+        },
+        "CPRE — drainage satisfaisant": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy:   "Pas d’antibioprophylaxie."
+        },
+        "CPRE — drainage incomplet": {
+          noAllergy: "Céfoxitine 2 g IVL — dose unique.",
+          allergy:   "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL (si antibioprophylaxie indiquée)."
         }
       }
     },
@@ -3466,13 +3474,21 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Reconstruction ligamentaire ": {
-          noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si greffon: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+        "Reconstruction ligamentaire — sans greffon": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
         },
-        "Arthroscopie": {
-          noAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+        "Reconstruction ligamentaire — avec greffon": {
+          noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+          allergy: "1ère intention : Clindamycine 900 mg IVL. 2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL."
+        },
+        "Arthroscopie — sans matériel": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
+        },
+        "Arthroscopie — avec matériel": {
+          noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+          allergy: "1ère intention : Clindamycine 900 mg IVL. 2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL."
         },
         "Chirurgie des parties molles": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3499,9 +3515,13 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Arthroscopie": {
-          nnoAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+        "Arthroscopie — sans matériel": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
+        },
+        "Arthroscopie — avec matériel": {
+          noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+          allergy: "1ère intention : Clindamycine 900 mg IVL. 2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL."
         },
         "Chirurgie des parties molles": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3545,9 +3565,17 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
           allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
         },
-        "Plaie des parties molles": {
-          noAllergy: "Uniquement si contamination tellurique ou morsure: Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
-          allergy: "Uniquement si contamination tellurique ou morsure: Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL"
+        "Plaie des parties molles — non contaminée": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
+        },
+        "Plaie des parties molles — contamination tellurique": {
+          noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
+          allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
+        },
+        "Plaie des parties molles — morsure": {
+          noAllergy: "Amoxicilline/Acide clavulanique 2 g IVL (réinjection 1 g si > 2 h, puis toutes les 2 h).",
+          allergy: "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
         },
         "Plaie articulaire": {
           noAllergy: "Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
@@ -3581,9 +3609,13 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Biopsies prostatiques": {
-          noAllergy: "Uniquement si voie trans-rectale: Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste).",
-          allergy: "Uniquement si voie trans-rectale: Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste)."
+        "Biopsies prostatiques trans-périnéales": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
+        },
+        "Biopsies prostatiques trans-rectales": {
+          noAllergy: "Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste).",
+          allergy: "Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste)."
         },
         "Curiethérapie prostatique": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3799,7 +3831,7 @@ const ANTIBIOPRO_DATA = {
         },
         "Détorsion d’annexe, ligature de trompe, salpingectomie": {
           noAllergy: "Pas d’antibioprophylaxie sauf si ATCD d’endométriose, chirurgie pelvienne ou infection génitale : Céfazoline 2 g IVL (+1 g si >4 h, puis toutes les 4h).",
-          allergy: "Pas d’antibioprophylaxie sauf si ATCD d’endométriose, chirurgie pelvienne ou infection génitale : Clindamycine 900 mg IVL si antibioprophylaxie indiquée."
+          allergy: "Clindamycine 900 mg IVL si antibioprophylaxie indiquée."
         },
         "Drilling ovarien, kystectomie, ponction de kyste": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3946,7 +3978,7 @@ const ANTIBIOPRO_DATA = {
 
   // ======= Partie Cardiaque =======
   Cardiaque: {
-    "Chirurgie cardiaque (hors transplantation/assistances)": {
+    "Chirurgie cardiaque": {
       interventions: {
         "Actes thérapeutiques des parois, des cavités et de la crosse aortique avec ou sans CEC": {
           noAllergy: "Céfazoline 2 g IVL (1 g si durée > 4 h, puis toutes les 4 h) + 1 g lors du priming si CEC OU Céfuroxime 1,5 g IVL (0,75 g si > 2 h, puis toutes les 2 h).",
@@ -4229,9 +4261,13 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Céfazoline 2 g IVL → réinjection 1 g si durée > 4 h puis toutes les 4 h OU Céfuroxime 1,5 g IVL → réinjection 0,75 g si > 2 h puis toutes les 2 h.",
           allergy: "Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mk/kg IVL."
         },
-        "Stent nu ou pas de matériel": {
-          noAllergy: "Uniquement si facteurs de risque d'infection*: Céfazoline 2 g IVL → réinjection 1 g si durée > 4 h puis toutes les 4 h OU Céfuroxime 1,5 g IVL → réinjection 0,75 g si > 2 h puis toutes les 2 h (* Facteurs de risque d’infection : passage de guides à travers prothèses/stents préexistants, cathéter de radiologie interventionnelle en place > 6 h, réintervention < 7 jours, trouble trophique veineux/artériel ne nécessitant pas d’antibiothérapie).",
-          allergy: "Uniquement si facteurs de risque d'infection*: Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mk/kg IVL (* Facteurs de risque d’infection : passage de guides à travers prothèses/stents préexistants, cathéter de radiologie interventionnelle en place > 6 h, réintervention < 7 jours, trouble trophique veineux/artériel ne nécessitant pas d’antibiothérapie)."
+        "Stent nu ou pas de matériel avec facteurs de risque d’infection*": {
+          noAllergy: "Céfazoline 2 g IVL → réinjection 1 g si durée > 4 h puis toutes les 4 h OU Céfuroxime 1,5 g IVL → réinjection 0,75 g si > 2 h puis toutes les 2 h.",
+          allergy: "Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mk/kg IVL."
+        },
+        "Stent nu ou pas de matériel sans facteur de risque d’infection*": {
+          noAllergy: "Pas d’antibioprophylaxie.",
+          allergy: "Pas d’antibioprophylaxie."
         }
       }
     },
@@ -4570,8 +4606,10 @@ const ANTIBIOPRO_DATA = {
     "Chirurgie mammaire plastique ou carcinologique": {
       interventions: {
         "Augmentation mammaire sans pose d’implant (Lipofilling)": {
-          noAllergy: "Uniquement si > 200 mL OU durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si > 200 mL OU durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "< 200 mL ET durée ≤ 2 h : Pas d’antibioprophylaxie<br><br> > 200 mL OU durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "< 200 mL ET durée ≤ 2 h : Pas d’antibioprophylaxie<br><br> > 200 mL OU durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         },
         "Augmentation mammaire avec pose d’implant": {
           noAllergy: "Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h).",
@@ -4615,8 +4653,10 @@ const ANTIBIOPRO_DATA = {
           allergy: "Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL."
         },
         "Abdominoplastie": {
-          noAllergy: "Uniquement si durée > 2h: Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si durée > 2h: Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         },
         "Body-lift": {
           noAllergy: "Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h).",
@@ -4640,12 +4680,16 @@ const ANTIBIOPRO_DATA = {
           allergy: "Pas d’antibioprophylaxie."
         },
         "Lifting cervico-facial": {
-          noAllergy: "Uniquement si durée > 2h: Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si durée > 2h: Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         },
         "Septo-rhinoplastie": {
-          noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si greffon: Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "Sans greffe : Pas d’antibioprophylaxie<br><br>Avec greffe : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "Sans greffe : Pas d’antibioprophylaxie<br><br>Avec greffe : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         },
         "Implants faciaux": {
           noAllergy: "Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h).",
@@ -4660,7 +4704,8 @@ const ANTIBIOPRO_DATA = {
           allergy: "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL."
         },
         "Chirurgie ortho-gnatique": {
-          noAllergy: "Amoxicilline/Clavulanate 2 g IVL (1 g si > 2 h puis toutes les 2 h), puis 1 g/6 h pendant 48 h post-opératoire.",
+          noAllergy:
+            "Amoxicilline/Clavulanate 2 g IVL (1 g si > 2 h puis toutes les 2 h), puis 1 g/6 h pendant 48 h post-opératoire.",
           allergy: "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL."
         },
         "Auto-greffe capillaire et réimplantation": {
@@ -4672,8 +4717,10 @@ const ANTIBIOPRO_DATA = {
           allergy: "Gentamicine 6–7 mg/kg IVL + Métronidazole 1 g IVL."
         },
         "Lambeau facial avec abord extra-oral": {
-          noAllergy: "Uniquement si durée > 2h: Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si durée > 2h: Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "Durée < 2 h : Pas d’antibioprophylaxie<br><br>Durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         }
       }
     },
@@ -4681,8 +4728,10 @@ const ANTIBIOPRO_DATA = {
     "Chirurgie générale et carcinologique (hors tête et cou)": {
       interventions: {
         "Transfert adipeux": {
-          noAllergy: "Uniquement si > 200mL OU durée > 2h: Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
-          allergy: "Uniquement si > 200mL OU durée > 2h: Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
+          noAllergy:
+            "< 200 mL ET durée ≤ 2 h : Pas d’antibioprophylaxie<br><br> > 200 mL OU durée > 2 h : Céfazoline 2 g IVL (1 g si > 4 h puis toutes les 4 h)",
+          allergy:
+            "< 200 mL ET durée ≤ 2 h : Pas d’antibioprophylaxie<br><br> > 200 mL OU durée > 2 h : Clindamycine 900 mg IVL OU Vancomycine 20 mg/kg IVL OU Teicoplanine 12 mg/kg IVL"
         },
         "Greffe cutanée (hors brûlure)": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -4917,45 +4966,36 @@ function renderAntibioproForm() {
   });
 
   // Bouton : afficher la recommandation
-$btnRun.addEventListener("click", () => {
-  const specKey = $selSpec.value;
-  const type    = $selType.value;
-  const interv  = $selInterv.value;
+  $btnRun.addEventListener("click", () => {
+    const specKey = $selSpec.value;
+    const type    = $selType.value;
+    const interv  = $selInterv.value;
 
-  if (!specKey || !type || !interv) {
+    if (!specKey || !type || !interv) {
+      $res.style.display = "block";
+      $res.innerHTML = `
+        <div class="info-card"><div class="info-content">
+          Merci de sélectionner <strong>Spécialité</strong>, <strong>Type</strong> et <strong>Intervention</strong>.
+        </div></div>`;
+      $note.style.display = "none";
+      return;
+    }
+
+    const node = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions?.[interv];
+    const text = node ? ($chkAllerg.checked ? (node.allergy || "—") : (node.noAllergy || "—")) : null;
+
     $res.style.display = "block";
-    $res.innerHTML = `
+    $res.innerHTML = text ? `
+      <div class="info-card">
+        <div class="info-content">${text}</div>
+      </div>` : `
       <div class="info-card"><div class="info-content">
-        Merci de sélectionner <strong>Spécialité</strong>, <strong>Type</strong> et <strong>Intervention</strong>.
+        Aucune recommandation trouvée pour cette intervention.
       </div></div>`;
-    $note.style.display = "none";
-    return;
-  }
+    $note.style.display = text ? "block" : "none";
+  });
+}
 
-  const node = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions?.[interv];
-  const text = node ? ($chkAllerg.checked ? (node.allergy || "—") : (node.noAllergy || "—")) : null;
-
-  $res.style.display = "block";
-  $res.innerHTML = text ? `
-    <div class="info-card">
-      <div class="info-content">${text}</div>
-    </div>` : `
-    <div class="info-card"><div class="info-content">
-      Aucune recommandation trouvée pour cette intervention.
-    </div></div>`;
-
-  // 🔹 Ajout conditionnel uniquement pour "Chirurgie cardiaque et cardiologie interventionnelle"
-  if (text && specKey === "Cardiaque") {
-    $res.innerHTML += `
-      <div class="muted" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.4;">
-        <em>Si chirurgie cardiaque et portage nasal de <i>S. aureus</i> : décolonisation par mupirocine 2 % (2×/j) + décontamination oropharyngée à la chlorhexidine. Débuter ≥ 48 h avant la chirurgie (durée totale : 5–7 j).</em>
-      </div>
-    `;
-  }
-
-  $note.style.display = text ? "block" : "none";
-});
- 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
