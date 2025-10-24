@@ -3619,8 +3619,8 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Reconstruction ligamentaire ": {
-          noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+        "Reconstruction ligamentaire": {
+          noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h)",
           allergy: "Uniquement si greffon: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
         },
         "Arthroscopie": {
