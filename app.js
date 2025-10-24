@@ -1106,7 +1106,7 @@ function renderHome() {
 <!-- Nouveau bouton pour les Antibioprophylaxies per-opératoire -->
 <button class="btn" onclick="location.hash='#/antibiopro'">
   <img src="./img/antibioprophylaxies.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
-  Antibioprophylaxies per-opératoires
+  Antibioprophylaxies chirugicales
 </button>
     </div>
   `;
@@ -3946,7 +3946,7 @@ const ANTIBIOPRO_DATA = {
 
   // ======= Partie Cardiaque =======
   Cardiaque: {
-    "Chirurgie cardiaque": {
+    "Chirurgie cardiaque (hors transplantation/assistances)": {
       interventions: {
         "Actes thérapeutiques des parois, des cavités et de la crosse aortique avec ou sans CEC": {
           noAllergy: "Céfazoline 2 g IVL (1 g si durée > 4 h, puis toutes les 4 h) + 1 g lors du priming si CEC OU Céfuroxime 1,5 g IVL (0,75 g si > 2 h, puis toutes les 2 h).",
@@ -4917,36 +4917,45 @@ function renderAntibioproForm() {
   });
 
   // Bouton : afficher la recommandation
-  $btnRun.addEventListener("click", () => {
-    const specKey = $selSpec.value;
-    const type    = $selType.value;
-    const interv  = $selInterv.value;
+$btnRun.addEventListener("click", () => {
+  const specKey = $selSpec.value;
+  const type    = $selType.value;
+  const interv  = $selInterv.value;
 
-    if (!specKey || !type || !interv) {
-      $res.style.display = "block";
-      $res.innerHTML = `
-        <div class="info-card"><div class="info-content">
-          Merci de sélectionner <strong>Spécialité</strong>, <strong>Type</strong> et <strong>Intervention</strong>.
-        </div></div>`;
-      $note.style.display = "none";
-      return;
-    }
-
-    const node = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions?.[interv];
-    const text = node ? ($chkAllerg.checked ? (node.allergy || "—") : (node.noAllergy || "—")) : null;
-
+  if (!specKey || !type || !interv) {
     $res.style.display = "block";
-    $res.innerHTML = text ? `
-      <div class="info-card">
-        <div class="info-content">${text}</div>
-      </div>` : `
+    $res.innerHTML = `
       <div class="info-card"><div class="info-content">
-        Aucune recommandation trouvée pour cette intervention.
+        Merci de sélectionner <strong>Spécialité</strong>, <strong>Type</strong> et <strong>Intervention</strong>.
       </div></div>`;
-    $note.style.display = text ? "block" : "none";
-  });
-}
+    $note.style.display = "none";
+    return;
+  }
 
+  const node = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions?.[interv];
+  const text = node ? ($chkAllerg.checked ? (node.allergy || "—") : (node.noAllergy || "—")) : null;
+
+  $res.style.display = "block";
+  $res.innerHTML = text ? `
+    <div class="info-card">
+      <div class="info-content">${text}</div>
+    </div>` : `
+    <div class="info-card"><div class="info-content">
+      Aucune recommandation trouvée pour cette intervention.
+    </div></div>`;
+
+  // 🔹 Ajout conditionnel uniquement pour "Chirurgie cardiaque et cardiologie interventionnelle"
+  if (text && specKey === "Cardiaque") {
+    $res.innerHTML += `
+      <div class="muted" style="margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.4;">
+        <em>Si chirurgie cardiaque et portage nasal de <i>S. aureus</i> : décolonisation par mupirocine 2 % (2×/j) + décontamination oropharyngée à la chlorhexidine. Débuter ≥ 48 h avant la chirurgie (durée totale : 5–7 j).</em>
+      </div>
+    `;
+  }
+
+  $note.style.display = text ? "block" : "none";
+});
+ 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
