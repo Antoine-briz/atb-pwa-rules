@@ -3589,13 +3589,9 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Biopsies prostatiques trans-périnéales": {
-          noAllergy: "Pas d’antibioprophylaxie.",
-          allergy: "Pas d’antibioprophylaxie."
-        },
-        "Biopsies prostatiques trans-rectales": {
-          noAllergy: "Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste).",
-          allergy: "Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste)."
+        "Biopsies prostatiques": {
+          noAllergy: "Uniquement si voie trans-rectale: Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste).",
+          allergy: "Uniquement si voie trans-rectale: Fosfomycine-trométamol 3 g PO dose unique (≥2 h avant le geste) OU Ciprofloxacine 500 mg PO dose unique (≥2 h avant le geste)."
         },
         "Curiethérapie prostatique": {
           noAllergy: "Pas d’antibioprophylaxie.",
