@@ -1132,6 +1132,7 @@ function renderProbaMenu() {
       <button class="btn outline" onclick="location.hash='#/proba/endocardite'">Endocardites infectieuses</button>
       <button class="btn outline" onclick="location.hash='#/proba/sepsis'">Sepsis sans porte d'entrée</button>
       <button class="btn outline" onclick="location.hash='#/proba/mediastinite'">Médiastinites post-opératoires</button>
+      <button class="btn outline" onclick="location.hash='#/proba/scarpa'">Infections de scarpa</button>
     `)}
     ${h("card", `<button class="btn ghost" onclick="history.back()">← Retour</button>`)}
   `;
@@ -2569,6 +2570,80 @@ if ($chkAllerg.checked) {
     `;
   });
 }
+
+function renderProbaScarpa() {
+  const $app = document.getElementById('app');
+
+  $app.innerHTML = `
+    <div class="page">
+      <span class="title-badge">Caractéristiques de l'infection de scarpa</span>
+
+      <div class="card hero">
+        <img src="./img/ecmo.png" alt="Infection de Scarpa" onerror="this.style.display='none'">
+      </div>
+
+      <form class="form" onsubmit="return false;">
+        <fieldset>
+          <legend>Options</legend>
+
+          <label class="checkbox" style="margin-top:.25rem;">
+            <input type="checkbox" id="chk-allergie">
+            Allergie aux bêta-lactamines
+          </label>
+
+          <label class="checkbox">
+            <input type="checkbox" id="chk-choc">
+            Choc septique
+          </label>
+        </fieldset>
+
+        <div class="actions">
+          <button class="btn outline" id="btn-run">Antibiothérapie probabiliste recommandée</button>
+          <button class="btn ghost" type="button" onclick="history.back()">← Retour</button>
+        </div>
+      </form>
+
+      <div id="result" class="result" style="display:none;"></div>
+    </div>
+  `;
+
+  const $chkAllerg = document.getElementById('chk-allergie');
+  const $chkChoc   = document.getElementById('chk-choc');
+  const $btnRun    = document.getElementById('btn-run');
+  const $res       = document.getElementById('result');
+
+  $btnRun.addEventListener('click', () => {
+    // Anti-Gram- selon allergie, avec mention carbapénème si pas d’allergie + choc
+    let gramNeg;
+    if ($chkAllerg.checked) {
+      gramNeg = "Anti-Gram- : Aztréonam 1 g x4/j";
+    } else {
+      gramNeg = "Anti-Gram- : Céfépime 1 g x4/j IVL ou Pipéracilline-tazobactam 4 g x4/j IVL";
+      if ($chkChoc.checked) {
+        gramNeg += " (Envisager carbapénème)";
+      }
+    }
+
+    // Anti-Gram+
+    const gramPos = "Anti-Gram+ : Vancomycine 30 mg/kg/j IVSE ou Daptomycine 10 mg/kg/j IVL";
+
+    // Ajout si choc septique
+    const choc = $chkChoc.checked
+      ? "<br>Ajout d’Amikacine 25–30 mg/kg IVL sur 30 min"
+      : "";
+
+    const text = `${gramNeg}<br>${gramPos}${choc}`;
+
+    $res.style.display = 'block';
+    $res.innerHTML = `
+      <div class="info-card">
+        <div class="info-content">${text}</div>
+      </div>
+    `;
+  });
+}
+
+
 
 function renderDureesForm() {
   // ======================= Données – listes =======================
