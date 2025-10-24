@@ -666,3 +666,32 @@ table.simple th, table.pheno th {
   }
 }
 
+/* ===== Page Antibioprophylaxies per-opératoire ===== */
+.page-antibiopro .info-card .info-content {
+  font-size: 1.15rem;   /* réponse + lisible (~18px) */
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Image header : 100% écran, pas de débordement mobile */
+.page-antibiopro .card.hero {
+  padding: 0;           /* bord à bord comme les autres pages */
+}
+.page-antibiopro .card.hero img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;  /* même arrondi que tes cards */
+}
+
+/* Titre style "chip" sombre, petit, texte blanc (comme les autres fonctions) */
+.page-antibiopro .title-badge {
+  display: inline-block;
+  background: #111827;  /* encadré foncé */
+  color: #fff;          /* texte blanc */
+  font-size: 0.95rem;   /* un peu plus petit */
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
