@@ -3831,7 +3831,7 @@ const ANTIBIOPRO_DATA = {
         },
         "Détorsion d’annexe, ligature de trompe, salpingectomie": {
           noAllergy: "Pas d’antibioprophylaxie sauf si ATCD d’endométriose, chirurgie pelvienne ou infection génitale : Céfazoline 2 g IVL (+1 g si >4 h, puis toutes les 4h).",
-          allergy: "Clindamycine 900 mg IVL si antibioprophylaxie indiquée."
+          allergy: "Pas d’antibioprophylaxie sauf si ATCD d’endométriose, chirurgie pelvienne ou infection génitale : Clindamycine 900 mg IVL si antibioprophylaxie indiquée."
         },
         "Drilling ovarien, kystectomie, ponction de kyste": {
           noAllergy: "Pas d’antibioprophylaxie.",
