@@ -1105,7 +1105,7 @@ function renderHome() {
 </button>
 <!-- Nouveau bouton pour les Antibioprophylaxies per-opératoire -->
 <button class="btn" onclick="location.hash='#/antibiopro'">
-  <img src="./img/antibioprophylaxie.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
+  <img src="./img/antibioprophylaxies.png" alt="Icône Antibioprophylaxies per-opératoire" class="icon-btn">
   Antibioprophylaxies per-opératoires
 </button>
     </div>
