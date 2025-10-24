@@ -4829,14 +4829,25 @@ const ANTIBIOPRO_DATA = {
   },
 };
 
-
 // ===== Page Antibioprophylaxies per-opératoire (formulaire à 3 sélections)
 function renderAntibioproForm() {
   const $app = document.getElementById("app");
 
-  // Prépare les options (v1 : seule la spécialité Digestif est disponible)
-  const specialiteOptions = ["Digestif"]; // on respectera l’ordre complet lors de l’ajout des autres
-  const types = Object.keys(ANTIBIOPRO_DATA.Digestif);
+  // Libellés longs demandés (clé interne -> libellé affiché)
+  const SPEC_ORDER = [
+    { key: "Digestif",       label: "Chirurgie viscérale et digestive" },
+    { key: "Orthopédie",     label: "Chirurgie orthopédique et traumatologique" },
+    { key: "Urologie",       label: "Chirurgie urologique" },
+    { key: "Gynécologie",    label: "Chirurgie gynécologique et obstétricale" },
+    { key: "Cardiaque",      label: "Chirurgie cardiaque et cardiologie interventionnelle" },
+    { key: "Thoracique",     label: "Chirurgie thoracique" },
+    { key: "Vasculaire",     label: "Chirurgie vasculaire" },
+    { key: "Neurochirurgie", label: "Neurochirurgie" },
+    { key: "Ophtalmologie",  label: "Chirurgie ophtalmologique" },
+    { key: "ORL",            label: "Chirurgie ORL" },
+    { key: "Maxillo-facial", label: "Chirurgie maxillo-faciale" },
+    { key: "Plastique",      label: "Chirurgie plastique et reconstructrice" }
+  ].filter(s => ANTIBIOPRO_DATA[s.key]); // ne garder que celles présentes dans les données
 
   // HTML
   $app.innerHTML = `
@@ -4851,15 +4862,15 @@ function renderAntibioproForm() {
         <fieldset>
           <legend>Spécialité chirurgicale</legend>
           <select id="sel-specialite">
-            ${specialiteOptions.map(s => `<option value="${s}">${s}</option>`).join("")}
+            <option value="">— Choisir —</option>
+            ${SPEC_ORDER.map(s => `<option value="${s.key}">${s.label}</option>`).join("")}
           </select>
         </fieldset>
 
         <fieldset>
           <legend>Type d’intervention</legend>
-          <select id="sel-type">
+          <select id="sel-type" disabled>
             <option value="">— Choisir —</option>
-            ${types.map(t => `<option value="${t}">${t}</option>`).join("")}
           </select>
         </fieldset>
 
@@ -4888,61 +4899,102 @@ function renderAntibioproForm() {
     </div>
   `;
 
-  // Comportement cascade
-  const $selType = document.getElementById("sel-type");
+  // Références DOM
+  const $selSpec   = document.getElementById("sel-specialite");
+  const $selType   = document.getElementById("sel-type");
   const $selInterv = document.getElementById("sel-intervention");
-  const $chkAllergie = document.getElementById("chk-allergie");
-  const $btnRun = document.getElementById("btn-run");
-  const $res = document.getElementById("result");
-  const $note = document.getElementById("result-note");
+  const $chkAllerg = document.getElementById("chk-allergie");
+  const $btnRun    = document.getElementById("btn-run");
+  const $res       = document.getElementById("result");
+  const $note      = document.getElementById("result-note");
 
-  $selType.addEventListener("change", () => {
-    const val = $selType.value;
+  // Helpers
+  const resetType = () => {
+    $selType.innerHTML = `<option value="">— Choisir —</option>`;
+    $selType.disabled = true;
+  };
+  const resetInterv = () => {
     $selInterv.innerHTML = `<option value="">— Choisir —</option>`;
     $selInterv.disabled = true;
+  };
+  const clearResult = () => {
+    $res.style.display = "none";
+    $res.innerHTML = "";
+    $note.style.display = "none";
+  };
 
-    if (!val) return;
+  // Spécialité -> Types
+  $selSpec.addEventListener("change", () => {
+    clearResult();
+    resetType();
+    resetInterv();
 
-    const intervs = ANTIBIOPRO_DATA.Digestif[val]?.interventions || {};
-    Object.keys(intervs).forEach(name => {
+    const specKey = $selSpec.value;
+    if (!specKey) return;
+
+    const typesObj = ANTIBIOPRO_DATA[specKey] || {};
+    const types = Object.keys(typesObj);
+
+    types.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = t;
+      $selType.appendChild(opt);
+    });
+    $selType.disabled = types.length === 0;
+  });
+
+  // Type -> Interventions
+  $selType.addEventListener("change", () => {
+    clearResult();
+    resetInterv();
+
+    const specKey = $selSpec.value;
+    const type = $selType.value;
+    if (!specKey || !type) return;
+
+    const intervsObj = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions || {};
+    const intervs = Object.keys(intervsObj);
+
+    intervs.forEach(name => {
       const opt = document.createElement("option");
       opt.value = name;
       opt.textContent = name;
       $selInterv.appendChild(opt);
     });
-    $selInterv.disabled = false;
+    $selInterv.disabled = intervs.length === 0;
   });
 
+  // Bouton : afficher la recommandation
   $btnRun.addEventListener("click", () => {
-    const type = $selType.value;
-    const interv = $selInterv.value;
-    if (!type || !interv) {
+    const specKey = $selSpec.value;
+    const type    = $selType.value;
+    const interv  = $selInterv.value;
+
+    if (!specKey || !type || !interv) {
       $res.style.display = "block";
-      $res.innerHTML = `<div class="info-card"><div class="info-content">Merci de sélectionner <strong>Type</strong> et <strong>Intervention</strong>.</div></div>`;
+      $res.innerHTML = `
+        <div class="info-card"><div class="info-content">
+          Merci de sélectionner <strong>Spécialité</strong>, <strong>Type</strong> et <strong>Intervention</strong>.
+        </div></div>`;
       $note.style.display = "none";
       return;
     }
 
-    const data = ANTIBIOPRO_DATA.Digestif[type].interventions[interv];
-    const text = $chkAllergie.checked ? data.allergy : data.noAllergy;
+    const node = ANTIBIOPRO_DATA[specKey]?.[type]?.interventions?.[interv];
+    const text = node ? ($chkAllerg.checked ? (node.allergy || "—") : (node.noAllergy || "—")) : null;
 
-    // Affichage de la réponse
     $res.style.display = "block";
-    $res.innerHTML = `
+    $res.innerHTML = text ? `
       <div class="info-card">
-        <h3>${interv}</h3>
-        <div class="info-content">
-          ${text}
-        </div>
-      </div>
-    `;
-    $note.style.display = "block";
+        <div class="info-content">${text}</div>
+      </div>` : `
+      <div class="info-card"><div class="info-content">
+        Aucune recommandation trouvée pour cette intervention.
+      </div></div>`;
+    $note.style.display = text ? "block" : "none";
   });
 }
-
-
-
-
 
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
