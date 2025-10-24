@@ -695,3 +695,19 @@ table.simple th, table.pheno th {
   padding: 6px 10px;
   border-radius: 8px;
 }
+
+/* Titre de la page Antibioprophylaxies — même style que "Adaptation rénale" / "Modalités" */
+.page-antibiopro .title-badge {
+  background: transparent;        /* pas de bande bleue */
+  color: var(--text);             /* s’adapte clair/sombre comme ailleurs */
+  text-transform: none;           /* pas de MAJUSCULES */
+  font-weight: 600;
+  font-size: 1rem;                /* même taille que les autres titres de fonction */
+  letter-spacing: normal;
+  text-align: left;               /* aligné comme les autres */
+  padding: 0 0 8px 0;             /* pas d'encart, juste un petit espace dessous */
+  border: none;                   /* pas de bordure/badge */
+  width: 100%;
+  display: block;
+}
+
