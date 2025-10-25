@@ -1089,7 +1089,7 @@ function renderHome() {
       </button>
       <button class="btn" onclick="location.hash='#/adaptee'" aria-label="Accéder à la section Antibiothérapie adaptée">
     <img src="./img/adaptee.png" alt="Icône Antibiothérapie adaptée" class="icon-btn">
-    Antibiothérapie adaptée
+    Antibiothérapie adaptée: germes multisensibles, BMR et BHRe
 </button>
       <button class="btn" onclick="location.hash='#/proba/dureeATB'">
         <img src="./img/duree.png" alt="" class="icon-btn">
@@ -3065,7 +3065,7 @@ function renderAdapteeMenu() {
   container.classList.add("antibiotherapy-container");
 
   const title = document.createElement("h2");
-  title.textContent = "Antibiothérapie Adaptée";
+  title.textContent = "Antibiothérapie adaptée: germes multisensibles, BMR et BHRe";
 
   const linksContainer = document.createElement("div");
   linksContainer.classList.add("germs-links");
