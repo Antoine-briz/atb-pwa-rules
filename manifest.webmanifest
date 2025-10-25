@@ -1,6 +1,6 @@
 {
-  "name": "Protocoles d'antibiothérapie MIR CHV",
-  "short_name": "Protocoles d'antibiothérapie MIR CHV",
+  "name": "Antibio-CLASH",
+  "short_name": "Antibio-CLASH",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
