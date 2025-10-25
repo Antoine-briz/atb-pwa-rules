@@ -2500,7 +2500,7 @@ function renderProbaMediastinite() {
   const $app = document.getElementById('app');
 
   $app.innerHTML = `
-    <div class="page">
+    <div class="page page-mediastinite">
       <span class="title-badge">Caractéristiques de la médiastinite post-opératoire</span>
 
       <div class="card hero">
@@ -2577,7 +2577,7 @@ function renderProbaScarpa() {
   const $app = document.getElementById('app');
 
   $app.innerHTML = `
-    <div class="page">
+    <div class="page page-scarpa">
       <span class="title-badge">Caractéristiques de l'infection de scarpa</span>
 
       <div class="card hero">
