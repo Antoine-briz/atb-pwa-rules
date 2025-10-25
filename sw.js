@@ -1,5 +1,5 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
-const CACHE_NAME = "atb-rules-v16";
+const CACHE_NAME = "atb-rules-v17";
 
 // Liste des fichiers à pré-cacher
 const PRECACHE = [
@@ -33,7 +33,6 @@ const PRECACHE = [
   "./img/steno.png",
   "./img/carba.png",
   "./img/erv.png",
-  "./img/fond.png",
   "./img/dialyse.png",
   "./img/modalite.png",
   // Retrait de pdf.js CDN car CORS/Policy
