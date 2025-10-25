@@ -711,3 +711,64 @@ table.simple th, table.pheno th {
   display: block;
 }
 
+/* ===== Médiastinite (mêmes principes que Antibioprophylaxies) ===== */
+.page-mediastinite .info-card .info-content {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Image plein écran (sans débordement) */
+.page-mediastinite .card.hero { padding: 0; }
+.page-mediastinite .card.hero img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Titre — même style que "Adaptation rénale" / "Modalités" */
+.page-mediastinite .title-badge {
+  background: transparent;
+  color: var(--text);
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-align: left;
+  padding: 0 0 8px 0;
+  border: none;
+  width: 100%;
+  display: block;
+}
+
+/* ===== Infection de Scarpa (mêmes réglages) ===== */
+.page-scarpa .info-card .info-content {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.page-scarpa .card.hero { padding: 0; }
+.page-scarpa .card.hero img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.page-scarpa .title-badge {
+  background: transparent;
+  color: var(--text);
+  text-transform: none;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-align: left;
+  padding: 0 0 8px 0;
+  border: none;
+  width: 100%;
+  display: block;
+}
