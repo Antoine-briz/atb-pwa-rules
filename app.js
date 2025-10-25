@@ -12,6 +12,8 @@ const routes = {
   "#/proba/dermohypo": renderProbaDermohypodermiteForm,
   "#/proba/endocardite": renderProbaEndocarditeForm,
   "#/proba/sepsis": renderProbaSepsisForm,
+  "#/proba/mediastinite": renderProbaMediastinite,
+  "#/proba/scarpa":       renderProbaScarpa,
   "#/adaptee": renderAdapteeMenu, // Route pour le menu "Antibiothérapie Adaptée"
   "#/adaptee/sensibles": renderSensiblesPage,
   "#/adaptee/SARM": () => renderBacteriaPage("SARM", BACTERIA_DATA.SARM),
