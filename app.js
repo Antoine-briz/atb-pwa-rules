@@ -3223,21 +3223,48 @@ function renderReinForm() {
   });
 
   document.getElementById("btnRein").addEventListener("click", () => {
-    const f = selFamille.value, m = selMolecule.value, fn = document.getElementById("fonction").value;
-    const out = document.getElementById("resRein");
-    if (!f || !m || !fn) { out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale."; return; }
-    const mol = data[f][m];
-   const entretienBrut = mol[fn] || "—";
-   const entretienLisible = humanizeEntretien(entretienBrut);
-    out.innerHTML = `<strong>${m}</strong><br>
-      <em>Dose de charge :</em> ${mol.charge}<br>
-      <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}`;
-     out.innerHTML += `
+  const f = selFamille.value, m = selMolecule.value, fn = document.getElementById("fonction").value;
+  const out = document.getElementById("resRein");
+
+  if (!f || !m || !fn) {
+    out.textContent = "⚠️ Merci de sélectionner une famille, une molécule et une fonction rénale.";
+    return;
+  }
+
+  const mol = data[f][m];
+  const entretienBrut = mol[fn] || "—";
+  const entretienLisible = humanizeEntretien(entretienBrut);
+
+  // Affichage principal de la réponse
+  out.innerHTML = `
+    <strong>${m}</strong><br>
+    <em>Dose de charge :</em> ${mol.charge}<br>
+    <em>Dose d’entretien (${document.getElementById("fonction").selectedOptions[0].textContent}) :</em> ${entretienLisible}
+  `;
+
+  // Ajout des crédits
+  out.innerHTML += `
     <div class="credits">
       <em>D'après le travail de : Dr Gilles TROCHE, Dr Marine PAUL et Dr Antoine BRIZARD<br>
       (Bases de données ANSM, GPR et Dexther)</em>
-    </div>`;
-  });
+    </div>
+  `;
+
+  // ✅ Ajout de l'encadré d'information supplémentaire
+  const existingNote = document.querySelector(".rein-note");
+  if (existingNote) existingNote.remove(); // Évite les doublons si on reclique plusieurs fois
+
+  const infoDiv = document.createElement("div");
+  infoDiv.className = "info-card rein-note";
+  infoDiv.innerHTML = `
+    <div class="info-content">
+      Le dosage plasmatique des antibiotiques est recommandé en soins critiques,
+      notamment en cas de DFG &lt; 30&nbsp;mL/min/1,73m² ou EER.
+    </div>
+  `;
+
+  out.insertAdjacentElement("afterend", infoDiv);
+});
 }
 // Remplace les "/6h", "/8h", "/12 à 24h", "/8–12h", etc. par "toutes les …"
 function humanizeEntretien(text) {
