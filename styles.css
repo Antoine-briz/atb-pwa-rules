@@ -711,49 +711,56 @@ table.simple th, table.pheno th {
   display: block;
 }
 
-/* ===== Médiastinite (mêmes principes que Antibioprophylaxies) ===== */
+/* Médiastinite */
 .page-mediastinite .info-card .info-content {
   font-size: 1.15rem;
   line-height: 1.6;
   font-weight: 500;
 }
-
-/* Image plein écran (sans débordement) */
-.page-mediastinite .card.hero { padding: 0; }
+.page-mediastinite .card.hero { padding: 0; overflow: hidden; }
 .page-mediastinite .card.hero img {
   display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
   border-radius: 12px;
 }
+.page-mediastinite .title-badge {
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: var(--text);
+  text-transform: none !important;   /* force pas de MAJ */
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-align: left;
+  padding: 0 0 8px 0;
+  border: none;
+}
 
-/* ===== Infection de Scarpa (mêmes réglages) ===== */
+/* Scarpa */
 .page-scarpa .info-card .info-content {
   font-size: 1.15rem;
   line-height: 1.6;
   font-weight: 500;
 }
-
-.page-scarpa .card.hero { padding: 0; }
+.page-scarpa .card.hero { padding: 0; overflow: hidden; }
 .page-scarpa .card.hero img {
   display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
   border-radius: 12px;
 }
-
-/* === Titres : mêmes styles que "Adaptation à la fonction rénale" === */
-.page-mediastinite .title-badge,
 .page-scarpa .title-badge {
   display: block;
   width: 100%;
-  background: transparent;       /* pas de bande colorée */
-  color: var(--text);            /* s’adapte clair/sombre */
-  text-transform: none;          /* pas en majuscules */
+  background: transparent;
+  color: var(--text);
+  text-transform: none !important;   /* force pas de MAJ */
   font-weight: 600;
-  font-size: 1rem;               /* même taille que les autres titres */
+  font-size: 1rem;
   letter-spacing: normal;
   text-align: left;
   padding: 0 0 8px 0;
