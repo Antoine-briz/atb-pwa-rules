@@ -3619,13 +3619,13 @@ const ANTIBIOPRO_DATA = {
           noAllergy: "Pas d’antibioprophylaxie.",
           allergy: "Pas d’antibioprophylaxie."
         },
-        "Reconstruction ligamentaire ": {
-          noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si greffon: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+        "Reconstruction ligamentaire": {
+  noAllergy: "Uniquement si greffon: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+  allergy:   "Uniquement si greffon: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
         },
         "Arthroscopie": {
-          noAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+  noAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+  allergy:   "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
         },
         "Chirurgie des parties molles": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -3653,8 +3653,8 @@ const ANTIBIOPRO_DATA = {
           allergy: "Pas d’antibioprophylaxie."
         },
         "Arthroscopie": {
-          nnoAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
-          allergy: "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
+  noAllergy: "Uniquement si pose de matériel: Céfazoline 2 g IVL (réinjection 1 g si durée > 4 h, puis toutes les 4 h).",
+  allergy:   "Uniquement si pose de matériel: Clindamycine 900 mg IVL (2ème intention : Vancomycine 20 mg/kg IVL ou Teicoplanine 12 mg/kg IVL)"
         },
         "Chirurgie des parties molles": {
           noAllergy: "Pas d’antibioprophylaxie.",
@@ -4219,8 +4219,8 @@ const ANTIBIOPRO_DATA = {
           allergy:   "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
         },
         "Chirurgie de la paroi thoracique (avec ou sans matériel)": {
-          noAllergy: "Céfazoline 2 g IVL (+1 g > 4 h, puis toutes les 4h) OU Céfuroxime 1,5 g IVL (+0,75 g > 2 h, puis toutes les 2h).",
-          allergy:   "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
+  noAllergy: "Céfazoline 2 g IVL (+1 g > 4 h, puis toutes les 4h) OU Céfuroxime 1,5 g IVL (+0,75 g > 2 h, puis toutes les 2h).",
+  allergy:   "Clindamycine 900 mg IVL + Gentamicine 6–7 mg/kg IVL."
         },
         "Médiastinoscopie ou thoracoscopie (avec ou sans biopsie)": {
           noAllergy: "Pas d’antibioprophylaxie.",
