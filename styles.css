@@ -728,21 +728,6 @@ table.simple th, table.pheno th {
   border-radius: 12px;
 }
 
-/* Titre — même style que "Adaptation rénale" / "Modalités" */
-.page-mediastinite .title-badge {
-  background: transparent;
-  color: var(--text);
-  text-transform: none;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: normal;
-  text-align: left;
-  padding: 0 0 8px 0;
-  border: none;
-  width: 100%;
-  display: block;
-}
-
 /* ===== Infection de Scarpa (mêmes réglages) ===== */
 .page-scarpa .info-card .info-content {
   font-size: 1.15rem;
@@ -759,16 +744,18 @@ table.simple th, table.pheno th {
   border-radius: 12px;
 }
 
+/* === Titres : mêmes styles que "Adaptation à la fonction rénale" === */
+.page-mediastinite .title-badge,
 .page-scarpa .title-badge {
-  background: transparent;
-  color: var(--text);
-  text-transform: none;
+  display: block;
+  width: 100%;
+  background: transparent;       /* pas de bande colorée */
+  color: var(--text);            /* s’adapte clair/sombre */
+  text-transform: none;          /* pas en majuscules */
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1rem;               /* même taille que les autres titres */
   letter-spacing: normal;
   text-align: left;
   padding: 0 0 8px 0;
   border: none;
-  width: 100%;
-  display: block;
 }
