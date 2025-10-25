@@ -391,9 +391,9 @@ const BACTERIA_DATA = {
         <tbody>
           <tr>
             <td>Vancomycine</td>
-            <td>15–30 mg/kg IVL + 30–40 mg/kg/24h — Objectif = 20–30 mg/L</td>
+            <td>15–30 mg/kg IVL<br>+ 30–40 mg/kg/24h IVSE<br>Objectif = C. continue 20–30 mg/L</td>
             <td>S : CMI ≤ 2 mg/L<br>R : CMI &gt; 2 mg/L</td>
-            <td>Red-man syndrome, veinotoxicité, néphrotoxicité, ototoxicité, neutropénies</td>
+            <td>Red-man syndrome, veinotoxicité,<br>néphrotoxicité, ototoxicité,<br>neutropénies</td>
           </tr>
         </tbody>
       </table>`,
@@ -403,28 +403,28 @@ const BACTERIA_DATA = {
         <tbody>
           <tr>
             <td>Pneumonie</td>
-            <td>Linézolide 600 mg x2/j PO/IV<br>+ Clindamycine 3–6 mg/kg x4/j PO/IV si infection sévère (tox. PVL)</td>
-            <td>Vancomycine ou CTX 20+100 mg/kg/j<br>+ Clindamycine si infection sévère<br><em>(Daptomycine inactivée)</em></td>
+            <td>Linézolide 600 mg x2/j PO/IV<br><br>+ Clindamycine 3–6 mg/kg x4/j PO/IV<br>si infection sévère (toxine PVL)</td>
+            <td>Vancomycine<br>ou CTX 20+100 mg/kg/j<br><br>+ Clindamycine si inf. sévère<br><em>(Daptomycine inactivée)</em></td>
           </tr>
           <tr>
             <td>Bactériémie</td>
-            <td>Vancomycine ou Daptomycine 10 mg/kg/j IVL (à privilégier si EI)</td>
+            <td>Vancomycine<br>ou Daptomycine 10 mg/kg/j</td>
             <td>–</td>
           </tr>
           <tr>
             <td>Inf. abdominale</td>
             <td>Vancomycine</td>
-            <td>Linézolide ou Cotrimoxazole ou Tigécycline 100 mg puis 50 mg x2/j IV si infection sévère</td>
+            <td>Linézolide<br>ou Cotrimoxazole<br>ou Tigécycline 100 mg puis 50 mg x2/j IV si inf.sévère</td>
           </tr>
           <tr>
             <td>Infection urinaire</td>
             <td>Vancomycine</td>
-            <td>Linézolide ou Cotrimoxazole</td>
+            <td>Linézolide<br>ou Cotrimoxazole</td>
           </tr>
           <tr>
             <td>Dermo-hypodermite</td>
             <td>Vancomycine<br>+ Clindamycine si infection sévère</td>
-            <td>Linézolide ou Cotrimoxazole ou Tigécycline 100 mg puis 50 mg x2/j IV si infection sévère<br>+ Clindamycine si infection sévère</td>
+            <td>Linézolide<br>ou Cotrimoxazole<br>ou Tigécycline si inf. sévère<br><br>+ Clindamycine si infection sévère</td>
           </tr>
         </tbody>
       </table>`,
@@ -433,9 +433,9 @@ const BACTERIA_DATA = {
         <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
         <tbody>
           <tr>
-            <td>Gentamicine (sensibilité = 94%)</td>
+            <td>Gentamicine<br>(sensibilité = 94%)</td>
             <td>8 mg/kg IVL sur 30 min<br>Objectif pic 30 min : CMI x8–10<br>Objectif résiduelle : &lt; 0,5 mg/L</td>
-            <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+            <td>Néphrotoxicité (NTA),<br>Toxicité cochléaire (irréversible)</td>
           </tr>
         </tbody>
       </table>`
@@ -485,9 +485,9 @@ const BACTERIA_DATA = {
         <tbody>
           <tr>
             <td>Céfépime</td>
-            <td>Charge 2 g IVL + 4–6 g/24h IVSE</td>
+            <td>Charge 2 g IVL<br>+ 4–6 g/24h IVSE</td>
             <td>S : CMI ≤ 1<br>R : CMI &gt; 4</td>
-            <td>Allergies (croisée pénicilline &lt; 5%), neurotoxicité, néphrotoxicité, effets digestifs</td>
+            <td>Allergies (croisée pénicilline &lt; 5%),<br>neurotoxicité, néphrotoxicité,<br>effets digestifs</td>
           </tr>
         </tbody>
       </table>`,
@@ -508,8 +508,8 @@ const BACTERIA_DATA = {
           </tr>
           <tr>
             <td>Inf. intra-abdominale</td>
-            <td>Céfépime IV + Métronidazole 500 mg x3/j IV/PO</td>
-            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO ou Tigécycline 100 mg puis 50 mg x2/j IV si inf. sévère</td>
+            <td>Céfépime IV<br>+ Métronidazole 500mg x3/j IV/PO</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO<br>ou Tigécycline 100mg puis 50mg x2/j IV si inf. sévère</td>
           </tr>
           <tr>
             <td>Infection urinaire</td>
@@ -519,7 +519,7 @@ const BACTERIA_DATA = {
           <tr>
             <td>Dermo-hypodermite</td>
             <td>Céfépime IV</td>
-            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO ou Tigécycline IV si inf. sévère</td>
+            <td>Ciprofloxacine IV/PO ou Cotrimoxazole IV/PO<br>ou Tigécycline IV si inf. sévère</td>
           </tr>
         </tbody>
       </table>`,
@@ -528,9 +528,9 @@ const BACTERIA_DATA = {
         <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
         <tbody>
           <tr>
-            <td>Amikacine <br><small>(Gentamicine pour <em>Serratia marcescens</em>)</small></td>
+            <td>Amikacine <br>(Gentamicine pour <em>Serratia marcescens</em>)</td>
             <td>30 mg/kg IVL 30’<br>Obj pic 30’ &gt; CMI×8<br>Obj. résid. &lt; 5 mg/L</td>
-            <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+            <td>Néphrotoxicité (NTA),<br>Toxicité cochléaire (irréversible)</td>
           </tr>
         </tbody>
       </table>`
@@ -576,12 +576,12 @@ BACTERIA_DATA.BLSE = {
         <tr>
           <td>Méropénème</td><td>4–6 g/24h IV</td>
           <td>S : CMI ≤ …<br>R : CMI &gt; 8</td>
-          <td>Allergies, néphrotox., troubles digestifs</td>
+          <td>Allergies, néphrotox.,<br>troubles digestifs</td>
         </tr>
         <tr>
           <td>Imipénème</td><td>3–4 g/24h IV</td>
           <td>S : CMI ≤ 2<br>R : CMI &gt; 4</td>
-          <td>Allergies, <em>neurotox (Imip.)</em>, néphrotox., troubles digestifs</td>
+          <td>Allergies, neurotox (Imip.),<br>néphrotox., troubles digestifs</td>
         </tr>
       </tbody>
     </table>`,
@@ -591,11 +591,11 @@ BACTERIA_DATA.BLSE = {
       <tbody>
         <tr><td>Pneumonie</td><td>Méropénème</td><td>Témocilline 2–4 g/j IV</td><td>Colimycine 9–12 MUI x3/j IV</td></tr>
         <tr><td>Bactériémie</td><td>Méropénème</td><td>Témocilline</td><td>–</td></tr>
-        <tr><td>Péritonite</td><td>Imipénème</td><td>–</td><td>Tigécycline 100 mg puis 50 mg x2/j IV (infection sévère)</td></tr>
-        <tr><td>Infection biliaire</td><td>Imipénème ou Méropénème</td><td>Pipé./Tazo</td>
-            <td>Ciprofloxacine 400 mg x2/j IV / CTX 20+100 mg/kg/j IV/PO / Tigécycline (infection sévère)</td></tr>
-        <tr><td>Infection urinaire</td><td>Imipénème ou Méropénème</td><td>Pipé./Tazo, Témocilline</td>
-            <td>Ciprofloxacine 400 mg x2/j IV / CTX 20+100 mg/kg/j IV/PO</td></tr>
+        <tr><td>Péritonite</td><td>Imipénème</td><td>–</td><td>Tigécycline 100 mg puis 50 mg x2/j IV (inf. sévère)</td></tr>
+        <tr><td>Infection biliaire</td><td>Imipénème ou Méropénème</td><td>Pipéracilline/Tazobactam</td>
+            <td>Ciprofloxacine 400 mg x2/j IV<br>CTX 20+100 mg/kg/j IV/PO<br>Tigécycline (inf. sévère)</td></tr>
+        <tr><td>Infection urinaire</td><td>Imipénème ou Méropénème</td><td>Pipéracilline/Tazobactam, Témocilline</td>
+            <td>Ciprofloxacine 400 mg x2/j IV<br>CTX 20+100 mg/kg/j IV/PO</td></tr>
         <tr><td>Dermo-hypodermite</td><td>Méropénème</td><td>Témocilline</td><td>Tigécycline (infection sévère)</td></tr>
       </tbody>
     </table>`,
@@ -604,9 +604,9 @@ BACTERIA_DATA.BLSE = {
       <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
       <tbody>
         <tr>
-          <td>Amikacine<br><small>(Gentamicine pour <em>Serratia marcescens</em>)</small></td>
+          <td>Amikacine<br>(Gentamicine pour <em>Serratia marcescens</em>)</td>
           <td>30 mg/kg IVL 30 min<br>Objectif pic 30 min : CMI ×8–10 (60–80 mg/L)<br>Objectif résiduelle : &lt; 5 mg/L</td>
-          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+          <td>Néphrotoxicité (NTA),<br>Toxicité cochléaire (irréversible)</td>
         </tr>
       </tbody>
     </table>`
@@ -661,7 +661,7 @@ BACTERIA_DATA.pyo = {
           <td>Ceftolozane–Tazobactam</td>
           <td>2 g/1 g x3/j IVL</td>
           <td>S : CMI ≤ 4 mg/L<br>R : CMI &gt; 4 mg/L</td>
-          <td>Allergies (croisée pénicilline &lt; 5%), neurotoxicité, néphrotoxicité, troubles digestifs</td>
+          <td>Allergies (croisée pénicilline &lt; 5%),<br>neurotoxicité, néphrotoxicité,<br>troubles digestifs</td>
         </tr>
       </tbody>
     </table>`,
@@ -731,7 +731,7 @@ BACTERIA_DATA.pyo = {
         <tr>
           <td>Amikacine</td>
           <td>30 mg/kg IVL<br>Objectif pic &gt; CMI×8<br>Objectif résiduelle &lt; 5 mg/L</td>
-          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+          <td>Néphrotoxicité (NTA),<br>Toxicité cochléaire (irréversible)</td>
         </tr>
       </tbody>
     </table>`
@@ -788,28 +788,28 @@ BACTERIA_DATA.acineto = {
     <tbody>
       <tr>
         <td>Pneumonie</td>
-        <td>Ampicilline-sulbactam + autre antibiotique</td>
-        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Colistine 9–12 MUI x3/j IV / Amikacine 25–30 mg/kg IV</td>
+        <td>Ampicilline-sulbactam<br>+ autre antibiotique</td>
+        <td>Bithérapie associant :<br>- Méropénème 4–6 g/24h IV (sauf allergie)<br>-Colistine 9–12 MUI x3/j IV<br>- Amikacine 25–30 mg/kg IV</td>
       </tr>
       <tr>
         <td>Bactériémie</td>
-        <td>Ampicilline-sulbactam + autre antibiotique</td>
-        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Amikacine 25–30 mg/kg IV</td>
+        <td>Ampicilline-sulbactam<br>+ autre antibiotique</td>
+        <td>Bithérapie associant :<br>- Méropénème 4–6 g/24h IV (sauf allergie)<br>- Amikacine 25–30 mg/kg IV</td>
       </tr>
       <tr>
         <td>Inf. intra-abdominale</td>
-        <td>Ampicilline-sulbactam + autre antibiotique</td>
-        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Tigécycline 100 mg puis 50 mg x2/j IV, Amikacine 25–30 mg/kg IV</td>
+        <td>Ampicilline-sulbactam<br>+ autre antibiotique</td>
+        <td>Bithérapie associant :<br>- Méropénème 4–6 g/24h IV (sauf allergie)<br>- Tigécycline 100 mg puis 50 mg x2/j IV<br>- Amikacine 25–30 mg/kg IV</td>
       </tr>
       <tr>
         <td>Infection urinaire</td>
-        <td>Ampicilline-sulbactam + autre antibiotique</td>
-        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Amikacine 25–30 mg/kg IV</td>
+        <td>Ampicilline-sulbactam<br>+ autre antibiotique</td>
+        <td>Bithérapie associant :<br>- Méropénème 4–6 g/24h IV (sauf allergie)<br>- Amikacine 25–30 mg/kg IV</td>
       </tr>
       <tr>
         <td>Dermo-hypodermite</td>
-        <td>Ampicilline-sulbactam + autre antibiotique</td>
-        <td>Bithérapie associant : Méropénème 4–6 g/24h IV (sauf allergie), Tigécycline 100 mg puis 50 mg x2/j IV, Amikacine 25–30 mg/kg IV</td>
+        <td>Ampicilline-sulbactam<br>+ autre antibiotique</td>
+        <td>Bithérapie associant :<br>- Méropénème 4–6 g/24h IV (sauf allergie)<br>- Tigécycline 100 mg puis 50 mg x2/j IV<br>- Amikacine 25–30 mg/kg IV</td>
       </tr>
     </tbody>
   </table>`,
@@ -819,9 +819,9 @@ BACTERIA_DATA.acineto = {
       <thead><tr><th>Molécule</th><th>Posologie</th><th>Effets indésirables</th></tr></thead>
       <tbody>
         <tr>
-          <td>Amikacine <small>(Sauf si employé dans la bithérapie)</small></td>
+          <td>Amikacine (Sauf si employé dans la bithérapie)</td>
           <td>30 mg/kg IVL<br>Obj. pic &gt; CMI×8<br>Obj. résiduelle &lt; 5 mg/L</td>
-          <td>Néphrotoxicité (NTA), Toxicité cochléo-vestibulaire (irréversible)</td>
+          <td>Néphrotoxicité (NTA),<br>Toxicité cochléaire (irréversible)</td>
         </tr>
       </tbody>
     </table>`
@@ -837,8 +837,8 @@ BACTERIA_DATA.steno = {
   mecanisme: `
     <p><em>S. maltophilia</em> présente des résistances naturelles contre :</p>
     <p><strong>Les β-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
-    β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
-    β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
+    - β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
+    - β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
     <p><strong>Les aminosides</strong> : Modification des aminosides par les enzymes : APH-3’, ANT-2’, AAC-6’</p>
     <p><strong>Autres</strong> : La colistine et la fosfomycine</p>`, // :contentReference[oaicite:3]{index=3}
 
@@ -877,7 +877,7 @@ BACTERIA_DATA.steno = {
           <td>Cotrimoxazole</td>
           <td>20+100 mg/kg/j PO/IV (dose max)</td>
           <td>S : CMI ≤ 0,001 mg/L<br>R : CMI &gt; 4 mg/L</td>
-          <td>Neutropénies, néphrotox., neurotox., hépatotox., sd Lyell &amp; SJ</td>
+          <td>Neutropénies, néphrotox., neurotox.,<br>hépatotox., sd Lyell &amp; SJ</td>
         </tr>
       </tbody>
     </table>`, // :contentReference[oaicite:6]{index=6}
@@ -914,7 +914,7 @@ siteAtb: `
           <td>
             Ceftazidime 4-6g/24h IVSE<br>
             Lévofloxacine 500mg x2/j IV/PO<br>
-            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévères
           </td>
         </tr>
         <tr>
@@ -931,7 +931,7 @@ siteAtb: `
           <td>
             Ceftazidime 4-6g/24h IVSE<br>
             Lévofloxacine 500mg x2/j IV/PO<br>
-            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévère abdominales ou tissus mous
+            Tigécycline 100mg puis 50mg x2/j IV pour inf. sévères
           </td>
         </tr>
       </tbody>
@@ -993,10 +993,10 @@ BACTERIA_DATA.carba = {
           <td>Ceftazidime–avibactam</td>
           <td>2 g/0,5 g x3/j IVSE sur 4 h</td>
           <td>S : CMI ≤ 8<br>R : CMI &gt; 8</td>
-          <td>Allergies, encéphalopathie, convulsions, coma</td>
+          <td>Allergies, encéphalopathie,<br>convulsions, coma</td>
         </tr>
         <tr>
-          <td>Aztréonam + Ceftazidime–avibactam pour classe B</td>
+          <td>Aztréonam +<br>Cefta-avibactam pour classe B</td>
           <td>4 g x2/j IVSE sur 12 h</td>
           <td>S : CMI ≤ 1<br>R : CMI &gt; 4</td>
           <td>—</td>
@@ -1054,19 +1054,19 @@ BACTERIA_DATA.erv = {
           <td><strong>Référence :</strong> Linézolide <small>(sauf bactériémies et endocardites)</small></td>
           <td>600 mg 2×/jour</td>
           <td>4</td>
-          <td>Cytopénie, hyperlactatémie, syndrome sérotoninergique, neuropathies</td>
+          <td>Cytopénie, hyperlactatémie,<br>syndrome sérotoninergique,<br>neuropathies</td>
         </tr>
         <tr>
           <td>Tigécycline <small>(infections abdominales et des tissus mous)</small></td>
           <td>50 mg ×2/jour</td>
           <td>Données insuffisantes</td>
-          <td>Troubles digestifs, photosensibilisation, hépatotoxicité, allergies</td>
+          <td>Troubles digestifs, photosensibilisation,<br>hépatotoxicité, allergies</td>
         </tr>
         <tr>
           <td>Daptomycine <small>(bactériémies et endocardites, efficacité modérée sur <em>E. faecium</em>)</small></td>
           <td>12 mg/kg/jour</td>
           <td>Données insuffisantes</td>
-          <td>Rhabdomyolyse, hépatotoxicité, céphalées, infections fongiques</td>
+          <td>Rhabdomyolyse, hépatotoxicité,<br>céphalées, infections fongiques</td>
         </tr>
       </tbody>
     </table>`,
