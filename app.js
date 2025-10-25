@@ -996,7 +996,7 @@ BACTERIA_DATA.carba = {
           <td>Allergies, encéphalopathie, convulsions, coma</td>
         </tr>
         <tr>
-          <td>Aztréonam <small>(+ Ceftazidime–avibactam pour classe B, NDM…)</small></td>
+          <td>Aztréonam + Ceftazidime–avibactam pour classe B</td>
           <td>4 g x2/j IVSE sur 12 h</td>
           <td>S : CMI ≤ 1<br>R : CMI &gt; 4</td>
           <td>—</td>
