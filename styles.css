@@ -778,3 +778,20 @@ table.simple th, table.pheno th {
   padding: 0 0 8px 0;
   border: none;
 }
+
+/* Encadré informatif pour la page Adaptation rénale */
+.rein-note {
+  margin-top: 16px;
+  background-color: #f3f4f6; /* gris clair identique aux autres encadrés */
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: black;
+}
+
+.rein-note .info-content {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
