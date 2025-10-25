@@ -2562,7 +2562,7 @@ if ($chkAllerg.checked) {
       ? "<br>Ajout d’Amikacine 25–30 mg/kg IVL sur 30 min"
       : "";
 
-    const text = `${gramNeg}<br>${gramPos}${choc}`;
+    const text = `${gramNeg}<br><br>${gramPos}${choc ? `<br><br>${choc}` : ""}`;
 
     $res.style.display = 'block';
     $res.innerHTML = `
@@ -2634,7 +2634,7 @@ function renderProbaScarpa() {
       ? "<br>Ajout d’Amikacine 25–30 mg/kg IVL sur 30 min"
       : "";
 
-    const text = `${gramNeg}<br>${gramPos}${choc}`;
+    const text = `${gramNeg}<br><br>${gramPos}${choc ? `<br><br>${choc}` : ""}`;
 
     $res.style.display = 'block';
     $res.innerHTML = `
