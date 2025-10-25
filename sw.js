@@ -87,6 +87,11 @@ if (event.request.mode === "navigate") {
   return;
 }
 
+  // Sécurité supplémentaire : si une navigation cible un .json, renvoyer l'app shell
+if (event.request.destination === "document" && event.request.url.endsWith(".json")) {
+  event.respondWith(caches.match("./index.html"));
+  return;
+}
 
   // 2) Cache-first pour nos fichiers de l'app
   const rel = toRelative(event.request.url);
