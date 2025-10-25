@@ -836,14 +836,14 @@ BACTERIA_DATA.steno = {
 
   mecanisme: `
     <p><em>S. maltophilia</em> présente des résistances naturelles contre :</p>
-    <p><strong>Les béta-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
+    <p><strong>Les β-lactamines</strong> : Hydrolyse par 2 types de β-lactamases<br>
     β-lactamase L1 (Classe B) : R. pénicillines, céphalosporines, carbapénèmes<br>
     β-lactamase L1 (Classe A) : BLSE (R. Péni, céphalosporines, aztréonam)</p>
     <p><strong>Les aminosides</strong> : Modification des aminosides par les enzymes : APH-3’, ANT-2’, AAC-6’</p>
     <p><strong>Autres</strong> : La colistine et la fosfomycine</p>`, // :contentReference[oaicite:3]{index=3}
 
   epidemio: `
-    Les souches invasives de <em>S. maltophilia</em> sont toujours résistantes aux béta-lactamines
+    Les souches invasives de <em>S. maltophilia</em> sont toujours résistantes aux β-lactamines
     (sauf Ceftazidime : résistance dans 30% des cas), toujours résistantes aux aminosides,
     et résistantes à la Lévofloxacine dans 20% des cas. Elles sont sensibles au Cotrimoxazole dans 96% des cas
     (1997–2016, Monde).`, // :contentReference[oaicite:4]{index=4}
@@ -1259,7 +1259,7 @@ function renderProbaIUForm(){
     <!-- Facteurs liés au patient -->
     <fieldset>
       <legend>Facteurs liés au patient</legend>
-      <label><input type="checkbox" name="allergieBL" value="Allergie aux béta-lactamines"> Allergie aux béta-lactamines</label>
+      <label><input type="checkbox" name="allergieBL" value="Allergie aux β-lactamines"> Allergie aux β-lactamines</label>
       <label><input type="checkbox" name="immunodep" value="Immunodépression"> Immunodépression</label>
     </fieldset>
 
@@ -2020,7 +2020,7 @@ function renderProbaDermohypodermiteForm(){
           <label><input type="checkbox" name="morsure"> Morsure</label>
           <label><input type="checkbox" name="cath"> Infection de cathéter</label>
           <label><input type="checkbox" name="sarmLeft"> FdR de SARM**</label>
-          <label><input type="checkbox" name="allergieLeft"> Allergie aux béta-lact.</label>
+          <label><input type="checkbox" name="allergieLeft"> Allergie aux β-lactamines</label>
         </div>
       </fieldset>
 
@@ -2046,7 +2046,7 @@ function renderProbaDermohypodermiteForm(){
           <div class="row">
             <label><input type="checkbox" name="blse"> FdR de BLSE*</label>
             <label><input type="checkbox" name="sarmRight"> FdR de SARM**</label>
-            <label><input type="checkbox" name="allergieRight"> Allergie aux béta-lactamines</label>
+            <label><input type="checkbox" name="allergieRight"> Allergie aux β-lactamines</label>
             <label><input type="checkbox" name="sepsis"> Sepsis/choc septique</label>
           </div>
         </fieldset>
@@ -2254,7 +2254,7 @@ function renderProbaEndocarditeForm(){
       </fieldset>
 
       <fieldset>
-        <legend>Allergie aux bêta-lactamines</legend>
+        <legend>Allergie aux β-lactamines</legend>
         <label><input type="radio" name="aller" value="Non" checked> Non</label>
         <label><input type="radio" name="aller" value="Oui"> Oui</label>
       </fieldset>
@@ -2284,7 +2284,7 @@ function renderProbaEndocarditeForm(){
     const intro = [
       "Contexte : " + lieu,
       "Valve : " + valve,
-      "Allergie aux bêta-lactamines : " + (allergie ? "Oui" : "Non"),
+      "Allergie aux β-lactamines : " + (allergie ? "Oui" : "Non"),
       "----------------------------------------------------------------------"
     ].join(" | ").replace(" | ----------------------------------------------------------------------", "\n----------------------------------------------------------------------") + "\n";
 
@@ -2360,7 +2360,7 @@ function renderProbaSepsisForm(){
       </fieldset>
 
       <fieldset>
-        <legend>Allergie aux bêta-lactamines</legend>
+        <legend>Allergie aux β-lactamines</legend>
         <label><input type="radio" name="allergie" value="Non" checked> Non</label>
         <label><input type="radio" name="allergie" value="Oui"> Oui</label>
       </fieldset>
@@ -2421,7 +2421,7 @@ function renderProbaSepsisForm(){
     if (p.isNeutro){
       if (p.isAllergy){
         baseTx =
-          "• Allergie aux bêta-lactamines :\n" +
+          "• Allergie aux β-lactamines :\n" +
           "  - Ciprofloxacine 750 mg x2/j IVL/PO OU Aztréonam 1 g x4/j IVL\n" +
           "  - + Métronidazole 500 mg x3/j\n" +
           "  - + Vancomycine 30 mg/kg/j IVSE";
@@ -2442,11 +2442,11 @@ function renderProbaSepsisForm(){
       if (p.isAllergy){
         if (p.isCommu){
           baseTx =
-            "• Allergie aux bêta-lactamines (communautaire) :\n" +
+            "• Allergie aux β-lactamines (communautaire) :\n" +
             "  - Lévofloxacine 500 mg x2/j + Métronidazole 500 mg x3/j";
         } else {
           baseTx =
-            "• Allergie aux bêta-lactamines (nosocomial) :\n" +
+            "• Allergie aux β-lactamines (nosocomial) :\n" +
             "  - Ciprofloxacine 750 mg x2/j IVL/PO OU Aztréonam 1 g x4/j IVL\n" +
             "  - + Métronidazole 500 mg x3/j\n" +
             "  - + Vancomycine 30 mg/kg/j IVSE";
@@ -2513,7 +2513,7 @@ function renderProbaMediastinite() {
 
           <label class="checkbox" style="margin-top:.25rem;">
             <input type="checkbox" id="chk-allergie">
-            Allergie aux bêta-lactamines
+            Allergie aux β-lactamines
           </label>
 
           <label class="checkbox">
@@ -2590,7 +2590,7 @@ function renderProbaScarpa() {
 
           <label class="checkbox" style="margin-top:.25rem;">
             <input type="checkbox" id="chk-allergie">
-            Allergie aux bêta-lactamines
+            Allergie aux β-lactamines
           </label>
 
           <label class="checkbox">
@@ -2823,13 +2823,13 @@ function renderDureesForm() {
 
     // --------- INFECTIONS URINAIRES ---------
     // Cystite
-    add("Infections urinaires","Cystite","Cocci Gram +","Streptococcus spp.","7 jours si bêta-lactamine");                      // :contentReference[oaicite:28]{index=28}
-    add("Infections urinaires","Cystite","Cocci Gram +","Staphylococcus spp.","7 jours si bêta-lactamine");                     // :contentReference[oaicite:29]{index=29}
-    add("Infections urinaires","Cystite","Cocci Gram +","Enterococcus spp.","7 jours si bêta-lactamine");                       // :contentReference[oaicite:30]{index=30}
-    add("Infections urinaires","Cystite","Bacilles Gram -","Entérobactéries","7 jours si bêta-lactamine");                      // :contentReference[oaicite:31]{index=31}
-    add("Infections urinaires","Cystite","Bacilles Gram -","Pseudomonas aeruginosa","7 jours si bêta-lactamine");               // :contentReference[oaicite:32]{index=32}
-    add("Infections urinaires","Cystite","Bacilles Gram -","Stenotrophomonas maltophilia","7 jours si bêta-lactamine");         // :contentReference[oaicite:33]{index=33}
-    add("Infections urinaires","Cystite","Bacilles Gram -","Acinetobacter baumannii","7 jours si bêta-lactamine");              // :contentReference[oaicite:34]{index=34}
+    add("Infections urinaires","Cystite","Cocci Gram +","Streptococcus spp.","7 jours si β-lactamine");                      // :contentReference[oaicite:28]{index=28}
+    add("Infections urinaires","Cystite","Cocci Gram +","Staphylococcus spp.","7 jours si β-lactamine");                     // :contentReference[oaicite:29]{index=29}
+    add("Infections urinaires","Cystite","Cocci Gram +","Enterococcus spp.","7 jours si β-lactamine");                       // :contentReference[oaicite:30]{index=30}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Entérobactéries","7 jours si β-lactamine");                      // :contentReference[oaicite:31]{index=31}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Pseudomonas aeruginosa","7 jours si β-lactamine");               // :contentReference[oaicite:32]{index=32}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Stenotrophomonas maltophilia","7 jours si β-lactamine");         // :contentReference[oaicite:33]{index=33}
+    add("Infections urinaires","Cystite","Bacilles Gram -","Acinetobacter baumannii","7 jours si β-lactamine");              // :contentReference[oaicite:34]{index=34}
     add("Infections urinaires","Cystite","Autres","Mycobacterium tuberculosis","6 mois");                                       // :contentReference[oaicite:35]{index=35}
 
     // Pyélonéphrite
@@ -4989,7 +4989,7 @@ function renderAntibioproForm() {
 
         <label class="checkbox">
           <input type="checkbox" id="chk-allergie">
-          Allergie aux bêta-lactamines
+          Allergie aux β-lactamines
         </label>
 
         <div class="actions">
@@ -5000,7 +5000,7 @@ function renderAntibioproForm() {
 
       <div id="result" class="result" style="display:none;"></div>
       <div id="result-note" class="muted" style="display:none; margin-top:.5rem;">
-        <small>Doubler la posologie de béta-lactamines uniquement si IMC > 50 kg/m²</small>
+        <small>Doubler la posologie de β-lactamines uniquement si IMC > 50 kg/m²</small>
       </div>
     </div>
   `;
