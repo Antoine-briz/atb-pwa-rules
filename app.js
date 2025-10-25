@@ -5108,7 +5108,8 @@ $btnRun.addEventListener("click", () => {
 
   $note.style.display = text ? "block" : "none";
 });
- 
+}
+  
 function renderNotFound(){
   $app.innerHTML = h("card", `<strong>Page introuvable</strong>`);
 }
