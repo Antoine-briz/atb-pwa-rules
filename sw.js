@@ -1,5 +1,5 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
-const CACHE_NAME = "atb-rules-v14";
+const CACHE_NAME = "atb-rules-v15";
 
 // Liste des fichiers à pré-cacher
 const PRECACHE = [
