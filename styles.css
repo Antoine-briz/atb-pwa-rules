@@ -185,16 +185,16 @@ input[type="text"], input[type="number"], select, textarea {
 
 /* Style spécifique pour l'encadré contenant la légende des sepsis sans porte d'entrée */
 .warning-container {
-  border: 2px solid #6ec1e4; /* Bordure bleu clair */
+  border: 2px solid #d1d5db;      /* Bordure gris clair */
   padding: 10px;
   margin: 20px 0;
-  background-color: #e0f7fa; /* Fond bleu clair */
+  background-color: #f3f4f6;      /* Fond gris clair (remplace le bleu) */
   border-radius: 8px;
 }
 
 .warning-container p {
   font-size: 14px;
-  color: #333;
+  color: var(--fg);               /* s'adapte clair/sombre */
 }
 
 
