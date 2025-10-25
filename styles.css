@@ -197,9 +197,21 @@ input[type="text"], input[type="number"], select, textarea {
   color: var(--fg);               /* s'adapte clair/sombre */
 }
 
-
 .warning-container ul {
   padding-left: 20px;
+}
+
+/* Mobile : encadrés légende plus lisibles */
+@media (max-width: 768px) {
+  .warning-container {
+    background-color: #d1d5db !important; /* gris moyen */
+    border-color: #9ca3af !important;     /* gris un ton plus foncé */
+  }
+  /* Forcer le texte en noir uniquement dans ces encadrés */
+  .warning-container,
+  .warning-container * {
+    color: #000 !important;
+  }
 }
 
 #pdfViewer {
