@@ -94,30 +94,37 @@ if (event.request.destination === "document" && event.request.url.endsWith(".jso
 }
 
   // 2) Cache-first pour nos fichiers de l'app
-  const rel = toRelative(event.request.url);
-  const important = PRECACHE.includes(rel);
+const rel = toRelative(event.request.url);
+const important = PRECACHE.includes(rel);
 
-  event.respondWith(
-    caches.match(important ? rel : event.request).then((cached) => {
-      if (cached) return cached;
+event.respondWith(
+  (async () => {
+    // 1) essaie la clé normalisée (./img/...)
+    let cached = await caches.match(rel);
+    if (cached) return cached;
 
-      // Réseau + mise en cache si même origine
-      return fetch(event.request).then((res) => {
-        try {
-          const url = new URL(event.request.url);
-          if (url.origin === self.location.origin) {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
-        } catch (_) {}
-        return res;
-      }).catch(() => {
-        // Dernier recours : pour un import de module/JS/CSS introuvable,
-        // renvoyer index.html (app shell) pour que l'app reste interactive
-        if (event.request.destination === "document") {
-          return caches.match("./index.html");
+    // 2) sinon essaie avec la requête brute
+    cached = await caches.match(event.request);
+    if (cached) return cached;
+
+    // 3) réseau + mise en cache si même origine
+    try {
+      const res = await fetch(event.request);
+      try {
+        const url = new URL(event.request.url);
+        if (url.origin === self.location.origin) {
+          const copy = res.clone();
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(event.request, copy);
         }
-      });
-    })
-  );
+      } catch {}
+      return res;
+    } catch {
+      // 4) fallback offline pour documents
+      if (event.request.destination === "document") {
+        return caches.match("./index.html");
+      }
+    }
+  })()
+);
 });
