@@ -81,12 +81,24 @@ self.addEventListener("fetch", (event) => {
   const reqUrl = new URL(event.request.url);
 
   // 1) Navigation (tap sur l'icône, liens internes) -> app shell
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      caches.match("./index.html").then((cached) => cached || fetch(event.request))
-    );
-    return;
-  }
+// 1) Navigation (tap sur l'icône, liens internes) -> app shell
+if (event.request.mode === "navigate") {
+  event.respondWith(
+    (async () => {
+      try {
+        // Tente le réseau d’abord
+        const networkResponse = await fetch(event.request);
+        // Si la page existe, on la renvoie
+        return networkResponse;
+      } catch (error) {
+        // Si pas de réseau, on sert l’app shell (index.html)
+        const cachedShell = await caches.match("./index.html");
+        return cachedShell || Response.error();
+      }
+    })()
+  );
+  return;
+}
 
   // 2) Cache-first pour nos fichiers de l'app
   const rel = toRelative(event.request.url);
