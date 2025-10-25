@@ -3071,7 +3071,7 @@ function renderAdapteeMenu() {
   linksContainer.classList.add("germs-links");
 
   const links = [
-    { href: "#/adaptee/sensibles", text: "Germes Sensibles" },
+    { href: "#/adaptee/sensibles", text: "Germes multisensibles" },
     { href: "#/adaptee/SARM", text: "SARM" },
     { href: "#/adaptee/ampC", text: "Entérobactéries ampC" },
     { href: "#/adaptee/BLSE", text: "BLSE" },
