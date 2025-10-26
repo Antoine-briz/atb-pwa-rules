@@ -1,5 +1,5 @@
 // ------- sw.js (v3) : cache robuste pour mode icône/hors-ligne -------
-const CACHE_NAME = "atb-rules-v17";
+const CACHE_NAME = "atb-rules-v18";
 
 // Liste des fichiers à pré-cacher
 const PRECACHE = [
@@ -39,11 +39,15 @@ const PRECACHE = [
 ];
 
 self.addEventListener("install", (event) => {
+  // Convertit chaque entrée en URL absolue alignée sur le scope du SW
+  const PRECACHE_URLS = PRECACHE.map(p => new URL(p, self.registration.scope).toString());
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
   );
   self.skipWaiting();
 });
+
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -91,38 +95,49 @@ if (event.request.destination === "document" && event.request.url.endsWith(".jso
   return;
 }
 
-  // 2) Cache-first pour nos fichiers de l'app
+
+// 2) Cache-first pour nos fichiers de l'app
 const rel = toRelative(event.request.url);
-const important = PRECACHE.includes(rel);
 
 event.respondWith(
   (async () => {
-    // 1) essaie la clé normalisée (./img/...)
-    let cached = await caches.match(rel);
-    if (cached) return cached;
+    const req = event.request;
+    const url = new URL(req.url);
 
-    // 2) sinon essaie avec la requête brute
-    cached = await caches.match(event.request);
-    if (cached) return cached;
+    // On prépare 3 candidats pour maximiser les chances de match :
+    //  - la requête telle quelle
+    //  - l’URL absolue basée sur le scope (clé utilisée au pré-cache)
+    //  - la chaîne relative calculée
+    const candidates = [
+      req,
+      new Request(new URL(url.pathname, self.registration.scope).toString()),
+      rel
+    ];
 
-    // 3) réseau + mise en cache si même origine
+    // 1) On cherche dans le cache (en ignorant la query-string)
+    for (const c of candidates) {
+      const hit = await caches.match(c, { ignoreSearch: true });
+      if (hit) return hit;
+    }
+
+    // 2) Sinon, réseau + mise en cache si même origine
     try {
-      const res = await fetch(event.request);
+      const res = await fetch(req);
       try {
-        const url = new URL(event.request.url);
         if (url.origin === self.location.origin) {
           const copy = res.clone();
           const cache = await caches.open(CACHE_NAME);
-          await cache.put(event.request, copy);
+          await cache.put(req, copy);
         }
       } catch {}
       return res;
     } catch {
-      // 4) fallback offline pour documents
-      if (event.request.destination === "document") {
+      // 3) Fallback hors-ligne pour documents
+      if (req.destination === "document") {
         return caches.match("./index.html");
       }
+      // Pour images/others: rien à faire (laisser échouer proprement)
     }
   })()
 );
-});
+
