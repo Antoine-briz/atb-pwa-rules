@@ -3245,8 +3245,8 @@ function renderReinForm() {
   // Ajout des crédits
   out.innerHTML += `
     <div class="credits">
-      <em>D'après le travail de : Dr Gilles TROCHE, Dr Marine PAUL et Dr Antoine BRIZARD<br>
-      (Bases de données ANSM, GPR et Dexther)</em>
+      D'après le travail de : Dr Gilles TROCHE, Dr Marine PAUL et Dr Antoine BRIZARD<br>
+      (Bases de données ANSM, GPR et Dexther)
     </div>
   `;
 
