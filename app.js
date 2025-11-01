@@ -2775,9 +2775,9 @@ function renderDureesForm() {
     add("Pneumonies","Communautaire","Cocci Gram +","Enterococcus spp.","5 à 7 j");                                            // :contentReference[oaicite:3]{index=3}
     add("Pneumonies","Communautaire","Bacilles Gram -","Entérobactéries","5 à 7 j");                                           // :contentReference[oaicite:4]{index=4}
     add("Pneumonies","Communautaire","Bacilles Gram -","Pseudomonas aeruginosa","7 j");                                        // :contentReference[oaicite:5]{index=5}
-    add("Pneumonies","Communautaire","Bacilles Gram -","Stenotrophomonas maltophilia","5 à 7 j");                              // :contentReference[oaicite:6]{index=6}
-    add("Pneumonies","Communautaire","Bacilles Gram -","Acinetobacter baumannii","14 à 21 j (réanimation)");                   // :contentReference[oaicite:7]{index=7}
-    // Correctifs
+    add("Pneumonies","Communautaire","Bacilles Gram -","Stenotrophomonas maltophilia","7 j");                              // :contentReference[oaicite:6]{index=6}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Acinetobacter baumannii","7 j ");                   // :contentReference[oaicite:7]{index=7}
+    add("Pneumonies","Communautaire","Bacilles Gram -","Legionella pneumophila","14 à 21 j (réa)");
     add("Pneumonies","Communautaire","Bacilles Gram -","Haemophilus influenzae","5 à 7 j");                                    // :contentReference[oaicite:8]{index=8}
     add("Pneumonies","Communautaire","Bacilles Gram +","Nocardia spp.","6 mois");                                              // :contentReference[oaicite:9]{index=9}
     add("Pneumonies","Communautaire","Autres","Mycoplasma pneumoniae","5 à 7 j");                                              // :contentReference[oaicite:10]{index=10}
@@ -2790,8 +2790,8 @@ function renderDureesForm() {
     add("Pneumonies","PAVM","Bacilles Gram -","Entérobactéries","7 j");                                                        // :contentReference[oaicite:15]{index=15}
     add("Pneumonies","PAVM","Bacilles Gram -","Pseudomonas aeruginosa","8 à 15 j");                                            // :contentReference[oaicite:16]{index=16}
     add("Pneumonies","PAVM","Bacilles Gram -","Stenotrophomonas maltophilia","7 j");                                           // :contentReference[oaicite:17]{index=17}
-    add("Pneumonies","PAVM","Bacilles Gram -","Acinetobacter baumannii","14 à 21 j (réanimation)");                            // :contentReference[oaicite:18]{index=18}
-    // Correctif
+    add("Pneumonies","PAVM","Bacilles Gram -","Acinetobacter baumannii","7 j ");                            // :contentReference[oaicite:18]{index=18}
+    add("Pneumonies","PAVM","Bacilles Gram -","Legionella pneumophila","14 à 21 j (réanimation)");
     add("Pneumonies","PAVM","Bacilles Gram -","Haemophilus influenzae","7 j");                                                 // :contentReference[oaicite:19]{index=19}
 
     // Nécrose / abcès pulmonaires
@@ -2803,7 +2803,7 @@ function renderDureesForm() {
     add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Pseudomonas aeruginosa",necabc);
     add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Stenotrophomonas maltophilia",necabc);
     add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Acinetobacter baumannii",necabc);
-    // Correctifs
+    add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Legionella pneumophila","3 à 6 semaines");
     add("Pneumonies","Nécrose/abcès","Cocci Gram -","Neisseria meningitidis",necabc);                                          // :contentReference[oaicite:21]{index=21}
     add("Pneumonies","Nécrose/abcès","Bacilles Gram -","Haemophilus influenzae",necabc);                                       // :contentReference[oaicite:22]{index=22}
     add("Pneumonies","Nécrose/abcès","Bacilles Gram +","Nocardia spp.","6 mois");                                              // :contentReference[oaicite:23]{index=23}
@@ -2818,6 +2818,8 @@ function renderDureesForm() {
     add("Pneumonies","Empyème pleural","Bacilles Gram -","Pseudomonas aeruginosa",emp);
     add("Pneumonies","Empyème pleural","Bacilles Gram -","Stenotrophomonas maltophilia",emp);
     add("Pneumonies","Empyème pleural","Bacilles Gram -","Acinetobacter baumannii",emp);
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Haemophilus influenzae",emp); 
+    add("Pneumonies","Empyème pleural","Bacilles Gram -","Legionella pneumophila",emp);
     add("Pneumonies","Empyème pleural","Bacilles Gram +","Nocardia spp.","6 mois");                                            // :contentReference[oaicite:26]{index=26}
     add("Pneumonies","Empyème pleural","Autres","Mycobacterium tuberculosis",">= 6 mois");                                     // :contentReference[oaicite:27]{index=27}
 
@@ -2862,7 +2864,9 @@ function renderDureesForm() {
     add("Bactériémies","Inconnue","Cocci Gram +","Enterococcus spp.","7 j");                                                    // :contentReference[oaicite:41]{index=41}
     add("Bactériémies","Inconnue","Bacilles Gram -","Entérobactéries","7 j");                                                   // :contentReference[oaicite:42]{index=42}
     add("Bactériémies","Inconnue","Bacilles Gram -","Pseudomonas aeruginosa","7 à 10 j");                                       // :contentReference[oaicite:43]{index=43}
-    add("Bactériémies","Inconnue","Bacilles Gram -","Acinetobacter baumannii","7 j");                                           // :contentReference[oaicite:44]{index=44}
+    add("Bactériémies","Inconnue","Bacilles Gram -","Acinetobacter baumannii","7 à 10 j");
+    add("Bactériémies","Inconnue","Bacilles Gram -","Stenotrophomonas maltophilia","7 à 10 j");
+    add("Bactériémies","Inconnue","Bacilles Gram -","Haemophilus influenzae","7 j");
     add("Bactériémies","Inconnue","Bacilles Gram +","Listeria monocytogenes","21 j");                                           // :contentReference[oaicite:45]{index=45}
     add("Bactériémies","Inconnue","Bacilles Gram +","Nocardia spp.","6 mois");                                                  // :contentReference[oaicite:46]{index=46}
     add("Bactériémies","Inconnue","Autres","Mycobacterium tuberculosis","9 à 12 mois");                                         // :contentReference[oaicite:47]{index=47}
@@ -2870,11 +2874,14 @@ function renderDureesForm() {
     // Cathéter
     add("Bactériémies","Cathéter","Cocci Gram -","Neisseria meningitidis","7 j");                                               // :contentReference[oaicite:48]{index=48}
     add("Bactériémies","Cathéter","Cocci Gram +","Streptococcus spp.","7 j");                                                   // :contentReference[oaicite:49]{index=49}
-    add("Bactériémies","Cathéter","Cocci Gram +","Staphylococcus spp.","Staphylocoques à coagulase négative : 3 j ; Staphylococcus aureus : 14 j"); // :contentReference[oaicite:50]{index=50}
+    add("Bactériémies","Cathéter","Cocci Gram +","Staphylococcus spp.","Staphylocoques à coagulase négative : 3 j ; Staphylococcus aureus ou lugdunensis : 14 j"); // :contentReference[oaicite:50]{index=50}
     add("Bactériémies","Cathéter","Cocci Gram +","Enterococcus spp.","7 j");                                                    // :contentReference[oaicite:51]{index=51}
     add("Bactériémies","Cathéter","Bacilles Gram -","Entérobactéries","7 j");                                                   // :contentReference[oaicite:52]{index=52}
     add("Bactériémies","Cathéter","Bacilles Gram -","Pseudomonas aeruginosa","7 à 10 j");                                       // :contentReference[oaicite:53]{index=53}
-    add("Bactériémies","Cathéter","Bacilles Gram -","Acinetobacter baumannii","7 j");                                           // :contentReference[oaicite:54]{index=54}
+    add("Bactériémies","Cathéter","Bacilles Gram -","Acinetobacter baumannii","7 à 10 j"); 
+    add("Bactériémies","Cathéter","Bacilles Gram -","Stenotrophomonas maltophilia","7 à 10 j");
+    add("Bactériémies","Cathéter","Bacilles Gram -","Haemophilus influenzae","7 j");      // :contentReference[oaicite:54]{index=54}
+    add("Bactériémies","Cathéter","Bacilles Gram +","Nocardia spp.","6 mois"); 
 
     // Autre infection – identique à l’infection source
     const idem = "Identique à l'infection responsable";                                                                         // :contentReference[oaicite:55]{index=55}
@@ -2884,9 +2891,14 @@ function renderDureesForm() {
     add("Bactériémies","Autre infection","Cocci Gram +","Enterococcus spp.",idem);
     add("Bactériémies","Autre infection","Bacilles Gram -","Entérobactéries",idem);
     add("Bactériémies","Autre infection","Bacilles Gram -","Pseudomonas aeruginosa",idem);
+    add("Bactériémies","Autre infection","Bacilles Gram -","Acinetobacter baumannii",idem); 
+    add("Bactériémies","Autre infection","Bacilles Gram -","Stenotrophomonas maltophilia",idem);
+    add("Bactériémies","Autre infection","Bacilles Gram -","Haemophilus influenzae",idem);
     add("Bactériémies","Autre infection","Bacilles Gram +","Listeria monocytogenes","21 j");
     add("Bactériémies","Autre infection","Bacilles Gram +","Nocardia spp.","6 mois");
-    add("Bactériémies","Autre infection","Autres","Mycobacterium tuberculosis",idem);                                           // :contentReference[oaicite:56]{index=56}
+    add("Bactériémies","Autre infection","Autres","Mycobacterium tuberculosis",idem);
+          // :contentReference[oaicite:54]{index=54}
+  
 
     // --------- INFECTIONS INTRA-ABDOMINALES ---------
     const chole     = "3 jours post-opératoire ; 7 jours si non opérée";                                                        // :contentReference[oaicite:57]{index=57}
@@ -2896,7 +2908,7 @@ function renderDureesForm() {
     const peritCom  = "4 jours (5 jours si sepsis)";
     const peritNos  = "5 à 8 jours (8 jours si sepsis)";
     const app       = "1 jour (si péritonite = 3 jours ; si non opérée = 7)";
-    const divert    = "7 jours (gravité, grossesse, immunodépression, ASA3)";
+    const divert    = "7 jours (Antibiothérapie indiquée uniquement si: gravité, grossesse, immunodépression ou ASA3)";
     const entecol   = "3 à 7 j";
     const cdiff     = "10 j";
     const asc       = "5 à 7 jours (5 jours si C3G IV)";
@@ -2965,10 +2977,12 @@ function renderDureesForm() {
     // Méningite
     add("Infections neuro-méningées","Méningite","Cocci Gram -","Neisseria meningitidis","5 à 7 j");                             // :contentReference[oaicite:67]{index=67}
     add("Infections neuro-méningées","Méningite","Cocci Gram +","Streptococcus spp.","10 à 14 j (14 à 21 j si groupe B)");
-    add("Infections neuro-méningées","Méningite","Cocci Gram +","Staphylococcus spp.","10 à 21 j (nosocomial)");
-    add("Infections neuro-méningées","Méningite","Cocci Gram +","Enterococcus spp.","21 j (nosocomial)");
-    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Entérobactéries","21 j");
-    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Pseudomonas aeruginosa","21 j (nosocomial)");
+    add("Infections neuro-méningées","Méningite","Cocci Gram +","Staphylococcus spp.","10 à 21 j (généralement nosocomiale)");
+    add("Infections neuro-méningées","Méningite","Cocci Gram +","Enterococcus spp.","21 j (car généralement nosocomiale)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Entérobactéries","21 j (car généralement nosocomiale)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Pseudomonas aeruginosa","21 j (car généralement nosocomiale)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Acinetobacter baumannii","21 j (car généralement nosocomiale)");
+    add("Infections neuro-méningées","Méningite","Bacilles Gram -","Stenotrophomonas maltophilia","21 j (car généralement nosocomiale)");
     add("Infections neuro-méningées","Méningite","Bacilles Gram -","Haemophilus influenzae","7 j");                              // :contentReference[oaicite:68]{index=68}
     add("Infections neuro-méningées","Méningite","Bacilles Gram +","Listeria monocytogenes","21 j");
     add("Infections neuro-méningées","Méningite","Autres","Mycobacterium tuberculosis","12 mois");
@@ -2982,6 +2996,10 @@ function renderDureesForm() {
     add("Infections neuro-méningées","Abcès cérébral","Cocci Gram +","Streptococcus spp.",abc);
     add("Infections neuro-méningées","Abcès cérébral","Cocci Gram +","Staphylococcus spp.",abc);
     add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Entérobactéries",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Pseudomonas aeruginosa",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Acinetobacter baumannii",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Stenotrophomonas maltophilia",abc);
+    add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram -","Haemophilus influenzae",abc)
     add("Infections neuro-méningées","Abcès cérébral","Bacilles Gram +","Nocardia spp.","12 à 18 mois");
     add("Infections neuro-méningées","Abcès cérébral","Autres","Mycobacterium tuberculosis","12 mois");
 
