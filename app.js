@@ -132,11 +132,18 @@ const THEME_KEY = "theme"; // "dark" ou "light"
 
 function applyTheme(theme) {
   const isLight = theme === "light";
+
+  // Compatibilité avec tout le CSS existant
   document.body.classList.toggle("theme-light", isLight);
-  localStorage.setItem(THEME_KEY, theme);
+  document.body.classList.toggle("light-theme", isLight);
+
+  document.body.setAttribute("data-theme", isLight ? "light" : "dark");
+
+  localStorage.setItem(THEME_KEY, isLight ? "light" : "dark");
 
   const darkRadio = document.getElementById("theme-dark");
   const lightRadio = document.getElementById("theme-light");
+
   if (darkRadio && lightRadio) {
     darkRadio.checked = !isLight;
     lightRadio.checked = isLight;
@@ -151,12 +158,12 @@ function initTheme() {
   const lightRadio = document.getElementById("theme-light");
 
   if (darkRadio && lightRadio) {
-    darkRadio.addEventListener("change", () => {
+    darkRadio.onchange = () => {
       if (darkRadio.checked) applyTheme("dark");
-    });
-    lightRadio.addEventListener("change", () => {
+    };
+    lightRadio.onchange = () => {
       if (lightRadio.checked) applyTheme("light");
-    });
+    };
   }
 }
 
