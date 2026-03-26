@@ -1954,7 +1954,6 @@ function renderInterventionPage({ titre, sousTitre = "", encadres, image = null 
 function renderReanAntibiotherapieMenu() {
   $app.innerHTML = `
     <section>
-      <h2>Antibiothérapie en Réanimation</h2>
       <img src="img/antibiotherapie.png" alt="Antibiothérapie en réanimation">
       <div class="grid">
         <button class="btn"
