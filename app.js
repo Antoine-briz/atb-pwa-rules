@@ -5497,32 +5497,6 @@ function decideDuree(infection, germe){
 }
 
 
-document.addEventListener("click", (e) => {
-  // supporte clic sur l'élément ou un enfant (icone, span, etc.)
-  const backEl = e.target.closest("#back-button");
-  if (!backEl) return;
-
-  // 1) si on a une page précédente "interne", on y revient
-  if (typeof __footerBackFn === "function") {
-    const fn = __footerBackFn;
-    __footerBackFn = null; // important : évite de remonter encore plus loin
-    fn();
-
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    });
-    return;
-  }
-
-  // 2) sinon on utilise l'historique normal (routes hash)
-  window.history.back();
-});
-
-
-
-
-
-
 // =====================================================================
 //  PAGE 404
 // =====================================================================
