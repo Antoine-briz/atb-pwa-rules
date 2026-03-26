@@ -166,34 +166,42 @@ function openPdf(file) {
 }
 window.openPdf = openPdf;
 
-// =====================================================================
-//  NAV BACK (footer) — historique interne
-// =====================================================================
-window.__navStack = window.__navStack || [];
-window.__lastHash = window.__lastHash || "";
+// =====================================================
+// NAV interne (pour les pages ouvertes sans changement de hash)
+// =====================================================
+let __footerBackFn = null;
 
-window.openSubPage = function openSubPage(renderFn, backFn) {
-  if (typeof backFn === "function") window.__navStack.push(backFn);
-  if (typeof renderFn === "function") renderFn();
+// à utiliser quand tu ouvres une sous-page "renderX()" depuis un menu
+window.openSubPage = (renderFn, backFn) => {
+  __footerBackFn = typeof backFn === "function" ? backFn : null;
+  renderFn();
 
+  // remet en haut
   requestAnimationFrame(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   });
 };
 
-window.goBackSmart = function goBackSmart() {
-  const fn = window.__navStack.pop();
-  if (typeof fn === "function") {
+document.addEventListener("click", (e) => {
+  // supporte clic sur l'élément ou un enfant (icone, span, etc.)
+  const backEl = e.target.closest("#back-button");
+  if (!backEl) return;
+
+  // 1) si on a une page précédente "interne", on y revient
+  if (typeof __footerBackFn === "function") {
+    const fn = __footerBackFn;
+    __footerBackFn = null; // important : évite de remonter encore plus loin
     fn();
+
     requestAnimationFrame(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
-  } else {
-    location.hash = "#/";
+    return;
   }
-};
 
-
+  // 2) sinon on utilise l'historique normal (routes hash)
+  window.history.back();
+});
 
 // =====================================================================
 //  ANESTHÉSIE – ANTIBIOPROPHYLAXIE
